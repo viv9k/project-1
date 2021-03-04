@@ -1,0 +1,20 @@
+<ng-container *ngIf="backendService.rawDataObservable | async">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-12 mt-2 mb-2">
+                <app-create-product></app-create-product>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-12" type="button" (click)="show('Products')">
+                <app-feature-card [cardName]="'Products'" [items]="backendService.rawData.TotalNumberOfProducts"></app-feature-card>
+            </div>
+            <div class="col-md-6 col-12" type="button" (click)="show('Orders')">
+                <app-feature-card [cardName]="'Orders'" [items]="backendService.rawData.TotalNumberOfOrders"></app-feature-card>
+            </div>
+        </div>
+    </div>
+</ng-container>
+<app-loader *ngIf="!(backendService.rawDataObservable | async)"></app-loader>

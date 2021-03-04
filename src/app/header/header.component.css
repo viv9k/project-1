@@ -1,0 +1,7 @@
+.nav-link,
+.navbar-brand {
+  cursor: pointer;
+}
+.navbar {
+  background: #fff;
+}

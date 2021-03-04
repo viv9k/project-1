@@ -1,0 +1,82 @@
+<div class="card mb-3 taskCards" *ngIf="product" type="button" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed" aria-controls="collapse">
+    <div class="card-header">
+        <div class="row pb-2">
+            <div class="col-md-2 col-2 px-2 pt-3">
+                {{product.Id}}
+            </div>
+            <div class="col-md-3 col-4 px-2 pt-3">
+                {{product.Name}}
+            </div>
+            <div class="col-md-2 col-2 px-2 pt-3">
+                {{product.ActualPrice}}
+            </div>
+            <div class="col-md-2 col-2 px-2 pt-3">
+                {{product.DiscountPrice}}
+            </div>
+            <div class="col-md-2 col-2 px-2 pt-3">
+                {{product.Availability}}
+            </div>
+            <div class="col-md-2 col-2 px-2 pt-3">
+            </div>
+        </div>
+    </div>
+</div>
+<div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+    <div class="card">
+        <div class="card-body">
+            <form id="form" class="align-items-center justify-content-center">
+                <div class="form-group row pt-2">
+                    <label for="input" class="col-4 col-form-label">Name</label>
+                    <div class="col-8">
+                        <input type="text" class="input" [(ngModel)]="product.Name" [ngModelOptions]="{standalone: true}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="description" class="col-4 col-form-label">Description</label>
+                    <div class="col-8">
+                        <textarea type="text" class="input" rows="2" [(ngModel)]="product.Description" [ngModelOptions]="{standalone: true}"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="description" class="col-4 col-form-label">Actual Price(Rs.)</label>
+                    <div class="col-8">
+                        <input type="number" min="0" class="input" [(ngModel)]="product.ActualPrice" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="description" class="col-4 col-form-label">Discount Price(Rs.)</label>
+                    <div class="col-8">
+                        <input type="number" min="0" class="input" [(ngModel)]="product.DiscountPrice" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="description" class="col-4 col-form-label">Availability</label>
+                    <div class="col-8">
+                        <select id="inputState" class="input" [(ngModel)]="product.Availability" [ngModelOptions]="{standalone: true}">
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col text-right">
+                        <button type="submit" class="btn" id="button" (click)="modifyProduct()">Modify Product</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="card mb-3 taskCards" *ngIf="order">
+    <div class="card-header">
+        <div class="row pb-2">
+            <div class="col-md-7 col-4 px-2 pt-2">
+                {{order.Name}}
+            </div>
+            <div class="col-md-2 col-2 px-2 pt-3">
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<ng-container *ngIf="itemCollection==='Products'">
+    <ng-container *ngFor="let item of backendService.productData | async ">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <app-item-card [product]="item"></app-item-card>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</ng-container>
+<ng-container *ngIf="itemCollection==='Orders'">
+    <ng-container *ngFor="let item of backendService.orderData | async ">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <app-item-card [order]="item"></app-item-card>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</ng-container>
+<app-loader *ngIf="!(backendService.productData | async)"></app-loader>
