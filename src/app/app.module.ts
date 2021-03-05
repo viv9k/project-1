@@ -22,11 +22,10 @@ import { LoaderComponent } from './body/loader/loader.component';
 import { CreateProductComponent } from './body/Inventory/create-product/create-product.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FeatureCardComponent } from './body/Inventory/feature-card/feature-card.component';
-import { ItemsComponent } from './body/items/items.component';
-import { ItemCardComponent } from './body/Items/item-card/item-card.component';
 import { ToastsContainer } from './body/toasts/toasts.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { InventoryItemsComponent } from './body/inventory-items/inventory-items.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,9 +36,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     LoaderComponent,
     CreateProductComponent,
     FeatureCardComponent,
-    ItemsComponent,
-    ItemCardComponent,
-    ToastsContainer
+    ToastsContainer,
+    InventoryItemsComponent
   ],
   imports: [
     BrowserModule,

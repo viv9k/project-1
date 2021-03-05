@@ -1,0 +1,63 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Product ID</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Discount %</th>
+                        <th scope="col">Banner Image</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Visibility</th>
+                        <th scope="col">Menu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of backendService.productData | async ">
+                        <tr>
+                            <th scope=" row ">{{item.Id}}</th>
+                            <td>
+                                <input type="text" class="input" [(ngModel)]="item.Name" [ngModelOptions]="{standalone: true}">
+                            </td>
+                            <td>
+                                <textarea type="text" class="input" rows="2" [(ngModel)]="item.Description" [ngModelOptions]="{standalone: true}"></textarea>
+                            </td>
+                            <td>
+                                <input type="number" min="0" class="input" [(ngModel)]="item.ActualPrice" [ngModelOptions]="{standalone: true}" />
+                            </td>
+                            <td>
+                                <input type="number" min="0" class="input" [(ngModel)]="item.DiscountPrice" [ngModelOptions]="{standalone: true}" />
+                            </td>
+                            <td>
+                                <div class="input-group-append">
+                                    <button id="uploadButton" type="submit" class="input-group-text" (click)="uploadLogo()" [disabled]="!productImage">
+                                           <i class="fa fa-upload" aria-hidden="true"></i>
+                                      </button>
+                                </div>
+                            </td>
+                            <td>
+                                <select class="input" [(ngModel)]="item.Availability" [ngModelOptions]="{standalone: true}">
+                                    <option>Available</option>
+                                    <option>SoldOut</option>
+                                  </select>
+                            </td>
+                            <td>
+                                <select class="input" [(ngModel)]="item.Availability" [ngModelOptions]="{standalone: true}">
+                                    <option>Available</option>
+                                    <option>SoldOut</option>
+                                  </select>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-primary" id="button" (click)="modifyProduct(item)">Save</button>
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <app-loader *ngIf="!(backendService.productData | async)"></app-loader>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
