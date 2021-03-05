@@ -18,7 +18,10 @@ export class InventoryComponent implements OnInit {
   toggleSideNav() {
     this.showSideNav = !this.showSideNav
   }
-  show(collection: string) {
-    this.router.navigate(["/Inventory", collection]);
+  showProducts() {
+    this.router.navigate(["Inventory/Items"]);
+  }
+  showOrders() {
+
   }
 }

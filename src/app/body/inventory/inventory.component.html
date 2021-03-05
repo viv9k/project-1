@@ -8,10 +8,10 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-md-6 col-12" type="button" (click)="show('Products')">
+            <div class="col-md-6 col-12" type="button" (click)="showProducts()">
                 <app-feature-card [cardName]="'Products'" [items]="backendService.rawData.TotalNumberOfProducts"></app-feature-card>
             </div>
-            <div class="col-md-6 col-12" type="button" (click)="show('Orders')">
+            <div class="col-md-6 col-12" type="button" (click)="showOrders()">
                 <app-feature-card [cardName]="'Orders'" [items]="backendService.rawData.TotalNumberOfOrders"></app-feature-card>
             </div>
         </div>
