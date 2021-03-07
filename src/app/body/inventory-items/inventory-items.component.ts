@@ -19,7 +19,7 @@ export class InventoryItemsComponent implements OnInit {
   enableLoader: Boolean = true
 
   ngOnInit(): void {
-      this.backendService.readProductData()
+    this.backendService.readProductData()
   }
 
   modifyProduct(item: ProductId) {
@@ -27,10 +27,20 @@ export class InventoryItemsComponent implements OnInit {
   }
 
   async createNewProduct(product: ProductId) {
-    const callable = this.functions.httpsCallable('createNewProduct');
+    const callable = this.functions.httpsCallable('product');
     try {
-      const result = await callable({ Mode: "Modify", ProductId: product.Id, Name: product.Name, Description: product.Description, Availability: product.Availability, ActualPrice: product.ActualPrice, DiscountPrice: product.DiscountPrice }).toPromise();
-      this.toastService.show('Successfully Modified the Product', { classname: 'bg-success text-light' });
+      const result = await callable({ Mode: "UPDATE", ProductId: product.Id, Name: product.Name, Description: product.Description, Availability: product.Availability, ActualPrice: product.ActualPrice, DiscountPrice: product.DiscountPrice, Visibility: product.Visibility }).toPromise();
+      this.toastService.show('Successfully Updated the Product', { classname: 'bg-warning text-dark' });
+      console.log(result);
+    } catch (error) {
+    }
+  }
+
+  async deleteProduct(product: ProductId) {
+    const callable = this.functions.httpsCallable('product');
+    try {
+      const result = await callable({ Mode: "DELETE", ProductId: product.Id }).toPromise();
+      this.toastService.show('Successfully Deleted the Product', { classname: 'bg-danger text-light' });
 
       console.log(result);
     } catch (error) {

@@ -29,6 +29,7 @@ export class CreateProductComponent implements OnInit {
   productActualPrice: number
   productDiscountPrice: number
   productAvailability: string
+  productVisibility: string
 
   openModal(content) {
     this.modalService.open(content, { size: 'xl', windowClass: 'dark-modal' });
@@ -54,10 +55,10 @@ export class CreateProductComponent implements OnInit {
 
   async createNewProduct() {
     this.enableLoader = true;
-    const callable = this.functions.httpsCallable('createNewProduct');
+    const callable = this.functions.httpsCallable('product');
     try {
-      const result = await callable({ Mode: "Add", Name: this.productName, Description: this.productDescription, ImageURL: this.productImageURL, Availability: this.productAvailability, ActualPrice: this.productActualPrice, DiscountPrice: this.productDiscountPrice }).toPromise();
-      this.toastService.show('Successfully created the Product', { classname: 'bg-success text-light' });
+      const result = await callable({ Mode: "CREATE", Name: this.productName, Description: this.productDescription, ImageURL: this.productImageURL, Availability: this.productAvailability, ActualPrice: this.productActualPrice, DiscountPrice: this.productDiscountPrice, Visibility: this.productVisibility }).toPromise();
+      this.toastService.show('Successfully Created the Product', { classname: 'bg-success text-light' });
       console.log(result);
       this.modalService.dismissAll()
       this.enableLoader = false;

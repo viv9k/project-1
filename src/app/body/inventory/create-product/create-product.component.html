@@ -19,29 +19,38 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="description" class="col-4 col-form-label">Description</label>
+                    <label class="col-4 col-form-label">Description</label>
                     <div class="col-8">
                         <textarea type="text" class="input" rows="2" [(ngModel)]="productDescription" [ngModelOptions]="{standalone: true}"></textarea>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="description" class="col-4 col-form-label">Actual Price(Rs.)</label>
+                    <label class="col-4 col-form-label">Actual Price(Rs.)</label>
                     <div class="col-8">
                         <input type="number" min="0" class="input" [(ngModel)]="productActualPrice" [ngModelOptions]="{standalone: true}" />
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="description" class="col-4 col-form-label">Discount Price(Rs.)</label>
+                    <label class="col-4 col-form-label">Discount Price(Rs.)</label>
                     <div class="col-8">
                         <input type="number" min="0" class="input" [(ngModel)]="productDiscountPrice" [ngModelOptions]="{standalone: true}" />
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="description" class="col-4 col-form-label">Status</label>
+                    <label class="col-4 col-form-label">Status</label>
                     <div class="col-8">
                         <select class="input" [(ngModel)]="productAvailability" [ngModelOptions]="{standalone: true}">
                             <option>Available</option>
                             <option>SoldOut</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-4 col-form-label">Visibility</label>
+                    <div class="col-8">
+                        <select class="input" [(ngModel)]="productVisibility" [ngModelOptions]="{standalone: true}">
+                            <option>Show</option>
+                            <option>Hide</option>
                         </select>
                     </div>
                 </div>

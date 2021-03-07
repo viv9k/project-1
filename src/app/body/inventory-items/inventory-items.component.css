@@ -1,3 +1,17 @@
 table {
     font-size: 12px;
 }
+
+.input,
+.input:focus {
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    outline: none;
+    width: 100%;
+}
+
+#button {
+    background-color: black;
+    color: white;
+}

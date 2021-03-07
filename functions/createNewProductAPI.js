@@ -7,7 +7,7 @@ const db = admin.firestore();
 
 
 
-exports.createNewProduct = functions.https.onRequest((request, response) => {
+exports.product = functions.https.onRequest((request, response) => {
     cors(request, response, () => {
         let totalNumberOfOrders;
         let totalNumberOfUsers;
@@ -18,7 +18,7 @@ exports.createNewProduct = functions.https.onRequest((request, response) => {
         let promises = [];
         const promise1 = db.collection("RawData").doc("AppDetails").get().then((doc) => {
             if (doc.exists) {
-                if (product.Mode === "Add") {
+                if (product.Mode === "CREATE") {
                     totalNumberOfOrders = doc.data().TotalNumberOfOrders;
                     totalNumberOfUsers = doc.data().TotalNumberOfUsers;
                     totalNumberOfProducts = doc.data().TotalNumberOfProducts + 1;
@@ -31,9 +31,10 @@ exports.createNewProduct = functions.https.onRequest((request, response) => {
                         ActualPrice: product.ActualPrice,
                         DiscountPrice: product.DiscountPrice,
                         Availability: product.Availability,
+                        Visibility: product.Visibility,
                     });
                     promises.push(p1);
-                } else {
+                } else if (product.Mode === "UPDATE") {
                     totalNumberOfOrders = doc.data().TotalNumberOfOrders;
                     totalNumberOfUsers = doc.data().TotalNumberOfUsers;
                     totalNumberOfProducts = doc.data().TotalNumberOfProducts;
@@ -43,7 +44,14 @@ exports.createNewProduct = functions.https.onRequest((request, response) => {
                         ActualPrice: product.ActualPrice,
                         DiscountPrice: product.DiscountPrice,
                         Availability: product.Availability,
+                        Visibility: product.Visibility,
                     });
+                    promises.push(p1);
+                } else if (product.Mode === "DELETE") {
+                    totalNumberOfOrders = doc.data().TotalNumberOfOrders;
+                    totalNumberOfUsers = doc.data().TotalNumberOfUsers;
+                    totalNumberOfProducts = doc.data().TotalNumberOfProducts - 1;
+                    const p1 = db.collection("Products").doc(product.ProductId).delete();
                     promises.push(p1);
                 }
                 const p2 = db.collection("RawData").doc("AppDetails").update({

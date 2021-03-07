@@ -1,4 +1,4 @@
-<ng-container *ngIf="backendService.rawDataObservable | async">
+<ng-container *ngIf="(backendService.rawDataObservable | async) && authService.showAdminPanel">
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-12 mt-2 mb-2">
@@ -17,4 +17,11 @@
         </div>
     </div>
 </ng-container>
+<div class="container" *ngIf="!authService.showAdminPanel">
+    <div class="row">
+        <div class="col text-center">
+            <h4>You are Unauthorized to Access this Page</h4>
+        </div>
+    </div>
+</div>
 <app-loader *ngIf="!(backendService.rawDataObservable | async)"></app-loader>
