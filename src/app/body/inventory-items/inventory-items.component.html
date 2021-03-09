@@ -9,6 +9,7 @@
                         <th scope="col">Description</th>
                         <th scope="col">Actual Price</th>
                         <th scope="col">Discount Price</th>
+                        <th scope="col">Images</th>
                         <th scope="col">Status</th>
                         <th scope="col">Visibility</th>
                         <th scope="col">Menu #1</th>
@@ -32,6 +33,9 @@
                                 <input type="number" min="0" class="input" [(ngModel)]="item.DiscountPrice" [ngModelOptions]="{standalone: true}" />
                             </td>
                             <td>
+                                <app-view-images [productId]="item.Id"></app-view-images>
+                            </td>
+                            <td>
                                 <select class="input" [(ngModel)]="item.Availability" [ngModelOptions]="{standalone: true}">
                                     <option>Available</option>
                                     <option>SoldOut</option>
@@ -47,7 +51,9 @@
                                 <button type="submit" class="btn" id="button" (click)="modifyProduct(item)">Save</button>
                             </td>
                             <td>
-                                <button type="submit" class="btn btn-danger" (click)="deleteProduct(item)">Delete</button>
+                                <button type="submit" class="btn btn-danger" (click)="deleteProduct(item)">
+                  Delete
+                </button>
                             </td>
                         </tr>
                     </ng-container>

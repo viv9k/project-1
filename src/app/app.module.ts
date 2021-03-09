@@ -26,6 +26,10 @@ import { ToastsContainer } from './body/toasts/toasts.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InventoryItemsComponent } from './body/inventory-items/inventory-items.component';
+import { HomeComponent } from './body/home/home.component';
+import { DropzoneDirective } from './directives/dropzone.directive';
+import { UploadImageComponent } from './body/upload-image/upload-image.component';
+import { ViewImagesComponent } from './body/inventory-items/view-images/view-images.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +41,11 @@ import { InventoryItemsComponent } from './body/inventory-items/inventory-items.
     CreateProductComponent,
     FeatureCardComponent,
     ToastsContainer,
-    InventoryItemsComponent
+    InventoryItemsComponent,
+    HomeComponent,
+    DropzoneDirective,
+    UploadImageComponent,
+    ViewImagesComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,17 @@
+progress {
+    border-radius: 7px;
+    width: 70%;
+    height: 22px;
+    margin-left: 1%;
+}
+
+progress::-webkit-progress-bar {
+    background-color: gray;
+    border-radius: 7px;
+}
+
+progress::-webkit-progress-value {
+    background-color: black;
+    border-radius: 7px;
+    box-shadow: 1px 1px 5px 3px rgba( 0, 0, 0, 0.8);
+}

@@ -1,5 +1,6 @@
 .input,
-.input:focus {
+.input:focus,
+#file-label {
     border-radius: 10px;
     padding: 10px;
     border: 1px solid black;
@@ -7,10 +8,9 @@
     width: 100%;
 }
 
-
-/* #file {
+#files {
     display: none;
-} */
+}
 
 #button {
     background-color: black;
@@ -36,4 +36,24 @@
 
 .light-blue-backdrop {
     background-color: #5cb3fd;
+}
+
+.dropzone {
+    padding: 10px;
+    font-weight: 200;
+    height: 300px;
+    border: 2px dashed white;
+    border-radius: 10px;
+}
+
+.hovering {
+    border: 2px solid gray;
+}
+
+.file-label {
+    font-size: 1.2em;
+}
+
+progress::-webkit-progress-value {
+    transition: width 0.1s ease;
 }

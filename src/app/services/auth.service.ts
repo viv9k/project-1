@@ -6,13 +6,14 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
+import { ToastService } from './toast-service.service';
 @Injectable({
   providedIn: 'root',
 })
 
 export class AuthService {
 
-  constructor(public afauth: AngularFireAuth, private functions: AngularFireFunctions, private db: AngularFirestore) { }
+  constructor(public afauth: AngularFireAuth, private functions: AngularFireFunctions, private db: AngularFirestore, private toastService: ToastService) { }
 
   userCollection: AngularFirestoreCollection<User>
   userData: Observable<User[]>
@@ -43,7 +44,7 @@ export class AuthService {
     const callable = this.functions.httpsCallable('createNewUser');
     try {
       const result = await callable({ uid: user.uid, photoURL: user.photoURL, displayName: user.displayName, email: user.email, phoneNumber: user.phoneNumber, providerId: user.providerId }).toPromise();
-      console.log(result);
+      this.toastService.show(result, { classname: 'bg-success text-light' });
     } catch (error) {
       console.error("Error", error);
     }

@@ -5,6 +5,7 @@ import { ProductId } from '../Interface/ProductInterface';
 import { map } from 'rxjs/internal/operators/map';
 import { Main } from '../Interface/RawInterface';
 import { Order } from '../Interface/OrderInterface';
+import { Image } from '../Interface/ImageInterface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +18,13 @@ export class BackendService {
   orderCollection: AngularFirestoreCollection<Order>
   orderData: Observable<Order[]>
 
-  public rawDataObservable: Observable<Main>;
-  public rawDocument: AngularFirestoreDocument<Main>;
-  rawData: Main
+  rawDataObservable: Observable<Main>;
+  rawDocument: AngularFirestoreDocument<Main>;
 
+  imageCollection: AngularFirestoreCollection<Image>
+  imageData: Observable<Image[]>
+
+  public rawData: Main
   constructor(private db: AngularFirestore) { }
 
 
@@ -30,6 +34,18 @@ export class BackendService {
       map(actions => actions.map(a => {
         const data = a.payload.doc.data() as ProductId;
         const Id = a.payload.doc.id;
+        return { Id, ...data };
+      }))
+    );
+  }
+
+  readImageData() {
+    this.imageCollection = this.db.collection<Image>("Images");
+    this.imageData = this.imageCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Image;
+        const Id = a.payload.doc.id;
+        console.log(data);
         return { Id, ...data };
       }))
     );
@@ -58,5 +74,4 @@ export class BackendService {
       })
     )
   }
-
 }

@@ -6,7 +6,6 @@ import { AuthService } from 'src/app/services/auth.service';
 import { BackendService } from 'src/app/services/backend.service';
 import { ToastService } from 'src/app/services/toast-service.service';
 
-
 @Component({
   selector: 'app-inventory-items',
   templateUrl: './inventory-items.component.html',
@@ -20,6 +19,7 @@ export class InventoryItemsComponent implements OnInit {
 
   ngOnInit(): void {
     this.backendService.readProductData()
+    this.backendService.readImageData()
   }
 
   modifyProduct(item: ProductId) {

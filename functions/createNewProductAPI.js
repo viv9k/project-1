@@ -27,7 +27,6 @@ exports.product = functions.https.onRequest((request, response) => {
                         Id: productId,
                         Name: product.Name,
                         Description: product.Description,
-                        ImageURL: product.ImageURL,
                         ActualPrice: product.ActualPrice,
                         DiscountPrice: product.DiscountPrice,
                         Availability: product.Availability,
