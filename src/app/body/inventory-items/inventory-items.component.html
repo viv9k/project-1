@@ -1,27 +1,36 @@
-<div class="container" *ngIf="authService.showAdminPanel">
+<div class="container-fluid" *ngIf="authService.showAdminPanel">
     <div class="row">
         <div class="col table-responsive">
             <table class="table">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">SKU</th>
                         <th scope="col">Product Name</th>
                         <th scope="col">Description</th>
                         <th scope="col">Actual Price</th>
+                        <th scope="col">Discount %</th>
                         <th scope="col">Discount Price</th>
                         <th scope="col">Images</th>
                         <th scope="col">Status</th>
                         <th scope="col">Visibility</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">Tags</th>
                         <th scope="col">Menu #1</th>
                         <th scope="col">Menu #2</th>
                     </tr>
                 </thead>
                 <tbody>
                     <ng-container *ngFor="let item of backendService.productData | async ">
-                        <tr>
-                            <th scope="row">{{item.Id}}</th>
+                        <tr class="justify-content-center align-items-center">
                             <td>
-                                <input type="text" class="input" [(ngModel)]="item.Name" [ngModelOptions]="{standalone: true}">
+                                <input type="text" min="0" class="input" value="{{item.Id}}" readonly/>
+                            </td>
+                            <td>
+                                <input type="text" min="0" class="input" [(ngModel)]="item.Sku" [ngModelOptions]="{standalone: true}" />
+                            </td>
+                            <td>
+                                <input type="text" class="input" [(ngModel)]="item.Name" [ngModelOptions]="{standalone: true}" />
                             </td>
                             <td>
                                 <textarea type="text" class="input" rows="1" [(ngModel)]="item.Description" [ngModelOptions]="{standalone: true}"></textarea>
@@ -30,7 +39,10 @@
                                 <input type="number" min="0" class="input" [(ngModel)]="item.ActualPrice" [ngModelOptions]="{standalone: true}" />
                             </td>
                             <td>
-                                <input type="number" min="0" class="input" [(ngModel)]="item.DiscountPrice" [ngModelOptions]="{standalone: true}" />
+                                <input type="number" min="0" class="input" [(ngModel)]="item.DiscountPercent" [ngModelOptions]="{standalone: true}" />
+                            </td>
+                            <td>
+                                <input type="number" min="0" class="input" value="{{item.ActualPrice-(item.ActualPrice*item.DiscountPercent)/100}}" readonly />
                             </td>
                             <td>
                                 <app-view-images [productId]="item.Id"></app-view-images>
@@ -46,6 +58,17 @@
                                     <option>Show</option>
                                     <option>Hide</option>
                                 </select>
+                            </td>
+                            <td>
+                                <input type="number" min="0" class="input" [(ngModel)]="item.Stock" [ngModelOptions]="{standalone: true}" />
+                            </td>
+                            <td>
+                                <input type="text" min="0" class="input" [(ngModel)]="newTag" [ngModelOptions]="{standalone: true}" list="tagList" />
+                                <datalist class="input" id="tagList">
+                                    <ng-container *ngFor="let tag of item.Tags">
+                                        <option>{{tag}}</option>
+                                    </ng-container>
+                                </datalist>
                             </td>
                             <td>
                                 <button type="submit" class="btn" id="button" (click)="modifyProduct(item)">Save</button>

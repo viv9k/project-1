@@ -1,17 +1,22 @@
-<div class="col-12 col-sm-12 col-md-4 m-1" *ngIf="snapshot | async">
-    <div class="card bg-dark" *ngIf="mode==='CREATE'">
-        <ng-container *ngIf="!downloadURL as url">
-            <div *ngIf="percentage | async as pct" class="text-dark card-img-top">
-                <progress [value]="pct" max="100"></progress> {{ pct | number }}%
-            </div>
-        </ng-container>
-        <ng-container *ngIf="downloadURL as url">
-            <img [src]="url" class="card-img-top" alt="product-Image" />
-            <div class="card-body text-center">
-                <button class="btn" id="button" (click)="onDelete()">
+<div class="col-4 m-1">
+    <ng-container *ngIf="snapshot | async">
+        <div class="card bg-dark" *ngIf="mode==='CREATE'" style="width: 18rem;">
+            <ng-container *ngIf="!downloadURL">
+                <div *ngIf="percentage | async as pct" class="text-white card-img-top">
+                    <progress [value]="pct" max="100"></progress> {{ pct | number }}%
+                </div>
+            </ng-container>
+            <ng-container *ngIf="downloadURL">
+                <img [src]="downloadURL" class="card-img-top" alt="product-Image" />
+                <div class="card-body text-center">
+                    <button class="btn" id="button" (click)="onDelete()">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                 </button>
-            </div>
-        </ng-container>
-    </div>
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
 </div>
+<ng-template #loadingTemplate>
+    <app-loader [showInDiv]="true"></app-loader>
+</ng-template>

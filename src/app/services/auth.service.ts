@@ -62,8 +62,6 @@ export class AuthService {
     this.user = undefined
   }
 
-
-
   readData(uid?: string) {
     this.userCollection = this.db.collection<User>("Users", ref => {
       let queryRef: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
@@ -87,7 +85,4 @@ export class AuthService {
       }))
     );
   }
-
-
-
 }

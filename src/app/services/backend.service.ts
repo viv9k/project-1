@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, AngularFirestoreCollectionGroup } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { ProductId } from '../Interface/ProductInterface';
 import { map } from 'rxjs/internal/operators/map';
@@ -21,7 +21,7 @@ export class BackendService {
   rawDataObservable: Observable<Main>;
   rawDocument: AngularFirestoreDocument<Main>;
 
-  imageCollection: AngularFirestoreCollection<Image>
+  imageCollection: AngularFirestoreCollectionGroup<Image>
   imageData: Observable<Image[]>
 
   public rawData: Main
@@ -39,8 +39,8 @@ export class BackendService {
     );
   }
 
-  readImageData() {
-    this.imageCollection = this.db.collection<Image>("Images");
+  readImageData(productId: string) {
+    this.imageCollection = this.db.collectionGroup<Image>("Images", ref => ref.where('ProductId', '==', productId));
     this.imageData = this.imageCollection.snapshotChanges().pipe(
       map(actions => actions.map(a => {
         const data = a.payload.doc.data() as Image;
@@ -57,12 +57,10 @@ export class BackendService {
       map(actions => actions.map(a => {
         const data = a.payload.doc.data() as Order;
         const Id = a.payload.doc.id;
-        console.log(data);
         return { Id, ...data };
       }))
     );
   }
-
 
   readRawData() {
     this.rawDocument = this.db.doc<Main>('RawData/AppDetails');
@@ -73,5 +71,16 @@ export class BackendService {
         return { ...data };
       })
     )
+  }
+
+  readAllImages() {
+    this.imageCollection = this.db.collectionGroup<Image>("Images");
+    this.imageData = this.imageCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Image;
+        const Id = a.payload.doc.id;
+        return { Id, ...data };
+      }))
+    );
   }
 }

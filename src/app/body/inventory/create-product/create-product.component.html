@@ -31,9 +31,16 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label class="col-4 col-form-label">Discount Percent %</label>
+                    <div class="col-8">
+                        <input type="number" min="0" max="100" class="input" [(ngModel)]="productDiscountPercent" [ngModelOptions]="{ standalone: true }" />
+                    </div>
+                </div>
+                <div class="form-group row justify-content-center align-items-center" *ngIf="productActualPrice && productDiscountPercent">
                     <label class="col-4 col-form-label">Discount Price(Rs.)</label>
                     <div class="col-8">
-                        <input type="number" min="0" class="input" [(ngModel)]="productDiscountPrice" [ngModelOptions]="{ standalone: true }" />
+                        <input type="number" min="0" class="input" value="{{productActualPrice-productActualPrice*productDiscountPercent/100}}" readonly />
+
                     </div>
                 </div>
                 <div class="form-group row">
@@ -54,6 +61,24 @@
                         </select>
                     </div>
                 </div>
+                <div class="form-group row pt-2">
+                    <label for="input" class="col-4 col-form-label">SKU</label>
+                    <div class="col-8">
+                        <input type="text" class="input" [(ngModel)]="productSku" [ngModelOptions]="{ standalone: true }" />
+                    </div>
+                </div>
+                <div class="form-group row pt-2">
+                    <label for="input" class="col-4 col-form-label">Number of Stocks</label>
+                    <div class="col-8">
+                        <input type="number" class="input" [(ngModel)]="productStock" [ngModelOptions]="{ standalone: true }" />
+                    </div>
+                </div>
+                <div class="form-group row pt-2">
+                    <label for="input" class="col-4 col-form-label">Tags</label>
+                    <div class="col-8">
+                        <input type="text" class="input" placeholder="Seperate Tags by comma" [(ngModel)]="productTags" [ngModelOptions]="{ standalone: true }" />
+                    </div>
+                </div>
                 <div class="form-group row align-items-center justify-content-center">
                     <label class="col-12 col-md-4 col-form-label">Images</label>
                     <div class="col-12 col-md-8 dropzone" appDropzone (hovered)="toggleHover($event)" (dropped)="onDrop($event)" [class.hovering]="isHovering">
@@ -71,7 +96,7 @@
                 <div class="form-group row align-items-center justify-content-center">
                     <label class="col-12 col-md-4 col-form-label" *ngIf="files.length">Preview</label>
                     <div class="col-12 col-md-8">
-                        <div class="row">
+                        <div class="row align-items-center justify-content-center">
                             <ng-container *ngFor="let file of files">
                                 <app-upload-image [mode]="'CREATE'" [file]="file" [productId]="'P' + productCount" (imageInfo)="deleteImageFromArray($event)"></app-upload-image>
                             </ng-container>

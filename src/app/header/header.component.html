@@ -1,24 +1,129 @@
-<nav class="navbar navbar-expand-lg navbar-light sticky-top">
-    <a class="navbar-brand" (click)="navigateToHome()">Brand</a>
-    <button class="navbar-toggler" type="button" (click)="isCollapsed=!isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" (click)="navigateToHome()">Home</a>
-            </li>
-            <li class="nav-item" *ngIf="!authService.user">
-                <a class="nav-link" (click)="navigateToLogin()">Login</a>
-            </li>
-            <ng-container *ngIf="authService.userData | async">
-                <li class="nav-item" *ngIf="authService.showAdminPanel && authService.user">
-                    <a class="nav-link" (click)="navigateToInventory()">Inventory</a>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <!-- <a class="navbar-brand" (click)="navigateToHome()">Brand</a> -->
+        <img src="https://ii1.pepperfry.com/images/svg/pf-logo-jan18.svg?v=1" alt="">
+        <button class="navbar-toggler" type="button" (click)="isCollapsed=!isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed">
+            <form class="row justify-content-center align-items-center">
+                <input class="mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <ul class="navbar-nav ml-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link" (click)="navigateToHome()">Home</a>
                 </li>
-                <li class="nav-item" *ngIf="authService.user">
-                    <a class="nav-link" (click)="LogoutSession()">Logout</a>
+                <li class="nav-item" *ngIf="!authService.user">
+                    <app-login></app-login>
                 </li>
-            </ng-container>
-        </ul>
-    </div>
-</nav>
+                <ng-container *ngIf="authService.userData | async">
+                    <li class="nav-item" *ngIf="authService.showAdminPanel && authService.user">
+                        <a class="nav-link" (click)="navigateToInventory()">Inventory</a>
+                    </li>
+                    <li class="nav-item" *ngIf="authService.user">
+                        <a class="nav-link" (click)="LogoutSession()">Logout</a>
+                    </li>
+                </ng-container>
+            </ul>
+        </div>
+    </nav>
+</div>
+<hr />
+<div class="container" id="items">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <button class="navbar-toggler" type="button" (click)="isCollapsed2=!isCollapsed2" [attr.aria-expanded]="!isCollapsed2" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed2">
+            <ul class="navbar-nav align-items-center justify-content-center">
+                <li class="nav-item">
+                    <p class="m-0 nav-link">Furniture</p>
+                    <div class="container" id="dropDownContainer">
+                        <div class="row w-100 p-4 justify-content-center">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col d-flex flex-column">
+                                        <h5>Sofas</h5>
+                                        <a href="#">Sofa Sets</a>
+                                        <a href="#">Sectional Sofas</a>
+                                        <a href="#">Sofa Cum Beds </a>
+                                        <a href="#">Recliners</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col d-flex flex-column">
+                                        <h5>Sofas</h5>
+                                        <a href="#">Sofa Sets</a>
+                                        <a href="#">Sectional Sofas</a>
+                                        <a href="#">Sofa Cum Beds </a>
+                                        <a href="#">Recliners</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col d-flex flex-column">
+                                        <h5>Sofas</h5>
+                                        <a href="#">Sofa Sets</a>
+                                        <a href="#">Sectional Sofas</a>
+                                        <a href="#">Sofa Cum Beds </a>
+                                        <a href="#">Recliners</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col d-flex flex-column">
+                                        <h5>Sofas</h5>
+                                        <a href="#">Sofa Sets</a>
+                                        <a href="#">Sectional Sofas</a>
+                                        <a href="#">Sofa Cum Beds </a>
+                                        <a href="#">Recliners</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <p class="m-0 nav-link">Living</p>
+                </li>
+                <li class="nav-item">
+                    <p class="m-0 nav-link">Bedroom</p>
+                </li>
+                <li class="nav-item">
+                    <p class="m-0 nav-link">Kids Room</p>
+                </li>
+                <li class="nav-item">
+                    <p class="m-0 nav-link">Mattresses</p>
+                </li>
+                <li class="nav-item">
+                    <p class="m-0 nav-link">Furnishings</p>
+                </li>
+                <li class="nav-item">
+                    <p class="m-0 nav-link">Decor</p>
+                </li>
+                <li class="nav-item">
+                    <p class="m-0 nav-link">Lighting</p>
+                </li>
+                <li class="nav-item">
+                    <p class="m-0 nav-link">Mod Furniture </p>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<hr class="mb-2" />
+
+
+
+
+
+<!-- Sofas Sofas 1 Seater Sofas 2 Seater Sofas 3 Seater Sofas Sofa Sets Sectional Sofas Sofa Cum Beds Recliners Futons Sofa Spa Seating Settees Benches Chaise Loungers Recamiers Ottomans Pouffes Foot Stools Seating Stools Bean Bags Swings Hammocks Chairs Arm
+Chairs Rocking Chairs Lounge Chairs Cafe Chairs Iconic Chairs Slipper Chairs Barrel Chairs Cantilever Chairs Folding Chairs Plastic Chairs Wing Chairs Office Chairs Patio Chairs Tables Coffee Tables Coffee Table Sets End Tables Nest of Tables Console
+Tables Portable Tables Study Tables Dressing Tables Bedside Tables Office Tables Patio Tables & Sets Cabinetry Shoe Racks Entertainment Units Cabinets Sideboards Hutch Cabinets Chest of Drawers Book Shelves Book Cases Trunks Wardrobes Modular Wardrobes
+Plastic Cabinets Office Cabinets Dining & Bar Dining Sets Dining Chairs Dining Tables Bar Cabinets Bar Units Bar Trolleys Wine Racks Bar Stools Bar Table Sets Modular Kitchens Beds Beds Single Beds Queen Size Beds King Size Beds Upholstered Beds Poster
+Beds Bunk Beds Trundle Beds Folding Beds Mattresses -->

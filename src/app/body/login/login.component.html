@@ -1,108 +1,39 @@
-<div
-  class="container-holder"
-  [ngClass]="{ 'sign-up-mode': showSignUp }"
-  *ngIf="!(authService.afauth.user | async)"
->
-  <div class="forms-container">
-    <div class="signin-signup">
-      <form class="sign-in-form">
-        <h2 class="title">Sign in</h2>
-        <div class="input-field">
-          <i class="fas fa-user"></i>
-          <input
-            type="text"
-            placeholder="Username"
-            [(ngModel)]="email"
-            [ngModelOptions]="{ standalone: true }"
-          />
+<!--Product Modal -->
+<button type="button" class="btn nav-link" (click)="openModal(template)">
+  Profile
+</button>
+<ng-template #template let-modal>
+    <div class="modal-body">
+        <div class="container">
+            <div class="row align-items-center justify-content-center" *ngIf="showSignUp">
+                <form class="col-12">
+                    <h4>Create Account</h4>
+                    <input type="text" placeholder="Username" [(ngModel)]="username" [ngModelOptions]="{ standalone: true }" />
+                    <input type="email" placeholder="Email" [(ngModel)]="email" [ngModelOptions]="{ standalone: true }" />
+                    <input type="password" placeholder="Password" [(ngModel)]="password" [ngModelOptions]="{ standalone: true }" />
+                    <p class="m-0" (click)="showSignUp=!showSignUp">Existing User ? Login</p>
+                    <button class="mt-3 btn" id="button" (click)="onSignUpwithEmail()">Sign Up</button>
+                    <div class="social-container">
+                        <span class="font-weight-bolder">OR Continue with</span>
+                        <a class="social" (click)="onSignInwithGoogle()"><i class="fab fa-google-plus-g"></i></a>
+                    </div>
+                </form>
+            </div>
+            <div class="row align-items-center justify-content-center" *ngIf="!showSignUp">
+                <div class="col-12">
+                    <form action="#">
+                        <h4>Sign in</h4>
+                        <input type="email" placeholder="Email" [(ngModel)]="email" [ngModelOptions]="{ standalone: true }" />
+                        <input type="password" placeholder="Password" [(ngModel)]="password" [ngModelOptions]="{ standalone: true }" />
+                        <p class="m-0" (click)="showSignUp=!showSignUp">Register Account ?</p>
+                        <button class="mt-3 btn" id="button" (click)="onSignInwithEmail()">Log In</button>
+                        <div class="social-container">
+                            <span class="font-weight-bolder">OR Continue with </span>
+                            <a class="social" (click)="onSignInwithGoogle()"><i class="fab fa-google-plus-g"></i></a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="input-field">
-          <i class="fas fa-lock"></i>
-          <input
-            type="password"
-            placeholder="Password"
-            [(ngModel)]="password"
-            [ngModelOptions]="{ standalone: true }"
-          />
-        </div>
-        <button type="submit" class="btn solid" (click)="onSignInwithEmail()">
-          Login
-        </button>
-        <p class="social-text">Or Sign in with social platforms</p>
-        <div class="social-media">
-          <a class="social-icon" (click)="onSignInwithGoogle()">
-            <i class="fab fa-google"></i>
-          </a>
-        </div>
-      </form>
-      <form class="sign-up-form">
-        <h2 class="title">Sign up</h2>
-        <div class="input-field">
-          <i class="fas fa-user"></i>
-          <input
-            type="text"
-            placeholder="Username"
-            [(ngModel)]="username"
-            [ngModelOptions]="{ standalone: true }"
-          />
-        </div>
-        <div class="input-field">
-          <i class="fas fa-envelope"></i>
-          <input
-            type="email"
-            placeholder="Email"
-            [(ngModel)]="email"
-            [ngModelOptions]="{ standalone: true }"
-          />
-        </div>
-        <div class="input-field">
-          <i class="fas fa-lock"></i>
-          <input
-            type="password"
-            placeholder="Password"
-            [(ngModel)]="password"
-            [ngModelOptions]="{ standalone: true }"
-          />
-        </div>
-        <button type="submit" class="btn" (click)="onSignUpwithEmail()">
-          Sign up
-        </button>
-        <p class="social-text">Or Sign up with social platforms</p>
-        <div class="social-media">
-          <a class="social-icon" (click)="onSignInwithGoogle()">
-            <i class="fab fa-google"></i>
-          </a>
-        </div>
-      </form>
     </div>
-  </div>
-
-  <div class="panels-container">
-    <div class="panel left-panel">
-      <div class="content">
-        <h3>New here ?</h3>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis, ex
-          ratione. Aliquid!
-        </p>
-        <button class="btn transparent" id="sign-up-btn" (click)="changeUI()">
-          Sign up
-        </button>
-      </div>
-      <img src="../../../assets/log.svg" class="image" alt="" />
-    </div>
-    <div class="panel right-panel">
-      <div class="content">
-        <h3>One of us ?</h3>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-          laboriosam ad deleniti.
-        </p>
-        <button class="btn transparent" id="sign-in-btn" (click)="changeUI()">
-          Sign in
-        </button>
-      </div>
-      <img src="../../../assets/register.svg" class="image" alt="" />
-    </div>
-  </div>
-</div>
+</ng-template>

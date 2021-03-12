@@ -1,16 +1,26 @@
 <div class="container">
-    <div class="row">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 align-items-center justify-content-center">
         <ng-container *ngFor="let item of backendService.productData | async ">
-            <div class="col-4">
-                <div class="card" style="width: 18rem;">
-                    <!-- <img src={{item.Id}} class="card-img-top" alt="product-Image"> -->
-                    <div class="card-body">
-                        <h5 class="card-title">{{item.Name}}</h5>
-                        <button class="btn" id="button">Add to Cart</button>
+            <div class="col mb-4 h-100" *ngIf="item.Visibility==='Show'">
+                <div class="card h-100" (click)="navigateToProductDetails(item.Id)">
+                    <ngb-carousel [showNavigationArrows]="false" [showNavigationIndicators]="false">
+                        <ng-container *ngFor="let image of backendService.imageData | async">
+                            <ng-template ngbSlide *ngIf="item.Id===image.ProductId">
+                                <div class="picsum-img-wrapper">
+                                    <img class="card-img-top" src="{{image.DownloadURL}}" alt="Random slide" />
+                                </div>
+                            </ng-template>
+                        </ng-container>
+                    </ngb-carousel>
+                    <div class="card__body">
+                        <h6 class="card-title">{{item.Name}}</h6>
+                        <span class="span__discountPrice">&#8377;{{item.DiscountPrice}}</span>
+                        <span class="span__actualPrice ml-2">&#8377;{{item.ActualPrice}}</span>
+                        <span class="span__discountPercent ml-2">({{item.DiscountPercent}}% Off)</span>
                     </div>
                 </div>
             </div>
         </ng-container>
     </div>
 </div>
-<app-loader *ngIf="!(backendService.productData | async) "></app-loader>
+<app-loader *ngIf="!(backendService.imageData | async) "></app-loader>

@@ -11,6 +11,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(private router: Router, public authService: AuthService) { }
   isCollapsed: boolean = true
+  isCollapsed2: boolean = true
+
 
   ngOnInit(): void {
   }
