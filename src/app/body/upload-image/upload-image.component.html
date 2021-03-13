@@ -2,8 +2,14 @@
     <ng-container *ngIf="snapshot | async">
         <div class="card bg-dark" *ngIf="mode==='CREATE'" style="width: 18rem;">
             <ng-container *ngIf="!downloadURL">
-                <div *ngIf="percentage | async as pct" class="text-white card-img-top">
-                    <progress [value]="pct" max="100"></progress> {{ pct | number }}%
+                <div class="row align-items-center justify-content-center p-2">
+                    <div class="col">
+                        <div *ngIf="percentage | async as pct" class="text-white align-items-center">
+                            <p>
+                                <ngb-progressbar type="dark" textType="light" [striped]="true" [animated]="true" [value]="pct | number" [showValue]="true" height="20px"></ngb-progressbar>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </ng-container>
             <ng-container *ngIf="downloadURL">
