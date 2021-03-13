@@ -15,9 +15,9 @@
                         <th scope="col">Status</th>
                         <th scope="col">Visibility</th>
                         <th scope="col">Stock</th>
-                        <th scope="col">Tags</th>
                         <th scope="col">Menu #1</th>
                         <th scope="col">Menu #2</th>
+                        <th scope="col">Tags</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,21 +62,33 @@
                             <td>
                                 <input type="number" min="0" class="input" [(ngModel)]="item.Stock" [ngModelOptions]="{standalone: true}" />
                             </td>
-                            <td>
-                                <input type="text" min="0" class="input" [(ngModel)]="newTag" [ngModelOptions]="{standalone: true}" list="tagList" />
-                                <datalist class="input" id="tagList">
-                                    <ng-container *ngFor="let tag of item.Tags">
-                                        <option>{{tag}}</option>
-                                    </ng-container>
-                                </datalist>
-                            </td>
+
                             <td>
                                 <button type="submit" class="btn" id="button" (click)="modifyProduct(item)">Save</button>
                             </td>
                             <td>
                                 <button type="submit" class="btn btn-danger" (click)="deleteProduct(item)">
-                  Delete
-                </button>
+                                    Delete
+                                </button>
+                            </td>
+                            <td class="overflow-hidden">
+                                <div class="row">
+                                    <div class="col">
+                                        <div ngbDropdown container="body" display="dynamic" placement="bottom-right">
+                                            <button class="btn btn-dark" id="dropdownForm1" ngbDropdownToggle>Tags</button>
+                                            <div ngbDropdownMenu aria-labelledby="dropdownForm1" class="dropdown-menu">
+                                                <form class="px-4 py-3">
+                                                    <input type="text" min="0" class="input" [(ngModel)]="newTag" [ngModelOptions]="{standalone: true}" />
+                                                    <button type="submit" class="btn" id="button">Add</button>
+                                                </form>
+                                                <div class="dropdown-divider"></div>
+                                                <ng-container *ngFor="let tag of item.Tags">
+                                                    <button ngbDropdownItem>{{tag}}</button>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     </ng-container>
