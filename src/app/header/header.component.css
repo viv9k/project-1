@@ -15,11 +15,17 @@ input {
     background-color: #eee;
     outline: none;
     border: 1px solid #977552;
-    border-radius: 20px;
-    padding: 5px;
+    padding: 8px;
     padding-left: 10px;
-    margin: 8px 0;
-    width: 50%;
+    width: 90%;
+    border-radius: 5px;
+}
+
+.input-group-text {
+    background-color: #eee;
+    border: 1px solid #977552;
+    border-radius: 5px;
+    outline: none;
 }
 
 hr {

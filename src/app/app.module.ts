@@ -30,6 +30,7 @@ import { HomeComponent } from './body/home/home.component';
 import { DropzoneDirective } from './directives/dropzone.directive';
 import { UploadImageComponent } from './body/upload-image/upload-image.component';
 import { ViewImagesComponent } from './body/inventory-items/view-images/view-images.component';
+import { ProductDetailsComponent } from './body/product-details/product-details.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +47,7 @@ import { ViewImagesComponent } from './body/inventory-items/view-images/view-ima
     DropzoneDirective,
     UploadImageComponent,
     ViewImagesComponent,
+    ProductDetailsComponent,
   ],
   imports: [
     BrowserModule,

@@ -39,6 +39,18 @@ export class BackendService {
     );
   }
 
+  readSpecificProductData(productId: string) {
+    this.productCollection = this.db.collection<ProductId>("Products", ref => ref.where("Id", "==", productId));
+    this.productData = this.productCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as ProductId;
+        const Id = a.payload.doc.id;
+        console.log(data);
+        return { Id, ...data };
+      }))
+    );
+  }
+
   readImageData(productId: string) {
     this.imageCollection = this.db.collectionGroup<Image>("Images", ref => ref.where('ProductId', '==', productId));
     this.imageData = this.imageCollection.snapshotChanges().pipe(
@@ -46,6 +58,17 @@ export class BackendService {
         const data = a.payload.doc.data() as Image;
         const Id = a.payload.doc.id;
         console.log(data);
+        return { Id, ...data };
+      }))
+    );
+  }
+
+  readAllImages() {
+    this.imageCollection = this.db.collectionGroup<Image>("Images");
+    this.imageData = this.imageCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Image;
+        const Id = a.payload.doc.id;
         return { Id, ...data };
       }))
     );
@@ -73,14 +96,4 @@ export class BackendService {
     )
   }
 
-  readAllImages() {
-    this.imageCollection = this.db.collectionGroup<Image>("Images");
-    this.imageData = this.imageCollection.snapshotChanges().pipe(
-      map(actions => actions.map(a => {
-        const data = a.payload.doc.data() as Image;
-        const Id = a.payload.doc.id;
-        return { Id, ...data };
-      }))
-    );
-  }
 }

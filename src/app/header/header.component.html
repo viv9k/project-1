@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container p-2">
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <!-- <a class="navbar-brand" (click)="navigateToHome()">Brand</a> -->
         <img src="https://ii1.pepperfry.com/images/svg/pf-logo-jan18.svg?v=1" alt="">
@@ -6,9 +6,15 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed">
-            <form class="row justify-content-center align-items-center">
-                <input class="mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <form class="ml-auto row justify-content-center align-items-center">
+                <div class="col">
+                    <div class="input-group">
+                        <input type="text" placeholder="Search" aria-label="Search">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="addon-wrapping">@</span>
+                        </div>
+                    </div>
+                </div>
             </form>
             <ul class="navbar-nav ml-auto align-items-center">
                 <li class="nav-item">

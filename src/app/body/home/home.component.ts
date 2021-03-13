@@ -16,6 +16,6 @@ export class HomeComponent implements OnInit {
     this.backendService.readAllImages();
   }
   navigateToProductDetails(productId: string) {
-    this.router.navigate(["/products", productId]);
+    this.router.navigate(["/Products", productId]);
   }
 }
