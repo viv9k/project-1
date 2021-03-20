@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import firebase from "firebase"
-import { BackendService } from 'src/app/services/backend.service';
+import { BackendService } from 'src/app/services/backend/backend.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,7 +15,7 @@ export class LoginComponent implements OnInit {
   password: string
   username: string
 
-  constructor(public authService: AuthService, public backendService: BackendService, private modalService: NgbModal) { }
+  constructor(public authService: AuthService, public backendService: BackendService, private modalService: NgbModal, private router: Router) { }
   showSignUp: boolean = false;
 
   ngOnInit(): void {
@@ -30,6 +31,7 @@ export class LoginComponent implements OnInit {
       this.readUserData()
     });
     this.modalService.dismissAll();
+    this.router.navigate([""])
   }
   onSignInwithEmail() {
     this.authService.loginUser(this.email, this.password).then(() => {

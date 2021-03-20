@@ -5,13 +5,7 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyBVwwRz1P1G0h125uJ5nxDdj-vwYG0JMhc",
-    authDomain: "fire-base-tut0.firebaseapp.com",
-    databaseURL: "https://fire-base-tut0.firebaseio.com",
-    projectId: "fire-base-tut0",
-    storageBucket: "fire-base-tut0.appspot.com",
-    messagingSenderId: "389754031614",
-    appId: "1:389754031614:web:cb9ea02ac6fbd17b9d04af"
+
   },
   useEmulators: true
 };

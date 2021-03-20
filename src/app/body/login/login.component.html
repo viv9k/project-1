@@ -1,5 +1,6 @@
 <!--Product Modal -->
 <button type="button" id="button1" class="btn nav-link" (click)="openModal(template)">
+    <i class="fas fa-user"></i>
   Profile
 </button>
 <ng-template #template let-modal>
@@ -14,25 +15,23 @@
                     <p class="m-0" (click)="showSignUp=!showSignUp">Existing User ? Login</p>
                     <button class="mt-3 btn" id="button" (click)="onSignUpwithEmail()">Sign Up</button>
                     <div class="social-container">
-                        <span class="font-weight-bolder">OR Continue with</span>
+                        <span>OR Continue with</span>
                         <a class="social" (click)="onSignInwithGoogle()"><i class="fab fa-google-plus-g"></i></a>
                     </div>
                 </form>
             </div>
             <div class="row align-items-center justify-content-center" *ngIf="!showSignUp">
-                <div class="col-12">
-                    <form action="#">
-                        <h4>Sign in</h4>
-                        <input type="email" placeholder="Email" [(ngModel)]="email" [ngModelOptions]="{ standalone: true }" />
-                        <input type="password" placeholder="Password" [(ngModel)]="password" [ngModelOptions]="{ standalone: true }" />
-                        <p class="m-0" (click)="showSignUp=!showSignUp">Register Account ?</p>
-                        <button class="mt-3 btn" id="button" (click)="onSignInwithEmail()">Log In</button>
-                        <div class="social-container">
-                            <span class="font-weight-bolder">OR Continue with </span>
-                            <a class="social" (click)="onSignInwithGoogle()"><i class="fab fa-google-plus-g"></i></a>
-                        </div>
-                    </form>
-                </div>
+                <form class="col-12">
+                    <h4>Sign in</h4>
+                    <input type="email" placeholder="Email" [(ngModel)]="email" [ngModelOptions]="{ standalone: true }" />
+                    <input type="password" placeholder="Password" [(ngModel)]="password" [ngModelOptions]="{ standalone: true }" />
+                    <p class="m-0" (click)="showSignUp=!showSignUp">Register Account ?</p>
+                    <button class="mt-3 btn" id="button" (click)="onSignInwithEmail()">Log In</button>
+                    <div class="social-container">
+                        <span>OR Continue with</span>
+                        <a class="social" (click)="onSignInwithGoogle()"><i class="fab fa-google-plus-g"></i></a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

@@ -1,0 +1,25 @@
+.toogle {
+    background-color: #969696;
+    color: black;
+    margin: 0;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.smallText {
+    margin: 0;
+    font-size: 0.8rem;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    box-shadow: none;
+    outline: 0 none;
+    border: 1px solid black;
+}
+
+#button {
+    background: black;
+    color: white;
+}

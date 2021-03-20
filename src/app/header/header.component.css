@@ -1,3 +1,7 @@
+.container {
+    font-size: small;
+}
+
 .nav-link,
 .navbar-brand {
     cursor: pointer;
@@ -5,6 +9,10 @@
 
 .navbar {
     background: #fff;
+}
+
+.brand {
+    cursor: pointer;
 }
 
 form {
@@ -26,11 +34,13 @@ input {
     border: 1px solid #977552;
     border-radius: 5px;
     outline: none;
+    cursor: pointer;
 }
 
 hr {
     margin: 0;
     padding: 0;
+    border: none;
     border-bottom: 1px solid #977552;
 }
 
@@ -66,4 +76,56 @@ hr {
 
 #dropDownContainer a:hover {
     color: #977552;
+}
+
+.nav-link {
+    position: relative;
+}
+
+.cartCount {
+    position: absolute;
+    font-size: 11px;
+    display: inline-block;
+    line-height: 16px;
+    color: black;
+    text-align: center;
+    padding: 0 6px;
+    background-color: #977552;
+    border-radius: 9px;
+    top: 5px;
+}
+
+@media only screen and (max-width:990px) {
+    .cartCount {
+        position: absolute;
+        font-size: 11px;
+        display: inline-block;
+        line-height: 16px;
+        color: black;
+        text-align: center;
+        padding: 0 6px;
+        background-color: #977552;
+        border-radius: 9px;
+        top: -2px;
+        left: 7px;
+    }
+}
+
+@media only screen and (max-width:600px) {
+    input {
+        width: auto;
+    }
+    .cartCount {
+        position: absolute;
+        font-size: 11px;
+        display: inline-block;
+        line-height: 16px;
+        color: black;
+        text-align: center;
+        padding: 0 6px;
+        background-color: #977552;
+        border-radius: 9px;
+        top: -2px;
+        left: 7px;
+    }
 }

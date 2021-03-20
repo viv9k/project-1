@@ -31,6 +31,10 @@ import { DropzoneDirective } from './directives/dropzone.directive';
 import { UploadImageComponent } from './body/upload-image/upload-image.component';
 import { ViewImagesComponent } from './body/inventory-items/view-images/view-images.component';
 import { ProductDetailsComponent } from './body/product-details/product-details.component';
+import { ProductCardComponent } from './body/home/product-card/product-card.component';
+import { CartComponent } from './body/cart/cart.component';
+import { FooterComponent } from './footer/footer.component';
+import { CheckoutComponent } from './body/checkout/checkout.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +52,10 @@ import { ProductDetailsComponent } from './body/product-details/product-details.
     UploadImageComponent,
     ViewImagesComponent,
     ProductDetailsComponent,
+    ProductCardComponent,
+    CartComponent,
+    FooterComponent,
+    CheckoutComponent,
   ],
   imports: [
     BrowserModule,

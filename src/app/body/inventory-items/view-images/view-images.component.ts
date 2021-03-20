@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BackendService } from 'src/app/services/backend.service';
+import { BackendService } from 'src/app/services/backend/backend.service';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { ToastService } from 'src/app/services/toast-service.service';
+import { ToastService } from "src/app/services/toast/toast.service";
 import { AngularFireFunctions } from '@angular/fire/functions';
+
 @Component({
   selector: 'app-view-images',
   templateUrl: './view-images.component.html',
@@ -35,7 +35,6 @@ export class ViewImagesComponent implements OnInit {
   }
 
   openModal(content) {
-    this.backendService.readImageData(this.productId);
     this.modalService.open(content, { size: 'xl', windowClass: 'dark-modal', scrollable: true });
   }
 
@@ -45,13 +44,13 @@ export class ViewImagesComponent implements OnInit {
     this.showDropZone = false
   }
 
-  async deleteImage(path: string, fileName: string, loadingTemplate) {
+  async deleteImage(path: string, loadingTemplate, index: number) {
     this.toastService.show(loadingTemplate, { classname: 'bg-warning text-dark', delay: 800 });
     const ref = this.storage.ref(path);
     await ref.delete().toPromise().then(() => {
-      this.deleteImageData(fileName)
+      this.deleteImageData(index)
     }).catch(err => {
-      this.deleteImageData(fileName)
+      this.deleteImageData(index)
     });
   }
 
@@ -68,11 +67,12 @@ export class ViewImagesComponent implements OnInit {
   toggleDropZone() {
     this.showDropZone = !this.showDropZone
   }
-  async deleteImageData(fileName: string) {
-    const callable = this.functions.httpsCallable('productImage');
+
+  async deleteImageData(index: number) {
+    const callable = this.functions.httpsCallable('product');
     try {
-      const result = await callable({ Mode: "DELETE", Id: fileName, ProductId: this.productId }).toPromise();
-      this.toastService.show('Deleted Successfully', { classname: 'bg-success text-light' });
+      const result = await callable({ Mode: "DELETE_PRODUCT_IMAGE", ImageIndex: index, ProductId: this.productId }).toPromise();
+      this.toastService.show('Successfully Deleted Product Image', { classname: 'bg-success text-light' });
       console.log(result);
     } catch (error) {
       console.log(error);

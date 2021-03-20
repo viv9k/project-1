@@ -1,0 +1,114 @@
+<div class="container" *ngIf="authService.user">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <div class="row">
+                <div class="col" *ngFor="let item of authService.userData | async">
+                    <ng-container *ngIf="item.Cart.length===0">
+                        <h1>Your Shopping Cart Is Empty</h1>
+                        <a [routerLink]="['']">Continue Shopping</a>
+                    </ng-container>
+                    <ng-container *ngIf="item.Cart.length>0">
+                        <h5 class="font-weight-bolder">IN YOUR CART</h5>
+                    </ng-container>
+                    <ng-container *ngFor="let cart of item.Cart;let i=index">
+                        <div class="card mb-2">
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12 col-sm-3 col-md-3">
+                                    <div class="p-2">
+                                        <img src="{{cart.Product.Images[0].DownloadURL}}" class="img-fluid" alt="Random slide" />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-4 col-md-4">
+                                    <div class="p-2">
+                                        <h4>{{cart.Product.Name}}</h4>
+                                        <p class="m-0"><span class="field mr-2">Retail Price </span><span class="span__price">{{cart.Product.ActualPrice | currency:"INR"}}</span></p>
+                                        <p class="m-0"><span class="field mr-2">Offer Price</span> {{cart.Product.DiscountPrice | currency:"INR"}}</p>
+                                        <p class="m-0"><span class="field mr-2">Sub Total</span>{{cart.Quantity*cart.Product.DiscountPrice| currency:"INR"}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-4 col-md-5 text-center">
+                                    <p class="m-0">Quantity</p>
+                                    <div class="row align-items-center justify-content-center">
+                                        <div class="col-2">
+                                            <a class="social" (click)="incrementQuantity(cart.Quantity,i,item.uid)">
+                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                        <div class="col-3">
+                                            <p class="m-0 border border-dark text-center p-1">{{cart.Quantity}}</p>
+                                        </div>
+                                        <div class="col-2">
+                                            <a class="social" (click)="decrementQuantity(cart.Quantity,i,item.uid)">
+                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                    <div class="p-2">
+                                        <div class="text-right">
+                                            <button id="button" class="btn" (click)="removeItemFromCart(i,item.uid)">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="row" *ngIf="showProceedMenu">
+                <div class="col">
+                    <div class="card p-2" *ngIf="totalDisountPrice!==0">
+                        <div class="row">
+                            <div class="col-6">MRP</div>
+                            <div class="col-6">
+                                <p class="m-0">{{totalActualPrice|currency:"INR"}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">Retail Discount</div>
+
+                            <div class="col-6">
+                                <p class="m-0">-{{totalActualPrice-totalDisountPrice |currency:"INR"}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">Offer Price</div>
+                            <div class="col-6">
+                                <p class="m-0">{{totalDisountPrice|currency:"INR"}}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                You Pay
+                            </div>
+                            <div class="col-6">
+                                <p class="m-0">{{totalDisountPrice|currency:"INR"}}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                <button id="button" class="btn" (click)="navigateToCheckout()">Proceed to Checkout</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-2" *ngIf="totalDisountPrice===0">
+                        <button (click)="calculateTotalPrice()">Calculate Total Price</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" *ngIf="!authService.user">
+    <div class="row">
+        <div class="col">
+            <h5>Login to Check Your Cart</h5>
+        </div>
+    </div>
+</div>

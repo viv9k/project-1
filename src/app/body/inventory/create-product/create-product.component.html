@@ -25,6 +25,30 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label class="col-4 col-form-label">Details</label>
+                    <div class="col-8">
+                        <div *ngFor="let num of productDetails; let i=index">
+                            <div class="form-group row">
+                                <div class="col-6">
+                                    <input type="text" class="input" placeholder="field" [(ngModel)]="productDetails[i].field" [ngModelOptions]="{ standalone: true }" />
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" class="input" placeholder="value" [(ngModel)]="productDetails[i].value" [ngModelOptions]="{ standalone: true }" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-center justify-content-center">
+                            <div class="col-1">
+                                <span>
+                                        <button type="button" id="button" class="btn" (click)="increaseFields()">
+                                            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                        </button>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label class="col-4 col-form-label">Actual Price(Rs.)</label>
                     <div class="col-8">
                         <input type="number" min="0" class="input" [(ngModel)]="productActualPrice" [ngModelOptions]="{ standalone: true }" />
@@ -97,8 +121,8 @@
                     <label class="col-12 col-md-4 col-form-label" *ngIf="files.length">Preview</label>
                     <div class="col-12 col-md-8">
                         <div class="row align-items-center justify-content-center">
-                            <ng-container *ngFor="let file of files">
-                                <app-upload-image [mode]="'CREATE'" [file]="file" [productId]="'P' + productCount" (imageInfo)="deleteImageFromArray($event)"></app-upload-image>
+                            <ng-container *ngFor="let file of files;let i=index">
+                                <app-upload-image [mode]="'CREATE'" [file]="file" [imageIndex]="i" [productId]="'P' + productCount" (imageInfo)="deleteImageFromArray($event)"></app-upload-image>
                             </ng-container>
                         </div>
                     </div>

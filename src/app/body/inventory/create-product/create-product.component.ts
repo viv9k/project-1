@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastService } from 'src/app/services/toast-service.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
@@ -13,10 +13,17 @@ export class CreateProductComponent implements OnInit {
 
   @Input('productCount') productCount: number
 
-  constructor(public functions: AngularFireFunctions, private modalService: NgbModal,
-    private toastService: ToastService, private router: Router) { }
-
-  ngOnInit(): void { }
+  constructor(
+    public functions: AngularFireFunctions,
+    private modalService: NgbModal,
+    private toastService: ToastService,
+    private router: Router) { }
+  ngOnInit(): void {
+    for (let index = 0; index < 1; index++) {
+      let obj = { field: "", value: "" };
+      this.productDetails[index] = obj
+    }
+  }
 
   enableLoader: boolean = false
   productImagesUploaded: boolean = false
@@ -31,6 +38,7 @@ export class CreateProductComponent implements OnInit {
   productSku: string
   productStock: string
   productTags: string
+  productDetails: { field: string, value: string }[] = []
 
   openModal(content) {
     this.modalService.open(content, { size: 'xl', windowClass: 'dark-modal', backdrop: "static", scrollable: true });
@@ -51,8 +59,9 @@ export class CreateProductComponent implements OnInit {
     console.log(this.files);
   }
 
-  submit() {
-    this.createNewProduct()
+  increaseFields() {
+    let obj = { field: "", value: "" };
+    this.productDetails[this.productDetails.length] = obj
   }
 
   async createNewProduct() {
@@ -61,18 +70,23 @@ export class CreateProductComponent implements OnInit {
     this.productTags.split(",").map(tag => {
       productTagsArray.push(tag.trim())
     })
+
     this.enableLoader = true;
     const callable = this.functions.httpsCallable('product');
     try {
       const result = await callable({
-        Mode: "CREATE", Name: this.productName, Description: this.productDescription, Availability: this.productAvailability,
-        ActualPrice: this.productActualPrice, DiscountPrice: this.productDiscountPrice, DiscountPercent: this.productDiscountPercent,
-        Visibility: this.productVisibility, Tags: productTagsArray, Sku: this.productSku, Stock: this.productStock
+        Mode: "CREATE_PRODUCT", Name: this.productName, Description: this.productDescription,
+        Availability: this.productAvailability, ActualPrice: this.productActualPrice,
+        DiscountPrice: this.productDiscountPrice, DiscountPercent: this.productDiscountPercent,
+        Visibility: this.productVisibility, Tags: productTagsArray, Sku: this.productSku, Stock: this.productStock,
+        Details: this.productDetails
       }).toPromise();
       this.toastService.show('Successfully Created the Product', { classname: 'bg-success text-light' });
       console.log(result);
       this.modalService.dismissAll()
-      this.router.navigate(["/Inventory"]);
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['Inventory']);
+      });
       this.enableLoader = false;
     } catch (error) {
       this.enableLoader = false;
@@ -84,6 +98,7 @@ export class CreateProductComponent implements OnInit {
       return file.name != data.file.name
     })
   }
+
   confirm() {
     if (!this.files.length) {
       this.toastService.show('Please Add Product Images', { classname: 'bg-danger text-light' });

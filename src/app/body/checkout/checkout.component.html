@@ -1,0 +1,174 @@
+<div class="container" *ngIf="authService.user">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <div class="row toogle mb-1 align-items-center" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed">
+                <div class="col">ORDER SUMMARY
+                    <ng-container *ngIf="!isCollapsed">
+                        <a [routerLink]="['/Cart']">Edit Cart</a>
+                    </ng-container>
+                </div>
+                <div class="col text-right">
+                    ({{cartLength}} Items)
+                    <ng-container *ngIf="isCollapsed">
+                        <i class="fas fa-plus"></i>
+                    </ng-container>
+                    <ng-container *ngIf="!isCollapsed">
+                        <i class="fas fa-minus"></i>
+                    </ng-container>
+                </div>
+            </div>
+            <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                            <ng-container *ngFor="let item of authService.userData | async">
+                                <div class="col" *ngFor="let cart of item.Cart;let i=index">
+                                    <div class="card mb-2">
+                                        <div class="row align-items-center justify-content-center">
+                                            <div class="col">
+                                                <div class="p-2">
+                                                    <img src="{{cart.Product.Images[0].DownloadURL}}" class="img-fluid" alt="Random slide" />
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="row align-items-center justify-content-center">
+                                                    <div class="col">
+                                                        <p class="smallText mb-1">Quantity: {{cart.Quantity}}</p>
+                                                        <p class="smallText">{{cart.Quantity*cart.Product.DiscountPrice| currency:"INR"}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row toogle mb-1 align-items-center" [attr.aria-expanded]="!isCollapsed1">
+                <div class="col">SHIPPING & BILLING DETAILS</div>
+                <div class="col text-right">
+                    Tell us where to deliver
+                    <ng-container *ngIf="isCollapsed1">
+                        <i class="fas fa-plus"></i>
+                    </ng-container>
+                    <ng-container *ngIf="!isCollapsed1">
+                        <i class="fas fa-minus"></i>
+                    </ng-container>
+                </div>
+            </div>
+            <div #collapse1="ngbCollapse" [(ngbCollapse)]="isCollapsed1">
+                <div class="card">
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group row">
+                                <label for="Name" class="col-sm-2 col-form-label">Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="Name" placeholder="e.g Virat Kohli">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="MobileNumber" class="col-sm-2 col-form-label">Mobile Number</label>
+                                <div class="col-sm-10">
+                                    <input type="number" minlength="9" class="form-control" id="MobileNumber" placeholder="9934*****1">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Pincode" class="col-sm-2 col-form-label">Pincode</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="Pincode" placeholder="400039">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Address" class="col-sm-2 col-form-label">Address</label>
+                                <div class="col-sm-10">
+                                    <textarea style="resize: none;" type="text" rows="2" class="form-control mb-2" placeholder="House Number, Building Name, Society, Area, Road, Landmark"></textarea>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" placeholder="City" id="City">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" placeholder="State" id="State">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <input type="text" readonly class="form-control" id="Country" value="India">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <button type="submit" class="btn p-2 w-100 pt-3 pb-3" id="button" (click)="collapse1.toggle()">Save & Continue</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row toogle mb-1 align-items-center" [attr.aria-expanded]="!isCollapsed2"  (click)="collapse2.toggle()">
+                <div class="col">PAYMENT DETAILS</div>
+                <div class="col text-right">
+                    How Would You Pay
+                    <ng-container *ngIf="isCollapsed2">
+                        <i class="fas fa-plus"></i>
+                    </ng-container>
+                    <ng-container *ngIf="!isCollapsed2">
+                        <i class="fas fa-minus"></i>
+                    </ng-container>
+                </div>
+            </div>
+            <div #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed2">
+                <div class="card">
+                    <div class="card-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="row">
+                <div class="col">
+                    <div class="card p-2" *ngIf="totalDisountPrice!==0">
+                        <div class="row">
+                            <div class="col-6">MRP</div>
+                            <div class="col-6">
+                                <p class="m-0">{{totalActualPrice|currency:"INR"}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">Retail Discount</div>
+
+                            <div class="col-6">
+                                <p class="m-0">-{{totalActualPrice-totalDisountPrice |currency:"INR"}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">Offer Price</div>
+                            <div class="col-6">
+                                <p class="m-0">{{totalDisountPrice|currency:"INR"}}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                You Pay
+                            </div>
+                            <div class="col-6">
+                                <p class="m-0">{{totalDisountPrice|currency:"INR"}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" *ngIf="!authService.user">
+    <div class="row">
+        <div class="col">
+            <h5>Login to Check Your Cart</h5>
+        </div>
+    </div>
+</div>

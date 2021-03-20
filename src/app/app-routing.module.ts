@@ -5,6 +5,8 @@ import { InventoryItemsComponent } from './body/inventory-items/inventory-items.
 import { InventoryComponent } from './body/inventory/inventory.component';
 import { AngularFireAuthGuard, hasCustomClaim } from '@angular/fire/auth-guard';
 import { ProductDetailsComponent } from './body/product-details/product-details.component';
+import { CartComponent } from './body/cart/cart.component';
+import { CheckoutComponent } from './body/checkout/checkout.component';
 
 const adminOnly = () => hasCustomClaim('admin');
 
@@ -13,6 +15,8 @@ const routes: Routes = [
   { path: "Inventory", component: InventoryComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: adminOnly } },
   { path: "Inventory/Items", component: InventoryItemsComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: adminOnly } },
   { path: "Products/:productId", component: ProductDetailsComponent },
+  { path: "Cart", component: CartComponent },
+  { path: "Cart/Checkout", component: CheckoutComponent },
 
 ];
 

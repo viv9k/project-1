@@ -17,7 +17,8 @@
                         <th scope="col">Stock</th>
                         <th scope="col">Menu #1</th>
                         <th scope="col">Menu #2</th>
-                        <th scope="col">Tags</th>
+                        <th scope="col">Menu #3</th>
+                        <th scope="col">Menu #4</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,12 +79,47 @@
                                             <button class="btn btn-dark" id="dropdownForm1" ngbDropdownToggle>Tags</button>
                                             <div ngbDropdownMenu aria-labelledby="dropdownForm1" class="dropdown-menu">
                                                 <form class="px-4 py-3">
-                                                    <input type="text" min="0" class="input" [(ngModel)]="newTag" [ngModelOptions]="{standalone: true}" />
-                                                    <button type="submit" class="btn" id="button">Add</button>
+                                                    <div class="form-group row">
+                                                        <label for="input" class="col-4 col-form-label">New Tag</label>
+                                                        <div class="col-8">
+                                                            <input type="text" class="input" [(ngModel)]="newTag" [ngModelOptions]="{ standalone: true }" />
+                                                        </div>
+                                                    </div>
+                                                    <button type="submit" class="btn" id="button" (click)="onAddNewTag(item)">Add</button>
                                                 </form>
                                                 <div class="dropdown-divider"></div>
-                                                <ng-container *ngFor="let tag of item.Tags">
-                                                    <button ngbDropdownItem>{{tag}}</button>
+                                                <ng-container *ngFor="let tag of item.Tags;let i=index">
+                                                    <p class="dropDownItem" ngbDropdownItem (click)="onDeleteTag(item,i)">{{i+1}} - {{tag}}</p>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="overflow-hidden">
+                                <div class="row">
+                                    <div class="col">
+                                        <div ngbDropdown container="body" display="dynamic" placement="bottom-right">
+                                            <button class="btn btn-dark" id="dropdownForm1" ngbDropdownToggle>Details</button>
+                                            <div ngbDropdownMenu aria-labelledby="dropdownForm1" class="dropdown-menu">
+                                                <form class="px-4 py-3">
+                                                    <div class="form-group row">
+                                                        <label for="input" class="col-4 col-form-label">Field</label>
+                                                        <div class="col-8">
+                                                            <input type="text" class="input" [(ngModel)]="newField" [ngModelOptions]="{ standalone: true }" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="input" class="col-4 col-form-label">Value</label>
+                                                        <div class="col-8">
+                                                            <input type="text" class="input" [(ngModel)]="newValue" [ngModelOptions]="{ standalone: true }" />
+                                                        </div>
+                                                    </div>
+                                                    <button type="submit" class="btn" id="button" (click)="onAddNewDetailsField(item)">Add</button>
+                                                </form>
+                                                <div class="dropdown-divider"></div>
+                                                <ng-container *ngFor="let tag of item.Details;let i=index">
+                                                    <p class="dropDownItem" ngbDropdownItem (click)="onDeleteDetailsField(item,i)">{{i+1}} - {{tag.field}} : {{tag.value}}</p>
                                                 </ng-container>
                                             </div>
                                         </div>

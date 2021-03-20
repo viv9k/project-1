@@ -1,0 +1,9 @@
+<div class="card mb-2" (click)="navigateToProductDetails(item.Id)">
+    <img class="card-img-top" src="{{item.Images[0].DownloadURL}}" alt="Random slide" />
+    <div class="card__body">
+        <h6 class="card-title">{{item.Name}}</h6>
+        <span class="span__discountPrice">{{item.DiscountPrice | currency:"INR"}}</span>
+        <span class="span__actualPrice ml-2">{{item.ActualPrice | currency:"INR"}}</span>
+        <span class="span__discountPercent ml-2">({{item.DiscountPercent}}% Off)</span>
+    </div>
+</div>

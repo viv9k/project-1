@@ -39,20 +39,24 @@
                 </div>
             </div>
             <div class="row align-items-center justify-content-center">
-                <ng-container *ngFor="let file of backendService.imageData | async">
-                    <div class="col-12 col-sm-12 col-md-4 m-1" *ngIf="file.DownloadURL ">
-                        <div class="card bg-dark ">
-                            <img [hidden]="imageLoading" (load)="onImageLoad()" [src]="file.DownloadURL" class="card-img-top" alt="product-Image" />
-                            <div *ngIf="imageLoading">
-                                <app-loader [showInDiv]="true"></app-loader>
-                            </div>
-                            <div class="card-body text-center">
-                                <button class="btn" id="button" (click)="deleteImage(file.Path,file.Id,loadingTemplate)">
+                <ng-container *ngFor="let item of backendService.productData | async">
+                    <ng-container *ngIf="productId===item.Id">
+                        <ng-container *ngFor="let file of item.Images;let i=index">
+                            <div class="col-12 col-sm-12 col-md-4 m-1" *ngIf="file.DownloadURL ">
+                                <div class="card bg-dark ">
+                                    <img [hidden]="imageLoading" (load)="onImageLoad()" [src]="file.DownloadURL" class="card-img-top" alt="product-Image" />
+                                    <div *ngIf="imageLoading">
+                                        <app-loader [showInDiv]="true"></app-loader>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <button class="btn" id="button" (click)="deleteImage(file.Path,loadingTemplate,i)">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                 </button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        </ng-container>
+                    </ng-container>
                 </ng-container>
             </div>
             <div class="form-group row align-items-center justify-content-center">

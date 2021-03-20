@@ -1,25 +1,35 @@
 import { Injectable } from '@angular/core';
 import firebase from 'firebase';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { User } from "../Interface/UserInterface";
+import { User, UserCart } from "../../Interface/UserInterface";
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
-import { ToastService } from './toast-service.service';
+import { ToastService } from '../toast/toast.service'
+import { BackendService } from '../backend/backend.service';
+import { ProductId } from 'src/app/Interface/ProductInterface';
+
 @Injectable({
   providedIn: 'root',
 })
 
 export class AuthService {
 
-  constructor(public afauth: AngularFireAuth, private functions: AngularFireFunctions, private db: AngularFirestore, private toastService: ToastService) { }
+  constructor(public afauth: AngularFireAuth,
+    private functions: AngularFireFunctions,
+    private db: AngularFirestore,
+    private toastService: ToastService,
+    private backendService: BackendService) { }
 
-  userCollection: AngularFirestoreCollection<User>
-  userData: Observable<User[]>
+  userCollection: AngularFirestoreCollection<UserCart>
+  userData: Observable<UserCart[]>
 
   showAdminPanel: boolean = false
   user: User
+  userUid: string
+  cartLength: number
+
   async createUser(email: string, password: string, username: string) {
     await this.afauth.createUserWithEmailAndPassword(email, password).then((credential) => {
       this.user = credential.user
@@ -63,7 +73,7 @@ export class AuthService {
   }
 
   readData(uid?: string) {
-    this.userCollection = this.db.collection<User>("Users", ref => {
+    this.userCollection = this.db.collection<UserCart>("Users", ref => {
       let queryRef: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
       if (uid) {
         queryRef = queryRef.where('uid', '==', uid);
@@ -73,9 +83,11 @@ export class AuthService {
     });
     this.userData = this.userCollection.snapshotChanges().pipe(
       map(actions => actions.map(a => {
-        const data = a.payload.doc.data() as User;
+        const data = a.payload.doc.data() as UserCart;
         const id = a.payload.doc.id;
+        this.cartLength = data.Cart.length
         if (uid && data.admin) {
+          this.userUid = uid
           this.showAdminPanel = true
         }
         else {
@@ -85,4 +97,5 @@ export class AuthService {
       }))
     );
   }
+
 }

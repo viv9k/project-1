@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, AngularFirestoreCollectionGroup } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { ProductId } from '../Interface/ProductInterface';
+import { ProductId } from '../../Interface/ProductInterface';
 import { map } from 'rxjs/internal/operators/map';
-import { Main } from '../Interface/RawInterface';
-import { Order } from '../Interface/OrderInterface';
-import { Image } from '../Interface/ImageInterface';
+import { Main } from '../../Interface/RawInterface';
+import { Order } from '../../Interface/OrderInterface';
+import firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -21,15 +21,19 @@ export class BackendService {
   rawDataObservable: Observable<Main>;
   rawDocument: AngularFirestoreDocument<Main>;
 
-  imageCollection: AngularFirestoreCollectionGroup<Image>
-  imageData: Observable<Image[]>
-
   public rawData: Main
   constructor(private db: AngularFirestore) { }
 
 
-  readProductData() {
-    this.productCollection = this.db.collection<ProductId>("Products");
+  readProductData(productId?: string) {
+    this.productCollection = this.db.collection<ProductId>("Products", ref => {
+      let queryRef: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+      if (productId) {
+        queryRef = queryRef.where("Id", "==", productId)
+      }
+      queryRef = queryRef.orderBy("Id")
+      return queryRef
+    });
     this.productData = this.productCollection.snapshotChanges().pipe(
       map(actions => actions.map(a => {
         const data = a.payload.doc.data() as ProductId;
@@ -41,37 +45,7 @@ export class BackendService {
 
   readSpecificProductData(productId: string) {
     this.productCollection = this.db.collection<ProductId>("Products", ref => ref.where("Id", "==", productId));
-    this.productData = this.productCollection.snapshotChanges().pipe(
-      map(actions => actions.map(a => {
-        const data = a.payload.doc.data() as ProductId;
-        const Id = a.payload.doc.id;
-        console.log(data);
-        return { Id, ...data };
-      }))
-    );
-  }
-
-  readImageData(productId: string) {
-    this.imageCollection = this.db.collectionGroup<Image>("Images", ref => ref.where('ProductId', '==', productId));
-    this.imageData = this.imageCollection.snapshotChanges().pipe(
-      map(actions => actions.map(a => {
-        const data = a.payload.doc.data() as Image;
-        const Id = a.payload.doc.id;
-        console.log(data);
-        return { Id, ...data };
-      }))
-    );
-  }
-
-  readAllImages() {
-    this.imageCollection = this.db.collectionGroup<Image>("Images");
-    this.imageData = this.imageCollection.snapshotChanges().pipe(
-      map(actions => actions.map(a => {
-        const data = a.payload.doc.data() as Image;
-        const Id = a.payload.doc.id;
-        return { Id, ...data };
-      }))
-    );
+    return this.productCollection.doc(productId).get().toPromise();
   }
 
   readOrderData() {

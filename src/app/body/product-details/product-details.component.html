@@ -1,24 +1,64 @@
 <div class="container">
-    <div class="row align-items-center justify-content-center">
+    <div class="row justify-content-center align-items-center align-items-md-start">
         <ng-container *ngFor="let item of backendService.productData | async ">
-            <div class="col mb-4 h-100" *ngIf="item.Visibility==='Show'">
-                <ngb-carousel [showNavigationArrows]="false" [showNavigationIndicators]="false">
-                    <ng-container *ngFor="let image of backendService.imageData | async">
-                        <ng-template ngbSlide *ngIf="productId===image.ProductId">
-                            <div class="picsum-img-wrapper">
-                                <img class="card-img-top" src="{{image.DownloadURL}}" alt="Random slide" />
-                            </div>
-                        </ng-template>
-                    </ng-container>
-                </ngb-carousel>
+            <div class="col col-md-6 mb-4" *ngIf="item.Visibility==='Show'">
+                <img id="selectedImage" class="mb-2" [src]="selectedImage" alt="mainImage" />
+                <div class="row justify-content-center align-items-center w-100">
+                    <div class="col-1">
+                        <a class="social" (click)="scrollLeft()">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    </div>
+                    <div class="offset-1 offset-md-0 col-7 col-md-9 w-100">
+                        <div class="imageContainer" #imageContainer>
+                            <ng-container *ngFor="let image of item.Images">
+                                <div class="m-2" (click)="showSelectedImage(image)" (mouseover)="showSelectedImage(image)">
+                                    <img [src]="image.DownloadURL" alt="img">
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <a class="social" (click)="scrollRight()">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="col card__body">
-                <h6 class="card-title">{{item.Name}}</h6>
-                <span class="span__discountPrice">&#8377;{{item.DiscountPrice}}</span>
-                <span class="span__actualPrice ml-2">&#8377;{{item.ActualPrice}}</span>
+            <div class="col-12 col-md-6 card__body">
+                <h5 class="card-title">{{item.Name}}</h5>
+                <span class="span__discountPrice">{{item.DiscountPrice | currency:"INR"}}</span>
+                <span class="span__actualPrice"><span class="span__price ml-2">{{item.ActualPrice | currency:"INR"}} MRP</span> (Inclusive of all taxes)</span>
                 <span class="span__discountPercent ml-2">({{item.DiscountPercent}}% Off)</span>
+                <p>{{item.Description}}</p>
+                <div class="row">
+                    <div class="col-2">
+                        Details
+                    </div>
+                    <div class="col">
+                        <ng-container *ngFor="let i of item.Details">
+                            <p><span class="field">{{i.field}}</span> : {{i.value}}</p>
+                        </ng-container>
+                    </div>
+                </div>
+               
+                <div class="row justify-content-center align-items-center">
+                    <div class="col text-left">
+                        <a class="social" (click)="incrementQuantity()">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="col text-center">{{productQuantity}}</div>
+                    <div class="col text-right">
+                        <a class="social" (click)="decrementQuantity()">
+                            <i class="fa fa-minus" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <button class="btn" id="cartButton" (click)="addToCart()">Add to Cart</button>
+                <button class="btn" id="cartButton">Buy Now</button>
             </div>
         </ng-container>
     </div>
 </div>
-<app-loader *ngIf="!(backendService.imageData | async)"></app-loader>
+<app-loader *ngIf="!( backendService.productData | async )"></app-loader>

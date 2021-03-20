@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
-import { ToastService } from 'src/app/services/toast-service.service';
+import { ToastService } from 'src/app/services/toast/toast.service';
 import { AngularFireFunctions } from '@angular/fire/functions';
 @Component({
   selector: 'app-upload-image',
@@ -10,16 +10,20 @@ import { AngularFireFunctions } from '@angular/fire/functions';
   styleUrls: ['./upload-image.component.css']
 })
 export class UploadImageComponent implements OnInit {
+
   @Input("file") file: File;
   @Input("productId") productId: string
   @Input("mode") mode: string
+  @Input("imageIndex") imageIndex: number
 
   @Output() imageInfo = new EventEmitter<{ file: File }>();
+
   task: AngularFireUploadTask;
 
   percentage: Observable<number>;
   snapshot: Observable<any>;
   downloadURL: string;
+
   constructor(private storage: AngularFireStorage, public toastService: ToastService, public functions: AngularFireFunctions) { }
 
   ngOnInit(): void {
@@ -27,16 +31,11 @@ export class UploadImageComponent implements OnInit {
   }
 
   startUpload() {
-    // The storage path
-    const path = `ProductImages/${this.productId}/${this.productId}_${this.file.name}`;
-    // Reference to storage bucket
+    const path = `ProductImages/${this.productId}/${this.file.name}`;
     const ref = this.storage.ref(path);
-    // The main task
     this.task = this.storage.upload(path, this.file);
-    // Progress monitoring
     this.percentage = this.task.percentageChanges();
     this.snapshot = this.task.snapshotChanges().pipe(
-      // The file's download URL
       finalize(async () => {
         this.downloadURL = await ref.getDownloadURL().toPromise();
         this.storeImageData(path)
@@ -50,7 +49,7 @@ export class UploadImageComponent implements OnInit {
   }
 
   async deleteImage() {
-    const path = `ProductImages/${this.productId}/${this.productId}_${this.file.name}`;
+    const path = `ProductImages/${this.productId}/${this.file.name}`;
     const ref = this.storage.ref(path);
     await ref.delete().toPromise().then(() => {
       this.deleteImageData()
@@ -61,9 +60,9 @@ export class UploadImageComponent implements OnInit {
   }
 
   async storeImageData(path: string) {
-    const callable = this.functions.httpsCallable('productImage');
+    const callable = this.functions.httpsCallable('product');
     try {
-      const result = await callable({ Mode: "CREATE", Id: this.file.name, DownloadURL: this.downloadURL, Path: path, ProductId: this.productId }).toPromise();
+      const result = await callable({ Mode: "CREATE_PRODUCT_IMAGE", ProductId: this.productId, DownloadURL: this.downloadURL, Path: path }).toPromise();
       this.toastService.show('Uploaded Successfully', { classname: 'bg-success text-light' });
       console.log(result);
     } catch (error) {
@@ -72,9 +71,9 @@ export class UploadImageComponent implements OnInit {
   }
 
   async deleteImageData() {
-    const callable = this.functions.httpsCallable('productImage');
+    const callable = this.functions.httpsCallable('product');
     try {
-      const result = await callable({ Mode: "DELETE", Id: this.file.name, ProductId: this.productId }).toPromise();
+      const result = await callable({ Mode: "DELETE_PRODUCT_IMAGE", ImageIndex: this.imageIndex, ProductId: this.productId }).toPromise();
       // this.toastService.show('Successfully Uploaded Product Images', { classname: 'bg-success text-light' });
       console.log(result);
     } catch (error) {

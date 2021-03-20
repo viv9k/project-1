@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -13,23 +13,27 @@ export class HeaderComponent implements OnInit {
   isCollapsed: boolean = true
   isCollapsed2: boolean = true
 
+  searchProduct: string
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
   navigateToHome() {
     this.router.navigate([""]);
+  }
 
-  }
-  navigateToLogin() {
-    this.router.navigate(["login"]);
-  }
   navigateToInventory() {
     this.router.navigate(["Inventory"]);
   }
-  LogoutSession() {
+
+  logoutSession() {
     this.authService.logout().then(() => {
       this.router.navigate([""]);
-
     })
+  }
+
+  navigateToSearchedProducts() {
+    this.router.navigate([''], { queryParams: { name: this.searchProduct } });
+  }
+  navigateToCart() {
+    this.router.navigate(["Cart"]);
   }
 }

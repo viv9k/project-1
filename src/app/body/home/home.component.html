@@ -1,26 +1,42 @@
 <div class="container">
+    <div class="row">
+        <div class="col-8">
+            <ngb-carousel #carousel [interval]="3000" [pauseOnHover]="true">
+                <ng-template ngbSlide *ngFor="let img of images; index as i">
+                    <div class="carousel-caption">
+                        <h3>My slide {{i + 1}} title</h3>
+                    </div>
+                    <a href="https://www.google.fr/?q=Number+{{i+1}}" target="_blank" rel="nofollow noopener noreferrer">
+                        <div class="picsum-img-wrapper">
+                            <img [src]="img" class="img-fluid" alt="My image {{i + 1}} description">
+                        </div>
+                    </a>
+                </ng-template>
+            </ngb-carousel>
+        </div>
+        <div class="col-4">
+            <div class="card mb-2">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col">
+                        <img src="https://ii1.pepperfry.com/media/wysiwyg/banners/FixedHeroBanner01_2x_15032021.jpg" class="img-fluid" alt="Random slide" />
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-2">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col">
+                        <img src="https://ii2.pepperfry.com/media/wysiwyg/banners/FixedHeroBanner02_2x_15032021.jpg" class="img-fluid" alt="Random slide" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 align-items-center justify-content-center">
         <ng-container *ngFor="let item of backendService.productData | async ">
             <div class="col mb-4 h-100" *ngIf="item.Visibility==='Show'">
-                <div class="card h-100" (click)="navigateToProductDetails(item.Id)">
-                    <ngb-carousel [showNavigationArrows]="false" [showNavigationIndicators]="false">
-                        <ng-container *ngFor="let image of backendService.imageData | async">
-                            <ng-template ngbSlide *ngIf="item.Id===image.ProductId">
-                                <div class="picsum-img-wrapper">
-                                    <img class="card-img-top" src="{{image.DownloadURL}}" alt="Random slide" />
-                                </div>
-                            </ng-template>
-                        </ng-container>
-                    </ngb-carousel>
-                    <div class="card__body">
-                        <h6 class="card-title">{{item.Name}}</h6>
-                        <span class="span__discountPrice">&#8377;{{item.DiscountPrice}}</span>
-                        <span class="span__actualPrice ml-2">&#8377;{{item.ActualPrice}}</span>
-                        <span class="span__discountPercent ml-2">({{item.DiscountPercent}}% Off)</span>
-                    </div>
-                </div>
+                <app-product-card [item]="item"></app-product-card>
             </div>
         </ng-container>
     </div>
 </div>
-<app-loader *ngIf="!(backendService.imageData | async) "></app-loader>
+<app-loader *ngIf="!(backendService.productData | async)"></app-loader>

@@ -1,0 +1,43 @@
+.input,
+.input:focus {
+    border: 1px solid black;
+    outline: none;
+    width: auto;
+    text-align: center;
+    padding: 10px;
+}
+
+.field {
+    color: #969696;
+    font-size: 0.8rem;
+}
+
+.span__price {
+    text-decoration: line-through;
+}
+
+#button {
+    background-color: black;
+    color: white;
+}
+
+.social {
+    border: 1px solid #DDDDDD;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    height: 30px;
+    width: 30px;
+    color: #333;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 15px 0;
+}
+
+.social:hover {
+    background: black;
+    color: white;
+    cursor: pointer;
+}

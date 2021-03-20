@@ -1,3 +1,5 @@
+import { Image } from "./ImageInterface";
+
 export interface Product {
     Name: string;
     Description: string;
@@ -9,6 +11,8 @@ export interface Product {
     Sku: string;
     Stock: number;
     Tags: string[];
+    Details: { field: string, value: string }[];
+    Images: Image[]
 }
 export interface ProductId extends Product {
     Id: string;

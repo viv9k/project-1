@@ -1,0 +1,41 @@
+.card {
+    width: 100%;
+    border: 1px solid #977552;
+    cursor: pointer;
+    height: 400px;
+}
+
+.card__body {
+    padding: 10px;
+}
+
+.span__discountPrice {
+    font-size: large;
+    font-weight: bold;
+    color: #977552;
+}
+
+.span__actualPrice {
+    text-decoration: line-through;
+}
+
+.span__discountPercent {
+    font-size: small;
+}
+
+img {
+    margin: auto 0;
+    width: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+    .card {
+        width: 100%;
+        border: 1px solid #977552;
+        cursor: pointer;
+        height: 100%;
+    }
+    .card-title {
+        font-size: 0.8rem;
+    }
+}
