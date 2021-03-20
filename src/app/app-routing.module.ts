@@ -8,12 +8,12 @@ import { ProductDetailsComponent } from './body/product-details/product-details.
 import { CartComponent } from './body/cart/cart.component';
 import { CheckoutComponent } from './body/checkout/checkout.component';
 
-const adminOnly = () => hasCustomClaim('admin');
+// const adminOnly = () => hasCustomClaim('admin');
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
-  { path: "Inventory", component: InventoryComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: adminOnly } },
-  { path: "Inventory/Items", component: InventoryItemsComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: adminOnly } },
+  { path: "Inventory", component: InventoryComponent, canActivate: [AngularFireAuthGuard]},
+  { path: "Inventory/Items", component: InventoryItemsComponent, canActivate: [AngularFireAuthGuard]},
   { path: "Products/:productId", component: ProductDetailsComponent },
   { path: "Cart", component: CartComponent },
   { path: "Cart/Checkout", component: CheckoutComponent },

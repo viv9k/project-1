@@ -7,8 +7,8 @@ const db = admin.firestore();
 
 exports.product = functions.https.onRequest((request, response) => {
     cors(request, response, () => {
-        let product = request.body.data;
-        let promises = [];
+        const product = request.body.data;
+        const promises = [];
         const promise1 = db.collection("RawData").doc("AppDetails").get().then((doc) => {
             if (doc.exists) {
                 let totalNumberOfOrders = doc.data().TotalNumberOfOrders;
@@ -74,9 +74,9 @@ exports.product = functions.https.onRequest((request, response) => {
                             ImageArray.push(ImageObjectData);
                             db.collection("Products").doc(product.ProductId).set({
                                 Images: ImageArray,
-                            })
+                            });
                         }
-                    })
+                    });
                 } else if (product.Mode === "UPDATE_PRODUCT") {
                     const p1 = db.collection("Products").doc(product.ProductId).update({
                         Name: product.Name,
@@ -166,12 +166,12 @@ exports.product = functions.https.onRequest((request, response) => {
         });
         Promise.resolve(promise1)
             .then(() => {
-                result = { data: "Product Created/Modified Successfully" };
+                const result = { data: "Product Created/Modified Successfully" };
                 console.log("Product Created/Modified Successfully");
                 return response.status(200).send(result);
             })
             .catch((error) => {
-                result = { data: error };
+                const result = { data: error };
                 console.error("Error Creating/Modifying Product", error);
                 return response.status(500).send(result);
             });

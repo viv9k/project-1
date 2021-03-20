@@ -1,6 +1,11 @@
+/* eslint-disable object-curly-spacing */
+/* eslint-disable eol-last */
+/* eslint-disable indent */
+/* eslint-disable max-len */
+
 const functions = require("firebase-functions");
 const cors = require("cors")({ origin: true });
-require('dotenv').config();
+require("dotenv").config();
 const admin = require("firebase-admin");
 
 const db = admin.firestore();
@@ -17,7 +22,7 @@ exports.createNewUser = functions.https.onRequest((request, response) => {
         const ProviderId = user.providerId;
         if (Email === process.env.ADMIN_EMAIL) {
             console.log("Made Admin Successfully");
-            auth.setCustomUserClaims(Uid, { admin: true })
+            auth.setCustomUserClaims(Uid, { admin: true });
         }
         const promise1 = db.collection("Users").doc(Uid).get().then((doc) => {
             if (doc.exists) {
@@ -44,7 +49,7 @@ exports.createNewUser = functions.https.onRequest((request, response) => {
                 return Promise.resolve(userData);
             }
         });
-        const promise2 = db.collection("Users").doc(Uid).get().then(doc => {
+        const promise2 = db.collection("Users").doc(Uid).get().then((doc) => {
             if (doc.exists) {
                 return 0;
             } else {
@@ -60,19 +65,18 @@ exports.createNewUser = functions.https.onRequest((request, response) => {
                             TotalNumberOfOrders: 0,
                         });
                     }
-                })
+                });
                 return Promise.resolve(p1);
             }
-        })
+        });
         const Promises = [promise1, promise2];
-        let result;
         return Promise.all(Promises).then(() => {
-                result = { data: "User Logged In Successfully" };
+                const result = { data: "User Logged In Successfully" };
                 console.log("User Logged In Successfully");
                 return response.status(200).send(result);
             })
             .catch((error) => {
-                result = { data: error };
+                const result = { data: error };
                 console.error("Error LogIn/SignUp User", error);
                 return response.status(500).send(result);
             });
