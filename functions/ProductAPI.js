@@ -1,3 +1,8 @@
+/* eslint-disable object-curly-spacing */
+/* eslint-disable eol-last */
+/* eslint-disable indent */
+/* eslint-disable max-len */
+
 const functions = require("firebase-functions");
 const cors = require("cors")({ origin: true });
 
@@ -11,12 +16,12 @@ exports.product = functions.https.onRequest((request, response) => {
         const promises = [];
         const promise1 = db.collection("RawData").doc("AppDetails").get().then((doc) => {
             if (doc.exists) {
-                let totalNumberOfOrders = doc.data().TotalNumberOfOrders;
-                let totalNumberOfUsers = doc.data().TotalNumberOfUsers;
+                const totalNumberOfOrders = doc.data().TotalNumberOfOrders;
+                const totalNumberOfUsers = doc.data().TotalNumberOfUsers;
                 let totalNumberOfProducts = doc.data().TotalNumberOfProducts;
                 if (product.Mode === "CREATE_PRODUCT") {
                     totalNumberOfProducts = totalNumberOfProducts + 1;
-                    let productId = "P" + totalNumberOfProducts;
+                    const productId = "P" + totalNumberOfProducts;
                     const p1 = db.collection("Products").doc(productId).update({
                         Id: productId,
                         Name: product.Name,
@@ -29,39 +34,43 @@ exports.product = functions.https.onRequest((request, response) => {
                         Tags: product.Tags,
                         Sku: product.Sku,
                         Stock: product.Stock,
-                        Details: product.Details
+                        Details: product.Details,
                     });
                     promises.push(p1);
                 } else if (product.Mode === "CREATE_PRODUCT_IMAGE") {
-                    let ProductImage = request.body.data;
-                    let ImageObjectData = {
+                    const ProductImage = request.body.data;
+                    const ImageObjectData = {
                         DownloadURL: ProductImage.DownloadURL,
                         Path: ProductImage.Path,
-                    }
+                    };
                     const p1 = db.collection("Products").doc(ProductImage.ProductId).get().then((doc) => {
                         if (doc.exists) {
-                            let ImageArray = doc.data().Images;
+                            const ImageArray = doc.data().Images;
                             ImageArray.push(ImageObjectData);
                             const promise1 = db.collection("Products").doc(ProductImage.ProductId).update({
                                 Images: ImageArray,
                             });
                             return Promise.resolve(promise1);
                         } else {
-                            let ImageArray = []
+                            const ImageArray = [];
                             ImageArray.push(ImageObjectData);
                             const promise1 = db.collection("Products").doc(product.ProductId).set({
                                 Images: ImageArray,
                             });
                             return Promise.resolve(promise1);
                         }
-                    })
+                    });
                     promises.push(p1);
                 } else if (product.Mode === "DELETE_PRODUCT_IMAGE") {
                     const p1 = db.collection("Products").doc(product.ProductId).get().then((doc) => {
-                        let ProductImage = request.body.data;
+                        const ProductImage = request.body.data;
+                        const ImageObjectData = {
+                            DownloadURL: ProductImage.DownloadURL,
+                            Path: ProductImage.Path,
+                        };
                         if (doc.exists) {
-                            let ImageArray = doc.data().Images;
-                            let index = ProductImage.ImageIndex;
+                            const ImageArray = doc.data().Images;
+                            const index = ProductImage.ImageIndex;
                             if (index > -1) {
                                 ImageArray.splice(index, 1);
                             }
@@ -70,13 +79,14 @@ exports.product = functions.https.onRequest((request, response) => {
                             });
                             promises.push(p1);
                         } else {
-                            let ImageArray = []
+                            const ImageArray = [];
                             ImageArray.push(ImageObjectData);
                             db.collection("Products").doc(product.ProductId).set({
                                 Images: ImageArray,
                             });
                         }
                     });
+                    promises.push(p1);
                 } else if (product.Mode === "UPDATE_PRODUCT") {
                     const p1 = db.collection("Products").doc(product.ProductId).update({
                         Name: product.Name,
@@ -91,9 +101,9 @@ exports.product = functions.https.onRequest((request, response) => {
                     });
                     promises.push(p1);
                 } else if (product.Mode === "ADD_TAG") {
-                    const p1 = db.collection("Products").doc(product.ProductId).get().then(doc => {
+                    const p1 = db.collection("Products").doc(product.ProductId).get().then((doc) => {
                         if (doc.exists) {
-                            let allTags = doc.data().Tags;
+                            const allTags = doc.data().Tags;
                             allTags.push(product.NewTag);
                             const promise1 = db.collection("Products").doc(product.ProductId).update({
                                 Tags: allTags,
@@ -103,10 +113,10 @@ exports.product = functions.https.onRequest((request, response) => {
                     });
                     promises.push(p1);
                 } else if (product.Mode === "DELETE_TAG") {
-                    const p1 = db.collection("Products").doc(product.ProductId).get().then(doc => {
+                    const p1 = db.collection("Products").doc(product.ProductId).get().then((doc) => {
                         if (doc.exists) {
-                            let tags = doc.data().Tags;
-                            let index = product.TagIndex;
+                            const tags = doc.data().Tags;
+                            const index = product.TagIndex;
                             if (index > -1) {
                                 tags.splice(index, 1);
                             }
@@ -118,7 +128,7 @@ exports.product = functions.https.onRequest((request, response) => {
                     });
                     promises.push(p1);
                 } else if (product.Mode === "ADD_FIELD") {
-                    const p1 = db.collection("Products").doc(product.ProductId).get().then(doc => {
+                    const p1 = db.collection("Products").doc(product.ProductId).get().then((doc) => {
                         if (doc.exists) {
                             const details = doc.data().Details;
                             details.push(product.NewObject);
@@ -130,10 +140,10 @@ exports.product = functions.https.onRequest((request, response) => {
                     });
                     promises.push(p1);
                 } else if (product.Mode === "DELETE_FIELD") {
-                    const p1 = db.collection("Products").doc(product.ProductId).get().then(doc => {
+                    const p1 = db.collection("Products").doc(product.ProductId).get().then((doc) => {
                         if (doc.exists) {
                             const details = doc.data().Details;
-                            let index = product.ObjectIndex;
+                            const index = product.ObjectIndex;
                             if (index > -1) {
                                 details.splice(index, 1);
                             }
@@ -149,16 +159,16 @@ exports.product = functions.https.onRequest((request, response) => {
                     const p1 = db.collection("Products").doc(product.ProductId).delete();
                     promises.push(p1);
                     const p3 = db.collection("Products").doc(product.ProductId).collection("Images").where("ProductId", "==", product.ProductId).get().then((snapshot) => {
-                        snapshot.forEach(doc => {
+                        snapshot.forEach((doc) => {
                             doc.ref.delete();
-                        })
-                    })
+                        });
+                    });
                     promises.push(p3);
                 }
                 const p2 = db.collection("RawData").doc("AppDetails").update({
                     TotalNumberOfOrders: totalNumberOfOrders,
                     TotalNumberOfUsers: totalNumberOfUsers,
-                    TotalNumberOfProducts: totalNumberOfProducts
+                    TotalNumberOfProducts: totalNumberOfProducts,
                 });
                 promises.push(p2);
             }
@@ -175,5 +185,5 @@ exports.product = functions.https.onRequest((request, response) => {
                 console.error("Error Creating/Modifying Product", error);
                 return response.status(500).send(result);
             });
-    })
+    });
 });
