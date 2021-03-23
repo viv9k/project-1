@@ -47,4 +47,5 @@ Thumbs.db
 
 firestore-debug.log
 pubsub-debug.log
+ui-debug.log
 firebase-debug.log

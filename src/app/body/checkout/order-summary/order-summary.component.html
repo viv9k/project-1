@@ -1,0 +1,45 @@
+<div class="row toogle mb-1 align-items-center" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed">
+    <div class="col">ORDER SUMMARY
+        <ng-container *ngIf="!isCollapsed">
+            <a [routerLink]="['/Cart']">Edit Cart</a>
+        </ng-container>
+    </div>
+    <div class="col text-right">
+        ({{cartLength}} Items)
+        <ng-container *ngIf="isCollapsed">
+            <i class="fas fa-plus"></i>
+        </ng-container>
+        <ng-container *ngIf="!isCollapsed">
+            <i class="fas fa-minus"></i>
+        </ng-container>
+    </div>
+</div>
+<div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+    <div class="card">
+        <div class="card-body">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                <ng-container *ngFor="let item of authService.userData | async">
+                    <div class="col" *ngFor="let cart of item.Cart;let i=index">
+                        <div class="card mb-2">
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col">
+                                    <div class="p-2">
+                                        <img src="{{cart.Product.Images[0].DownloadURL}}" class="img-fluid" alt="Random slide" />
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="row align-items-center justify-content-center">
+                                        <div class="col">
+                                            <p class="smallText mb-1">Quantity: {{cart.Quantity}}</p>
+                                            <p class="smallText">{{cart.Quantity*cart.Product.DiscountPrice| currency:"INR"}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

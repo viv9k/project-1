@@ -1,4 +1,5 @@
 import { Cart } from "./CartInterface";
+import { Checkout } from "./CheckoutInterface";
 
 export interface User {
     uid: string;
@@ -12,4 +13,5 @@ export interface User {
 
 export interface UserCart extends User {
     Cart: Cart[];
+    BillingDetails: Checkout
 }
