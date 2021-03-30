@@ -1,0 +1,62 @@
+<div class="row toogle mb-1 align-items-center" [attr.aria-expanded]="!isCollapsed1">
+    <div class="col">SHIPPING & BILLING DETAILS</div>
+    <div class="col text-right">
+        Tell us where to deliver
+        <ng-container *ngIf="isCollapsed1">
+            <i class="fas fa-plus"></i>
+        </ng-container>
+        <ng-container *ngIf="!isCollapsed1">
+            <i class="fas fa-minus"></i>
+        </ng-container>
+    </div>
+</div>
+<div #collapse1="ngbCollapse" [(ngbCollapse)]="isCollapsed1">
+    <div class="card">
+        <div class="card-body">
+            <form>
+                <div class="form-group row">
+                    <label for="Name" class="col-sm-2 col-form-label">Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="Name" placeholder="e.g Virat Kohli" [(ngModel)]="userName" [ngModelOptions]="{ standalone: true }" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="MobileNumber" class="col-sm-2 col-form-label">Mobile Number</label>
+                    <div class="col-sm-10">
+                        <input type="number" minlength="9" class="form-control" id="MobileNumber" placeholder="9934*****1" [(ngModel)]="mobileNumber" [ngModelOptions]="{ standalone: true }" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="Pincode" class="col-sm-2 col-form-label">Pincode</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" id="Pincode" placeholder="400039" [(ngModel)]="pincode" [ngModelOptions]="{ standalone: true }" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="Address" class="col-sm-2 col-form-label">Address</label>
+                    <div class="col-sm-10">
+                        <textarea style="resize: none;" type="text" rows="2" class="form-control mb-2" placeholder="House Number, Building Name, Society, Area, Road, Landmark" [(ngModel)]="address" [ngModelOptions]="{ standalone: true }"></textarea>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" placeholder="City" id="City" [(ngModel)]="city" [ngModelOptions]="{ standalone: true }" />
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" placeholder="State" id="State" [(ngModel)]="state" [ngModelOptions]="{ standalone: true }" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <input type="text" readonly class="form-control" id="Country" value="India" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <button type="submit" class="btn p-2 w-100 pt-3 pb-3" id="button" (click)="userBillingDetails(collapse1)">Save & Continue</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

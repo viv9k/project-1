@@ -35,6 +35,9 @@ import { ProductCardComponent } from './body/home/product-card/product-card.comp
 import { CartComponent } from './body/cart/cart.component';
 import { FooterComponent } from './footer/footer.component';
 import { CheckoutComponent } from './body/checkout/checkout.component';
+import { BillingFormComponent } from './body/checkout/billing-form/billing-form.component';
+import { OrderSummaryComponent } from './body/checkout/order-summary/order-summary.component';
+import { PaymentDetailsComponent } from './body/checkout/payment-details/payment-details.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,6 +59,9 @@ import { CheckoutComponent } from './body/checkout/checkout.component';
     CartComponent,
     FooterComponent,
     CheckoutComponent,
+    BillingFormComponent,
+    OrderSummaryComponent,
+    PaymentDetailsComponent,
   ],
   imports: [
     BrowserModule,

@@ -14,70 +14,54 @@ exports.cart = functions.https.onRequest((request, response) => {
     cors(request, response, () => {
         const data = request.body.data;
         console.log(data);
-        const promise1 = db
-            .collection("Users")
-            .doc(data.UserUid)
-            .get()
-            .then((doc) => {
-                if (doc.exists) {
-                    if (data.Mode === "ADD_TO_CART") {
-                        if (doc.data().Cart.length) {
-                            const cart = doc.data().Cart;
-                            cart.forEach((item, index) => {
-                                if (data.Product.Id === item.Product.Id) {
-                                    if (index > -1) {
-                                        cart.splice(index, 1);
-                                    }
+        const promise1 = db.collection("Users").doc(data.UserUid).get().then((doc) => {
+            if (doc.exists) {
+                if (data.Mode === "ADD_TO_CART") {
+                    if (doc.data().Cart.length) {
+                        const cart = doc.data().Cart;
+                        cart.forEach((item, index) => {
+                            if (data.Product.Id === item.Product.Id) {
+                                if (index > -1) {
+                                    cart.splice(index, 1);
                                 }
-                            });
-                            const cartObjectData = {
-                                Product: data.Product,
-                                Quantity: data.ProductQuantity,
-                            };
-                            cart.push(cartObjectData);
-                            const p1 = db
-                                .collection("Users")
-                                .doc(data.UserUid)
-                                .update({ Cart: cart });
-                            return Promise.resolve(p1);
-                        } else {
-                            const cart = [];
-                            const cartObjectData = {
-                                Product: data.Product,
-                                Quantity: data.ProductQuantity,
-                            };
-                            cart.push(cartObjectData);
-                            const p2 = db
-                                .collection("Users")
-                                .doc(data.UserUid)
-                                .update({ Cart: cart });
-                            return Promise.resolve(p2);
-                        }
-                    }
-                    if (data.Mode === "UPDATE_QUANTITY") {
-                        const cart = doc.data().Cart;
-                        const index = data.Index;
-                        cart[index].Quantity = data.Quantity;
-                        const p3 = db
-                            .collection("Users")
-                            .doc(data.UserUid)
-                            .update({ Cart: cart });
-                        return Promise.resolve(p3);
-                    }
-                    if (data.Mode === "DELETE_PRODUCT_FROM_CART") {
-                        const cart = doc.data().Cart;
-                        const index = data.Index;
-                        if (index > -1) {
-                            cart.splice(index, 1);
-                        }
-                        const p4 = db
-                            .collection("Users")
-                            .doc(data.UserUid)
-                            .update({ Cart: cart });
-                        return Promise.resolve(p4);
+                            }
+                        });
+                        const cartObjectData = {
+                            Product: data.Product,
+                            Quantity: data.ProductQuantity,
+                        };
+                        cart.push(cartObjectData);
+                        const p1 = db.collection("Users").doc(data.UserUid).update({ Cart: cart });
+                        return Promise.resolve(p1);
+                    } else {
+                        const cart = [];
+                        const cartObjectData = {
+                            Product: data.Product,
+                            Quantity: data.ProductQuantity,
+                        };
+                        cart.push(cartObjectData);
+                        const p2 = db.collection("Users").doc(data.UserUid).update({ Cart: cart });
+                        return Promise.resolve(p2);
                     }
                 }
-            });
+                if (data.Mode === "UPDATE_QUANTITY") {
+                    const cart = doc.data().Cart;
+                    const index = data.Index;
+                    cart[index].Quantity = data.Quantity;
+                    const p3 = db.collection("Users").doc(data.UserUid).update({ Cart: cart });
+                    return Promise.resolve(p3);
+                }
+                if (data.Mode === "DELETE_PRODUCT_FROM_CART") {
+                    const cart = doc.data().Cart;
+                    const index = data.Index;
+                    if (index > -1) {
+                        cart.splice(index, 1);
+                    }
+                    const p4 = db.collection("Users").doc(data.UserUid).update({ Cart: cart });
+                    return Promise.resolve(p4);
+                }
+            }
+        });
         Promise.resolve(promise1)
             .then(() => {
                 const result = { data: "Added/Deleted Product to Cart Successfully" };

@@ -47,6 +47,7 @@ exports.createNewUser = functions.https.onRequest((request, response) => {
                     providerId: ProviderId,
                     admin: false,
                     Cart: [],
+                    BillingDetails: {},
                 });
                 return Promise.resolve(userData);
             }
