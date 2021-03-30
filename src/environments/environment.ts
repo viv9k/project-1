@@ -7,7 +7,7 @@ export const environment = {
   firebase: {
 
   },
-  useEmulators: true
+  useEmulators: false
 };
 
 /*

@@ -31,7 +31,7 @@ export class BackendService {
       if (productId) {
         queryRef = queryRef.where("Id", "==", productId)
       }
-      queryRef = queryRef.orderBy("Id")
+      // queryRef = queryRef.orderBy("Id")
       return queryRef
     });
     this.productData = this.productCollection.snapshotChanges().pipe(

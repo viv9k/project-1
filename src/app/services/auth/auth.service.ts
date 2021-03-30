@@ -73,6 +73,7 @@ export class AuthService {
   }
 
   readData(uid?: string) {
+    console.log(uid);
     this.userCollection = this.db.collection<UserCart>("Users", ref => {
       let queryRef: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
       if (uid) {

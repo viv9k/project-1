@@ -1,8 +1,11 @@
+/* eslint-disable eol-last */
+/* eslint-disable object-curly-spacing */
+/* eslint-disable indent */
+/* eslint-disable max-len */
 const functions = require("firebase-functions");
 const cors = require("cors")({ origin: true });
 
 const admin = require("firebase-admin");
-const e = require("cors");
 
 const db = admin.firestore();
 
@@ -13,7 +16,7 @@ exports.checkout = functions.https.onRequest((request, response) => {
         const promise1 = db.collection("Users").doc(data.UserUid).get().then((doc) => {
             if (doc.exists) {
                 if (data.Mode === "UPDATE_BILLING_DETAILS") {
-                    let BillingDetailObject = {
+                    const BillingDetailObject = {
                         UserName: data.UserName,
                         MobileNumber: data.MobileNumber,
                         Pincode: data.Pincode,
@@ -21,20 +24,19 @@ exports.checkout = functions.https.onRequest((request, response) => {
                         City: data.City,
                         State: data.State,
                         Country: "India",
-                    }
+                    };
                     const p1 = db.collection("Users").doc(data.UserUid).update({
-                        BillingDetails: BillingDetailObject
+                        BillingDetails: BillingDetailObject,
                     });
                     return Promise.resolve(p1);
                 }
                 if (data.Mode === "PLACE_ORDER") {
                     if (!doc.data().Orders.length) {
-                        let orders = [];
-                        orders.push(doc.data().cart)
+                        const orders = [];
+                        orders.push(doc.data().cart);
                     } else {
-                        //To Be Done
+                        // To Be Done
                     }
-                    let cart = doc.data().Cart;
                 }
             }
         });

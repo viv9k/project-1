@@ -1,3 +1,8 @@
+/* eslint-disable object-curly-spacing */
+/* eslint-disable eol-last */
+/* eslint-disable indent */
+/* eslint-disable max-len */
+
 const functions = require("firebase-functions");
 const cors = require("cors")({ origin: true });
 
@@ -13,7 +18,7 @@ exports.cart = functions.https.onRequest((request, response) => {
             if (doc.exists) {
                 if (data.Mode === "ADD_TO_CART") {
                     if (doc.data().Cart.length) {
-                        let cart = doc.data().Cart;
+                        const cart = doc.data().Cart;
                         cart.forEach((item, index) => {
                             if (data.Product.Id === item.Product.Id) {
                                 if (index > -1) {
@@ -21,7 +26,7 @@ exports.cart = functions.https.onRequest((request, response) => {
                                 }
                             }
                         });
-                        let cartObjectData = {
+                        const cartObjectData = {
                             Product: data.Product,
                             Quantity: data.ProductQuantity,
                         };
@@ -29,8 +34,8 @@ exports.cart = functions.https.onRequest((request, response) => {
                         const p1 = db.collection("Users").doc(data.UserUid).update({ Cart: cart });
                         return Promise.resolve(p1);
                     } else {
-                        let cart = [];
-                        let cartObjectData = {
+                        const cart = [];
+                        const cartObjectData = {
                             Product: data.Product,
                             Quantity: data.ProductQuantity,
                         };
@@ -40,15 +45,15 @@ exports.cart = functions.https.onRequest((request, response) => {
                     }
                 }
                 if (data.Mode === "UPDATE_QUANTITY") {
-                    let cart = doc.data().Cart;
-                    let index = data.Index;
+                    const cart = doc.data().Cart;
+                    const index = data.Index;
                     cart[index].Quantity = data.Quantity;
                     const p3 = db.collection("Users").doc(data.UserUid).update({ Cart: cart });
                     return Promise.resolve(p3);
                 }
                 if (data.Mode === "DELETE_PRODUCT_FROM_CART") {
-                    let cart = doc.data().Cart;
-                    let index = data.Index;
+                    const cart = doc.data().Cart;
+                    const index = data.Index;
                     if (index > -1) {
                         cart.splice(index, 1);
                     }
