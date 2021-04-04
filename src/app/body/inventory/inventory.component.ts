@@ -14,6 +14,7 @@ export class InventoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.backendService.readRawData()
+    this.backendService.readCategoryData()
   }
   toggleSideNav() {
     this.showSideNav = !this.showSideNav

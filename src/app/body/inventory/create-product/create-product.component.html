@@ -25,6 +25,16 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label class="col-4 col-form-label">Category</label>
+                    <div class="col-8">
+                        <select class="input" [(ngModel)]="productCategory" [ngModelOptions]="{standalone: true}">
+                            <ng-container *ngFor="let item of categories">
+                                <option>{{item.Name}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label class="col-4 col-form-label">Details</label>
                     <div class="col-8">
                         <div *ngFor="let num of productDetails; let i=index">

@@ -11,8 +11,6 @@ const admin = require("firebase-admin");
 const db = admin.firestore();
 // const auth = admin.auth();
 
-const userWelcomeEmailAPI = require("./userWelcomeEmailAPI");
-
 exports.createNewUser = functions.https.onRequest((request, response) => {
     cors(request, response, () => {
         const user = request.body.data;
@@ -22,10 +20,10 @@ exports.createNewUser = functions.https.onRequest((request, response) => {
         const Email = user.email;
         const PhoneNumber = user.phoneNumber;
         const ProviderId = user.providerId;
-        if (Email === process.env.ADMIN_EMAIL) {
-            console.log("Made Admin Successfully");
-            // auth.setCustomUserClaims(Uid, { admin: true });
-        }
+        // if (Email === process.env.ADMIN_EMAIL) {
+        //     console.log("Made Admin Successfully");
+        //     auth.setCustomUserClaims(Uid, { admin: true });
+        // }
         const promise1 = db.collection("Users").doc(Uid).get().then((doc) => {
             if (doc.exists) {
                 const userData = db.collection("Users").doc(Uid).update({
@@ -48,6 +46,7 @@ exports.createNewUser = functions.https.onRequest((request, response) => {
                     admin: false,
                     Cart: [],
                     BillingDetails: {},
+                    Orders: [],
                 });
                 return Promise.resolve(userData);
             }
@@ -66,6 +65,8 @@ exports.createNewUser = functions.https.onRequest((request, response) => {
                             TotalNumberOfProducts: 0,
                             TotalNumberOfUsers: 1,
                             TotalNumberOfOrders: 0,
+                            TotalNumberOfCategories: 0,
+                            TotalNumberOfBanners: 0,
                         });
                     }
                 });
@@ -76,8 +77,6 @@ exports.createNewUser = functions.https.onRequest((request, response) => {
         return Promise.all(Promises).then(() => {
                 const result = { data: "User Logged In Successfully" };
                 console.log("User Logged In Successfully");
-
-                userWelcomeEmailAPI.userWelcomeEmailApi(Email);
                 return response.status(200).send(result);
             })
             .catch((error) => {

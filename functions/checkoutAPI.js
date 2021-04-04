@@ -31,12 +31,28 @@ exports.checkout = functions.https.onRequest((request, response) => {
                     return Promise.resolve(p1);
                 }
                 if (data.Mode === "PLACE_ORDER") {
-                    if (!doc.data().Orders.length) {
-                        const orders = [];
-                        orders.push(doc.data().cart);
-                    } else {
-                        // To Be Done
-                    }
+                    const promises = [];
+                    const p2 = db.collection("RawData").doc("AppDetails").get().then((doc) => {
+                        const totalNumberofOrders = doc.data().TotalNumberOfOrders + 1;
+                        const orderId = "O" + totalNumberofOrders;
+                        const p3 = db.collection("Users").doc(data.UserUid).get().then((doc) => {
+                            const contents = doc.data().Cart;
+                            const orders = doc.data().Orders;
+                            orders.push(orderId);
+                            db.collection("Users").doc(data.UserUid).update({
+                                Orders: orders,
+                                Cart: [],
+                            });
+                            const p4 = db.collection("Orders").doc(orderId).set({
+                                Id: orderId,
+                                ProductInfo: contents,
+                            });
+                            promises.push(p4);
+                        });
+                        promises.push(p3);
+                        return Promise.all(promises);
+                    });
+                    return Promise.resolve(p2);
                 }
             }
         });

@@ -26,6 +26,7 @@ exports.product = functions.https.onRequest((request, response) => {
                         Id: productId,
                         Name: product.Name,
                         Description: product.Description,
+                        Category: product.Category,
                         ActualPrice: product.ActualPrice,
                         DiscountPrice: product.DiscountPrice,
                         DiscountPercent: product.DiscountPercent,
@@ -91,6 +92,7 @@ exports.product = functions.https.onRequest((request, response) => {
                     const p1 = db.collection("Products").doc(product.ProductId).update({
                         Name: product.Name,
                         Description: product.Description,
+                        Category: product.Category,
                         ActualPrice: product.ActualPrice,
                         DiscountPrice: product.DiscountPrice,
                         Availability: product.Availability,
@@ -98,6 +100,11 @@ exports.product = functions.https.onRequest((request, response) => {
                         DiscountPercent: product.DiscountPercent,
                         Sku: product.Sku,
                         Stock: product.Stock,
+                    });
+                    promises.push(p1);
+                } else if (product.Mode === "UPDATE_PRODUCT_CATEGORY") {
+                    const p1 = db.collection("Products").doc(product.ProductId).update({
+                        Category: product.Category,
                     });
                     promises.push(p1);
                 } else if (product.Mode === "ADD_TAG") {

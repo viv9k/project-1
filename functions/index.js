@@ -10,3 +10,5 @@ exports.createNewUser = require("./createNewUserAPI").createNewUser;
 exports.product = require("./ProductAPI").product;
 exports.cart = require("./cartAPI").cart;
 exports.checkout = require("./checkoutAPI").checkout;
+exports.category = require("./categoryAPI").category;
+exports.banner = require("./bannerAPI").banner;

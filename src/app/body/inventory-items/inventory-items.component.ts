@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Router } from '@angular/router';
+import { Category } from 'src/app/Interface/CategoryInterface';
 import { ProductId } from 'src/app/Interface/ProductInterface';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { BackendService } from 'src/app/services/backend/backend.service';
@@ -40,7 +41,7 @@ export class InventoryItemsComponent implements OnInit {
         Mode: "UPDATE_PRODUCT", ProductId: product.Id, Name: product.Name, Description: product.Description,
         Availability: product.Availability, ActualPrice: product.ActualPrice, DiscountPrice: product.DiscountPrice,
         DiscountPercent: product.DiscountPercent, Visibility: product.Visibility,
-        Sku: product.Sku, Stock: product.Stock
+        Sku: product.Sku, Stock: product.Stock, Category: product.Category
       }).toPromise();
       this.toastService.show('Successfully Updated the Product', { classname: 'bg-warning text-dark' });
       console.log(result);
@@ -108,6 +109,17 @@ export class InventoryItemsComponent implements OnInit {
     }
     catch (error) {
 
+    }
+  }
+  async onSetCategory(product: ProductId, category: Category) {
+    const callable = this.functions.httpsCallable('product');
+    try {
+      const result = await callable({
+        Mode: "UPDATE_PRODUCT_CATEGORY", ProductId: product.Id, Category: category.Name
+      }).toPromise();
+      this.toastService.show('Successfully Updated the Product Category', { classname: 'bg-warning text-dark' });
+      console.log(result);
+    } catch (error) {
     }
   }
 }

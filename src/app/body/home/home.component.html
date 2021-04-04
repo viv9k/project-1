@@ -2,13 +2,13 @@
     <div class="row">
         <div class="col-8">
             <ngb-carousel #carousel [interval]="3000" [pauseOnHover]="true">
-                <ng-template ngbSlide *ngFor="let img of images; index as i">
+                <ng-template ngbSlide *ngFor="let item of backendService.bannerData | async;let i=index;">
                     <div class="carousel-caption">
-                        <h3>My slide {{i + 1}} title</h3>
+                        <h3>{{item.Description}}</h3>
                     </div>
-                    <a href="https://www.google.fr/?q=Number+{{i+1}}" target="_blank" rel="nofollow noopener noreferrer">
+                    <a [routerLink]="item.Link">
                         <div class="picsum-img-wrapper">
-                            <img [src]="img" class="img-fluid" alt="My image {{i + 1}} description">
+                            <img [src]="item.DownloadURL" class="img-fluid" alt="{{item.Link}}">
                         </div>
                     </a>
                 </ng-template>
@@ -31,12 +31,19 @@
             </div>
         </div>
     </div>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 align-items-center justify-content-center">
-        <ng-container *ngFor="let item of backendService.productData | async ">
-            <div class="col mb-4 h-100" *ngIf="item.Visibility==='Show'">
-                <app-product-card [item]="item"></app-product-card>
+    <ng-container *ngFor="let category of backendService.categoryData | async ">
+        <div class="row">
+            <div class="col">
+                <h1 class="font-weight-bold m-0">{{category.Name}}</h1>
             </div>
-        </ng-container>
-    </div>
+        </div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 align-items-center justify-content-center">
+            <ng-container *ngFor="let item of backendService.productData | async ">
+                <div class="col mb-4 h-100" *ngIf="item.Visibility==='Show'&& item.Category===category.Name">
+                    <app-product-card [item]="item"></app-product-card>
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
 </div>
-<app-loader *ngIf="!(backendService.productData | async)"></app-loader>
+<app-loader [showInDiv]="true" *ngIf="!(backendService.productData | async)"></app-loader>

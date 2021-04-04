@@ -2,6 +2,8 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Category } from 'src/app/Interface/CategoryInterface';
+import { BackendService } from 'src/app/services/backend/backend.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 @Component({
   selector: 'app-create-product',
@@ -17,12 +19,22 @@ export class CreateProductComponent implements OnInit {
     public functions: AngularFireFunctions,
     private modalService: NgbModal,
     private toastService: ToastService,
-    private router: Router) { }
+    private router: Router,
+    public backendService: BackendService,
+  ) { }
   ngOnInit(): void {
     for (let index = 0; index < 1; index++) {
       let obj = { field: "", value: "" };
       this.productDetails[index] = obj
     }
+    this.backendService.categoryData.subscribe(data => {
+      if (!data.length) {
+        this.showWarning = true
+      }
+      else {
+        this.categories = data
+      }
+    })
   }
 
   enableLoader: boolean = false
@@ -30,6 +42,7 @@ export class CreateProductComponent implements OnInit {
 
   productName: string
   productDescription: string = ""
+  productCategory: string
   productActualPrice: number
   productDiscountPrice: number
   productDiscountPercent: number
@@ -39,9 +52,16 @@ export class CreateProductComponent implements OnInit {
   productStock: string
   productTags: string
   productDetails: { field: string, value: string }[] = []
+  showWarning: boolean = false
+  categories: Category[] = []
 
   openModal(content) {
-    this.modalService.open(content, { size: 'xl', windowClass: 'dark-modal', backdrop: "static", scrollable: true });
+    if (this.showWarning) {
+      return this.toastService.show('Add atleast 1 Category', { classname: 'bg-warning text-dark' });
+    }
+    else {
+      return this.modalService.open(content, { size: 'xl', windowClass: 'dark-modal', backdrop: "static", scrollable: true });
+    }
   }
 
   isHovering: boolean;
@@ -79,7 +99,7 @@ export class CreateProductComponent implements OnInit {
         Availability: this.productAvailability, ActualPrice: this.productActualPrice,
         DiscountPrice: this.productDiscountPrice, DiscountPercent: this.productDiscountPercent,
         Visibility: this.productVisibility, Tags: productTagsArray, Sku: this.productSku, Stock: this.productStock,
-        Details: this.productDetails
+        Details: this.productDetails, Category: this.productCategory
       }).toPromise();
       this.toastService.show('Successfully Created the Product', { classname: 'bg-success text-light' });
       console.log(result);

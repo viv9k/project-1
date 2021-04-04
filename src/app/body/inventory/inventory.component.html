@@ -1,11 +1,18 @@
 <ng-container *ngIf="(backendService.rawDataObservable | async) && authService.showAdminPanel">
     <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-12 mt-2 mb-2">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-4 mt-2 mb-2">
                 <app-create-product [productCount]="backendService.rawData.TotalNumberOfProducts + 1"></app-create-product>
+            </div>
+            <div class="col-4 mt-2 mb-2">
+                <app-category></app-category>
+            </div>
+            <div class="col-4 mt-2 mb-2">
+                <app-banner></app-banner>
             </div>
         </div>
     </div>
+    <hr/>
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-12" type="button" (click)="showProducts()">

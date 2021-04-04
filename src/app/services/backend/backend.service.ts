@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, AngularFirestoreCollectionGroup } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { ProductId } from '../../Interface/ProductInterface';
+import { Category } from '../../Interface/CategoryInterface';
+import { Banner } from '../../Interface/BannerInterface';
 import { map } from 'rxjs/internal/operators/map';
 import { Main } from '../../Interface/RawInterface';
 import { Order } from '../../Interface/OrderInterface';
@@ -17,6 +19,12 @@ export class BackendService {
 
   orderCollection: AngularFirestoreCollection<Order>
   orderData: Observable<Order[]>
+
+  categoryCollection: AngularFirestoreCollection<Category>
+  categoryData: Observable<Category[]>
+
+  bannerCollection: AngularFirestoreCollection<Banner>
+  bannerData: Observable<Banner[]>
 
   rawDataObservable: Observable<Main>;
   rawDocument: AngularFirestoreDocument<Main>;
@@ -53,6 +61,28 @@ export class BackendService {
     this.orderData = this.orderCollection.snapshotChanges().pipe(
       map(actions => actions.map(a => {
         const data = a.payload.doc.data() as Order;
+        const Id = a.payload.doc.id;
+        return { Id, ...data };
+      }))
+    );
+  }
+
+  readCategoryData() {
+    this.categoryCollection = this.db.collection<Category>("Category", ref => ref.orderBy("Position"));
+    this.categoryData = this.categoryCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Category;
+        const Id = a.payload.doc.id;
+        return { Id, ...data };
+      }))
+    );
+  }
+
+  readBannerData() {
+    this.bannerCollection = this.db.collection<Banner>("Banner", ref => ref.orderBy("UploadTime"));
+    this.bannerData = this.bannerCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Banner;
         const Id = a.payload.doc.id;
         return { Id, ...data };
       }))
