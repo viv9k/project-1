@@ -1,7 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { Router } from '@angular/router';
-import { ProductId } from 'src/app/Interface/ProductInterface';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { BackendService } from 'src/app/services/backend/backend.service';
 
@@ -15,7 +14,7 @@ export class CartComponent implements OnInit {
   showProceedMenu: boolean = false
   totalDisountPrice: number = 0
   totalActualPrice: number = 0
-
+  cartLength: number = 0
   constructor(
     public backendService: BackendService,
     public authService: AuthService,
@@ -24,6 +23,11 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.calculateTotalPrice()
+    if (this.authService.userData) {
+      this.authService.userData.subscribe(data => {
+        this.cartLength = data[0].Cart.length;
+      })
+    }
   }
   navigateToCheckout() {
     this.router.navigate(["Cart/Checkout"]);

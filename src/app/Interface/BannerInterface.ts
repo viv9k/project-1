@@ -6,3 +6,8 @@ export interface Banner extends Image {
     Link: string;
     Description: string;
 }
+
+export interface SideBanner extends Image {
+    Id: string;
+    UploadTime: number;
+}

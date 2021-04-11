@@ -1,15 +1,11 @@
 <div class="container" *ngIf="authService.user">
     <div class="row">
         <div class="col-12 col-md-8">
+            <ng-container *ngIf="cartLength>0">
+                <h5 class="font-weight-bolder">IN YOUR CART</h5>
+            </ng-container>
             <div class="row">
                 <div class="col" *ngFor="let item of authService.userData | async">
-                    <ng-container *ngIf="item.Cart.length===0">
-                        <h1>Your Shopping Cart Is Empty</h1>
-                        <a [routerLink]="['']">Continue Shopping</a>
-                    </ng-container>
-                    <ng-container *ngIf="item.Cart.length>0">
-                        <h5 class="font-weight-bolder">IN YOUR CART</h5>
-                    </ng-container>
                     <ng-container *ngFor="let cart of item.Cart;let i=index">
                         <div class="card mb-2">
                             <div class="row justify-content-center align-items-center">
@@ -30,16 +26,16 @@
                                     <p class="m-0">Quantity</p>
                                     <div class="row align-items-center justify-content-center">
                                         <div class="col-2">
-                                            <a class="social" (click)="incrementQuantity(cart.Quantity,i,item.uid)">
-                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                            <a class="social" (click)="decrementQuantity(cart.Quantity,i,item.uid)">
+                                                <i class="fa fa-minus" aria-hidden="true"></i>
                                             </a>
                                         </div>
                                         <div class="col-3">
                                             <p class="m-0 border border-dark text-center p-1">{{cart.Quantity}}</p>
                                         </div>
                                         <div class="col-2">
-                                            <a class="social" (click)="decrementQuantity(cart.Quantity,i,item.uid)">
-                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                            <a class="social" (click)="incrementQuantity(cart.Quantity,i,item.uid)">
+                                                <i class="fa fa-plus" aria-hidden="true"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -69,7 +65,6 @@
                         </div>
                         <div class="row">
                             <div class="col-6">Retail Discount</div>
-
                             <div class="col-6">
                                 <p class="m-0">-{{totalActualPrice-totalDisountPrice |currency:"INR"}}</p>
                             </div>
@@ -104,10 +99,21 @@
         </div>
     </div>
 </div>
-<div class="container" *ngIf="!authService.user">
-    <div class="row">
-        <div class="col">
-            <h5>Login to Check Your Cart</h5>
+<div class="container noUser" *ngIf="authService.user">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-12 noUserContent text-center">
+            <ng-container *ngIf="cartLength===0 && authService.user">
+                <h1>Your Shopping Cart Is Empty</h1>
+                <a [routerLink]="['']">Continue Shopping</a>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<div class="container noUser" *ngIf="!authService.user">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-12 noUserContent text-center">
+            <app-login [link]="true" [text]="'Login to Check Your Cart'"></app-login>
         </div>
     </div>
 </div>

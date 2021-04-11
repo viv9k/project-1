@@ -32,9 +32,9 @@ export class CheckoutComponent implements OnInit {
           data[0].Cart.map((item) => {
             this.totalDisountPrice += item.Product.DiscountPrice * item.Quantity
             this.totalActualPrice += item.Product.ActualPrice * item.Quantity
-          })
+          });
         }
-      })
+      });
     }
   }
 

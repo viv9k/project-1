@@ -1,8 +1,14 @@
 <!--Product Modal -->
-<button type="button" id="button1" class="btn nav-link" (click)="openModal(template)">
+<ng-container *ngIf="link">
+    <a (click)="openModal(template)"><i class="fas fa-user"></i> {{text}}</a>
+</ng-container>
+<ng-container *ngIf="!link">
+    <button type="button" id="button1" class="btn nav-link" (click)="openModal(template)">
     <i class="fas fa-user"></i>
   Profile
 </button>
+</ng-container>
+
 <ng-template #template let-modal>
     <div class="modal-body">
         <div class="container">

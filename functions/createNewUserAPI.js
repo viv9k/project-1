@@ -48,7 +48,6 @@ exports.createNewUser = functions.https.onRequest((request, response) => {
                     admin: false,
                     Cart: [],
                     BillingDetails: {},
-                    Orders: [],
                 });
                 return Promise.resolve(userData);
             }
@@ -69,6 +68,7 @@ exports.createNewUser = functions.https.onRequest((request, response) => {
                             TotalNumberOfOrders: 0,
                             TotalNumberOfCategories: 0,
                             TotalNumberOfBanners: 0,
+                            TotalNumberOfSideBanners: 0,
                         });
                     }
                 });

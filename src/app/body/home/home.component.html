@@ -1,45 +1,42 @@
 <div class="container">
     <div class="row">
-        <div class="col-8">
-            <ngb-carousel #carousel [interval]="3000" [pauseOnHover]="true">
-                <ng-template ngbSlide *ngFor="let item of backendService.bannerData | async;let i=index;">
+        <div class="col-12 col-md-8">
+            <ngb-carousel #carousel [interval]="3000" [pauseOnHover]="true" *ngIf="showBanner">
+                <ng-template ngbSlide *ngFor="let item of backendService.bannerData | async; let i = index">
                     <div class="carousel-caption">
-                        <h3>{{item.Description}}</h3>
+                        <h3>{{ item.Description }}</h3>
                     </div>
                     <a [routerLink]="item.Link">
                         <div class="picsum-img-wrapper">
-                            <img [src]="item.DownloadURL" class="img-fluid" alt="{{item.Link}}">
+                            <img [src]="item.DownloadURL" class="img-fluid" alt="{{ item.Link }}" />
                         </div>
                     </a>
                 </ng-template>
             </ngb-carousel>
         </div>
-        <div class="col-4">
-            <div class="card mb-2">
-                <div class="row align-items-center justify-content-center">
-                    <div class="col">
-                        <img src="https://ii1.pepperfry.com/media/wysiwyg/banners/FixedHeroBanner01_2x_15032021.jpg" class="img-fluid" alt="Random slide" />
+        <div class="col-12 col-md-4">
+            <ng-container *ngFor="let item of backendService.sideBannerData | async">
+                <div class="card mb-2">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col">
+                            <img [src]="item.DownloadURL" class="img-fluid" alt="Random slide" />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card mb-2">
-                <div class="row align-items-center justify-content-center">
-                    <div class="col">
-                        <img src="https://ii2.pepperfry.com/media/wysiwyg/banners/FixedHeroBanner02_2x_15032021.jpg" class="img-fluid" alt="Random slide" />
-                    </div>
-                </div>
-            </div>
+            </ng-container>
         </div>
     </div>
-    <ng-container *ngFor="let category of backendService.categoryData | async ">
+    <ng-container *ngFor="let category of backendService.categoryData | async">
         <div class="row">
             <div class="col">
-                <h1 class="font-weight-bold m-0">{{category.Name}}</h1>
+                <hr/>
+                <h1 class="font-weight-bold m-0">{{ category.Name }}</h1>
+                <hr/>
             </div>
         </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 align-items-center justify-content-center">
-            <ng-container *ngFor="let item of backendService.productData | async ">
-                <div class="col mb-4 h-100" *ngIf="item.Visibility==='Show'&& item.Category===category.Name">
+            <ng-container *ngFor="let item of backendService.productData | async">
+                <div class="col mb-4 h-100" *ngIf="item.Visibility === 'Show' && item.Category === category.Name">
                     <app-product-card [item]="item"></app-product-card>
                 </div>
             </ng-container>

@@ -23,6 +23,6 @@ export class InventoryComponent implements OnInit {
     this.router.navigate(["Inventory/Items"]);
   }
   showOrders() {
-
+    this.router.navigate(["Inventory/Orders"]);
   }
 }

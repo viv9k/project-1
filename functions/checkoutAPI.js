@@ -14,46 +14,49 @@ exports.checkout = functions.https.onRequest((request, response) => {
         const data = request.body.data;
         console.log(data);
         const promise1 = db.collection("Users").doc(data.UserUid).get().then((doc) => {
-            if (doc.exists) {
-                if (data.Mode === "UPDATE_BILLING_DETAILS") {
-                    const BillingDetailObject = {
-                        UserName: data.UserName,
-                        MobileNumber: data.MobileNumber,
-                        Pincode: data.Pincode,
-                        Address: data.Address,
-                        City: data.City,
-                        State: data.State,
-                        Country: "India",
-                    };
-                    const p1 = db.collection("Users").doc(data.UserUid).update({
-                        BillingDetails: BillingDetailObject,
-                    });
-                    return Promise.resolve(p1);
-                }
-                if (data.Mode === "PLACE_ORDER") {
-                    const promises = [];
-                    const p2 = db.collection("RawData").doc("AppDetails").get().then((doc) => {
-                        const totalNumberofOrders = doc.data().TotalNumberOfOrders + 1;
-                        const orderId = "O" + totalNumberofOrders;
-                        const p3 = db.collection("Users").doc(data.UserUid).get().then((doc) => {
-                            const contents = doc.data().Cart;
-                            const orders = doc.data().Orders;
-                            orders.push(orderId);
-                            db.collection("Users").doc(data.UserUid).update({
-                                Orders: orders,
-                                Cart: [],
-                            });
-                            const p4 = db.collection("Orders").doc(orderId).set({
-                                Id: orderId,
-                                ProductInfo: contents,
-                            });
-                            promises.push(p4);
+            if (data.Mode === "UPDATE_BILLING_DETAILS") {
+                const BillingDetailObject = {
+                    UserName: data.UserName,
+                    MobileNumber: data.MobileNumber,
+                    Pincode: data.Pincode,
+                    Address: data.Address,
+                    City: data.City,
+                    State: data.State,
+                    Country: "India",
+                };
+                const p1 = db.collection("Users").doc(data.UserUid).update({
+                    BillingDetails: BillingDetailObject,
+                });
+                return Promise.resolve(p1);
+            }
+            if (data.Mode === "PLACE_ORDER") {
+                const p2 = db.collection("RawData").doc("AppDetails").get().then((doc) => {
+                    const totalNumberofOrders = doc.data().TotalNumberOfOrders + 1;
+                    const orderId = "O" + totalNumberofOrders;
+                    const p3 = db.collection("Users").doc(data.UserUid).get().then((doc) => {
+                        const contents = doc.data().Cart;
+                        const p4 = db.collection("Users").doc(data.UserUid).update({
+                            Cart: [],
                         });
-                        promises.push(p3);
-                        return Promise.all(promises);
+                        const p5 = db.collection("Orders").doc(orderId).set({
+                            Id: orderId,
+                            ProductInfo: contents,
+                            UserUid: data.UserUid,
+                            TotalNumberOfProducts: contents.length,
+                            TotalActualPrice: data.TotalActualPrice,
+                            TotalDisountPrice: data.TotalDisountPrice,
+                            Date: data.Date,
+                            Status: "Ordered"
+                        });
+                        const p6 = db.collection("RawData").doc("AppDetails").update({
+                            TotalNumberOfOrders: totalNumberofOrders,
+                        })
+                        return Promise.all([p4, p5, p6]);
+
                     });
-                    return Promise.resolve(p2);
-                }
+                    return Promise.resolve(p3);
+                });
+                return Promise.resolve(p2);
             }
         });
         Promise.resolve(promise1)

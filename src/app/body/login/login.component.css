@@ -57,3 +57,12 @@ input {
     color: white;
     cursor: pointer;
 }
+
+a {
+    color: #969696;
+}
+
+a:hover {
+    cursor: pointer;
+    color: #977552;
+}

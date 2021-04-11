@@ -58,6 +58,11 @@
 } */
 
 .field {
+    color: #111111;
+    font-size: 0.9rem;
+}
+
+.value {
     color: #969696;
 }
 
@@ -86,6 +91,16 @@
     border: 1px solid black;
     background-color: #977552;
     padding: 0.8rem 4.5rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+#buyButton {
+    border: 1px solid black;
+    background-color: #978552;
+    padding: 0.8rem 4.5rem;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 @media only screen and (max-width: 600px) {

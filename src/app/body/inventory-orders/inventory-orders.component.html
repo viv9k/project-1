@@ -1,0 +1,115 @@
+<div class="container-fluid" *ngIf="authService.showAdminPanel">
+    <div class="row">
+        <div class="col table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Order Id</th>
+                        <th scope="col">Product Info</th>
+                        <th scope="col">TotalActualPrice</th>
+                        <th scope="col">TotalDisountPrice</th>
+                        <th scope="col">TotalNumberOfProducts</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">UserUid</th>
+                        <th scope="col"># menu1</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of backendService.orderData | async ">
+                        <tr class="justify-content-center align-items-center">
+                            <td>
+                                <input type="text" min="0" class="input" value="{{item.Id}}" readonly />
+                            </td>
+                            <td>
+                                <button type="button" id="button" class="btn" (click)="openModal(template)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </button>
+                                <ng-template #template let-modal>
+                                    <div class="modal-header">
+                                        <h5 class="modal-title pull-left">Products </h5>
+                                        <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container-fluid">
+                                            <div class="form-group row align-items-center justify-content-center">
+                                                <ng-container *ngFor="let item of backendService.orderData | async">
+                                                    <ng-container *ngFor="let product of item.ProductInfo;let i=index">
+                                                        <div class="card mb-2">
+                                                            <div class="row justify-content-center align-items-center">
+                                                                <div class="col-12 col-sm-3 col-md-3">
+                                                                    <div class="p-2">
+                                                                        <img src="{{product.Product.Images[0].DownloadURL}}" class="img-fluid" alt="Random slide" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12 col-sm-4 col-md-4 text-info">
+                                                                    <div class="p-2">
+                                                                        <h4>{{product.Product.Name}}</h4>
+                                                                        <p class="m-0"><span class="field mr-2">Retail Price </span><span class="span__price">{{product.Product.ActualPrice | currency:"INR"}}</span></p>
+                                                                        <p class="m-0"><span class="field mr-2">Offer Price</span> {{product.Product.DiscountPrice | currency:"INR"}}</p>
+                                                                        <p class="m-0"><span class="field mr-2">Sub Total</span>{{product.Quantity*product.Product.DiscountPrice| currency:"INR"}}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12 col-sm-4 col-md-5 text-center text-info">
+                                                                    <p class="m-0">Quantity</p>
+                                                                    <div class="row align-items-center justify-content-center">
+                                                                        <div class="col-3">
+                                                                            <p class="m-0 border border-dark text-center p-1">{{product.Quantity}}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </div>
+                                            <div class="form-group row align-items-center justify-content-center">
+                                                <div class="col text-right">
+                                                    <button class="btn" id="button" (click)="closeModal()">Done</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </td>
+                            <td>
+                                <input type="text" class="input" value="{{item.TotalActualPrice}}" readonly />
+                            </td>
+                            <td>
+                                <input type="text" class="input" value="{{item.TotalDisountPrice}}" readonly />
+                            </td>
+                            <td>
+                                <input type="text" class="input" value="{{item.TotalNumberOfProducts}}" readonly />
+                            </td>
+                            <td>
+                                <select class="input" [(ngModel)]="item.Status" [ngModelOptions]="{standalone: true}">
+                                    <option>Ordered</option>
+                                    <option>Packed</option>
+                                    <option>Shipped</option>
+                                    <option>Delivered</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" class="input" value="{{item.UserUid}}" readonly />
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-warning" (click)="saveOrder(item)">
+                                    Save
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="container" *ngIf="!authService.showAdminPanel">
+    <div class="row">
+        <div class="col text-center">
+            <h4>You are Unauthorized to Access this Page</h4>
+        </div>
+    </div>
+</div>
+<app-loader *ngIf="!(backendService.productData | async)"></app-loader>

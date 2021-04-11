@@ -1,10 +1,15 @@
+import { ProductId } from "./ProductInterface"
+
 export interface Order {
-    Name: string;
-    Description: string;
-    ImageURL: string;
-    TotalPrice: Number;
-    TotalItems: Number;
+    Id: string;
+    ProductInfo: {
+        Product: ProductId,
+        Quantity: number,
+    }
+    TotalActualPrice: number;
+    TotalDisountPrice: number;
+    TotalNumberOfProducts: number;
     Status: string;
     Date: string;
-    User: string;
+    UserUid: string;
 }
