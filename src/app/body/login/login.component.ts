@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import firebase from "firebase"
 import { BackendService } from 'src/app/services/backend/backend.service';
@@ -10,6 +10,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
+  @Input("link") link: boolean = false
+  @Input("text") text: string
 
   email: string
   password: string
@@ -29,9 +32,10 @@ export class LoginComponent implements OnInit {
   onSignInwithGoogle() {
     this.authService.googleSignIn().then(() => {
       this.readUserData()
+    }).then(() => {
+      this.router.navigate([""])
     });
     this.modalService.dismissAll();
-    this.router.navigate([""])
   }
   onSignInwithEmail() {
     this.authService.loginUser(this.email, this.password).then(() => {

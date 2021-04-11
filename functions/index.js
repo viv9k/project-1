@@ -12,3 +12,4 @@ exports.cart = require("./cartAPI").cart;
 exports.checkout = require("./checkoutAPI").checkout;
 exports.category = require("./categoryAPI").category;
 exports.banner = require("./bannerAPI").banner;
+exports.order = require("./orderAPI").order;

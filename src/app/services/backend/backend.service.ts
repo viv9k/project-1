@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { Observable } from 'rxjs';
 import { ProductId } from '../../Interface/ProductInterface';
 import { Category } from '../../Interface/CategoryInterface';
-import { Banner } from '../../Interface/BannerInterface';
+import { Banner, SideBanner } from '../../Interface/BannerInterface';
 import { map } from 'rxjs/internal/operators/map';
 import { Main } from '../../Interface/RawInterface';
 import { Order } from '../../Interface/OrderInterface';
@@ -26,12 +26,14 @@ export class BackendService {
   bannerCollection: AngularFirestoreCollection<Banner>
   bannerData: Observable<Banner[]>
 
+  sideBannerCollection: AngularFirestoreCollection<SideBanner>
+  sideBannerData: Observable<SideBanner[]>
+
   rawDataObservable: Observable<Main>;
   rawDocument: AngularFirestoreDocument<Main>;
 
   public rawData: Main
   constructor(private db: AngularFirestore) { }
-
 
   readProductData(productId?: string) {
     this.productCollection = this.db.collection<ProductId>("Products", ref => {
@@ -56,8 +58,8 @@ export class BackendService {
     return this.productCollection.doc(productId).get().toPromise();
   }
 
-  readOrderData() {
-    this.orderCollection = this.db.collection<Order>("Orders");
+  readOrderData(uid?: string) {
+    this.orderCollection = this.db.collection<Order>("Orders", ref => ref.where("UserUid", "==", uid));
     this.orderData = this.orderCollection.snapshotChanges().pipe(
       map(actions => actions.map(a => {
         const data = a.payload.doc.data() as Order;
@@ -89,6 +91,17 @@ export class BackendService {
     );
   }
 
+  readSideBannerData() {
+    this.sideBannerCollection = this.db.collection<SideBanner>("SideBanner", ref => ref.orderBy("UploadTime"));
+    this.sideBannerData = this.sideBannerCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as SideBanner;
+        const Id = a.payload.doc.id;
+        return { Id, ...data };
+      }))
+    );
+  }
+
   readRawData() {
     this.rawDocument = this.db.doc<Main>('RawData/AppDetails');
     this.rawDataObservable = this.rawDocument.snapshotChanges().pipe(
@@ -100,4 +113,14 @@ export class BackendService {
     )
   }
 
+  readAdminOrderData() {
+    this.orderCollection = this.db.collection<Order>("Orders");
+    this.orderData = this.orderCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Order;
+        const Id = a.payload.doc.id;
+        return { Id, ...data };
+      }))
+    );
+  }
 }

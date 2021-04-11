@@ -1,0 +1,10 @@
+.noUser {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+}
+
+.noUserContent {
+    margin: auto 0;
+}

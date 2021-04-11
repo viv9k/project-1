@@ -16,6 +16,7 @@ export class UploadImageComponent implements OnInit {
   @Input("mode") mode: string
   @Input("imageIndex") imageIndex: number
   @Input("banner") banner: boolean
+  @Input("sideBanner") sideBanner: boolean
 
   @Output() imageInfo = new EventEmitter<{ file: File }>();
 
@@ -30,7 +31,6 @@ export class UploadImageComponent implements OnInit {
   ngOnInit(): void {
     if (this.banner) {
       this.startUploadBanner();
-      console.log("Banner");
     }
     else {
       this.startUpload();
@@ -110,7 +110,7 @@ export class UploadImageComponent implements OnInit {
   async storeBannerImageData(path: string) {
     const callable = this.functions.httpsCallable('banner');
     try {
-      const result = await callable({ Mode: "CREATE_BANNER_IMAGE", DownloadURL: this.downloadURL, Path: path, UploadTime: Date.now() }).toPromise();
+      const result = await callable({ Mode: "CREATE_BANNER_IMAGE", DownloadURL: this.downloadURL, Path: path, UploadTime: Date.now(), SideBanner: this.sideBanner }).toPromise();
       this.toastService.show('Uploaded Successfully', { classname: 'bg-success text-light' });
       console.log(result);
     } catch (error) {
@@ -122,7 +122,7 @@ export class UploadImageComponent implements OnInit {
     const callable = this.functions.httpsCallable('product');
     try {
       const result = await callable({ Mode: "DELETE_PRODUCT_IMAGE", ImageIndex: this.imageIndex, ProductId: this.productId }).toPromise();
-      // this.toastService.show('Successfully Uploaded Product Images', { classname: 'bg-success text-light' });
+      this.toastService.show('Successfully Deleted Product Images', { classname: 'bg-danger text-light' });
       console.log(result);
     } catch (error) {
       console.log(error);
@@ -132,8 +132,8 @@ export class UploadImageComponent implements OnInit {
   async deleteBannerImageData() {
     const callable = this.functions.httpsCallable('banner');
     try {
-      const result = await callable({ Mode: "DELETE_BANNER_IMAGE", ImageIndex: this.imageIndex }).toPromise();
-      // this.toastService.show('Successfully Uploaded Product Images', { classname: 'bg-success text-light' });
+      const result = await callable({ Mode: "DELETE_BANNER_IMAGE", ImageIndex: this.imageIndex, SideBanner: this.sideBanner }).toPromise();
+      this.toastService.show('Successfully Deleted Banner Image', { classname: 'bg-danger text-light' });
       console.log(result);
     } catch (error) {
       console.log(error);

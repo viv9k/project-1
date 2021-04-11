@@ -41,6 +41,10 @@ import { PaymentDetailsComponent } from './body/checkout/payment-details/payment
 import { CategoryComponent } from './body/inventory/category/category.component';
 import { OrdersComponent } from './body/orders/orders.component';
 import { BannerComponent } from './body/inventory/banner/banner.component';
+import { SideBannerComponent } from './body/inventory/side-banner/side-banner.component';
+import { OrderDetailsComponent } from './body/order-details/order-details.component';
+import { InventoryOrdersComponent } from './body/inventory-orders/inventory-orders.component';
+import { GooglePayButtonModule } from "@google-pay/button-angular";
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,6 +72,9 @@ import { BannerComponent } from './body/inventory/banner/banner.component';
     CategoryComponent,
     OrdersComponent,
     BannerComponent,
+    SideBannerComponent,
+    OrderDetailsComponent,
+    InventoryOrdersComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,6 +87,7 @@ import { BannerComponent } from './body/inventory/banner/banner.component';
     HttpClientModule,
     BrowserAnimationsModule,
     NgbModule,
+    GooglePayButtonModule,
   ],
   providers: [
     { provide: USE_AUTH_EMULATOR, useValue: environment.useEmulators ? ['localhost', 9099] : undefined },

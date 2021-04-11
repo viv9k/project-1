@@ -7,8 +7,6 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { ToastService } from '../toast/toast.service'
-import { BackendService } from '../backend/backend.service';
-import { ProductId } from 'src/app/Interface/ProductInterface';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +17,7 @@ export class AuthService {
   constructor(public afauth: AngularFireAuth,
     private functions: AngularFireFunctions,
     private db: AngularFirestore,
-    private toastService: ToastService,
-    private backendService: BackendService) { }
+    private toastService: ToastService) { }
 
   userCollection: AngularFirestoreCollection<UserCart>
   userData: Observable<UserCart[]>
@@ -69,11 +66,13 @@ export class AuthService {
 
   async logout() {
     await this.afauth.signOut();
-    this.user = undefined
+    this.user = null
+    this.userData = null
+    this.userUid = null
   }
 
   readData(uid?: string) {
-    console.log(uid);
+    this.userUid = uid
     this.userCollection = this.db.collection<UserCart>("Users", ref => {
       let queryRef: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
       if (uid) {
@@ -87,8 +86,7 @@ export class AuthService {
         const data = a.payload.doc.data() as UserCart;
         const id = a.payload.doc.id;
         this.cartLength = data.Cart.length
-        if (uid && data.admin) {
-          this.userUid = uid
+        if (data.admin) {
           this.showAdminPanel = true
         }
         else {

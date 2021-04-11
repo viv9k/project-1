@@ -29,9 +29,12 @@ export class ProductDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.productId = this.route.snapshot.params['productId'];
-    this.backendService.readProductData(this.productId);
     this.backendService.productData.subscribe(data => {
-      this.selectedImage = data[0].Images[0].DownloadURL
+      data.map(product => {
+        if (product.Id === this.productId) {
+          this.selectedImage = product.Images[0].DownloadURL
+        }
+      })
     });
     this.authService.userData.subscribe(data => {
       data[0].Cart.map(item => {

@@ -1,5 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -11,19 +10,27 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class PaymentDetailsComponent implements OnInit {
 
   isCollapsed2: boolean = false
-
+  date: string
   constructor(
     public functions: AngularFireFunctions,
     public authService: AuthService,
-    private httpClient: HttpClient) { }
+  ) { }
 
   ngOnInit(): void { }
 
+  @Input("totalDisountPrice") totalDisountPrice: number
+  @Input("totalActualPrice") totalActualPrice: number
+
   async placeOrder() {
-    const callable = this.functions.httpsCallable('checkout');
+    const d = new Date();
+    this.date = `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`
+    const callable = this.functions.httpsCallable('order');
     try {
       const result = await callable({
-        UserUid: this.authService.userUid,
+        UserUid: this.authService.user.uid,
+        TotalDisountPrice: this.totalDisountPrice,
+        TotalActualPrice: this.totalActualPrice,
+        Date: this.date,
         Mode: "PLACE_ORDER",
       }).toPromise();
       console.log(result);
