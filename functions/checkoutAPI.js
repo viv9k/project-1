@@ -46,13 +46,12 @@ exports.checkout = functions.https.onRequest((request, response) => {
                             TotalActualPrice: data.TotalActualPrice,
                             TotalDisountPrice: data.TotalDisountPrice,
                             Date: data.Date,
-                            Status: "Ordered"
+                            Status: "Ordered",
                         });
                         const p6 = db.collection("RawData").doc("AppDetails").update({
                             TotalNumberOfOrders: totalNumberofOrders,
-                        })
+                        });
                         return Promise.all([p4, p5, p6]);
-
                     });
                     return Promise.resolve(p3);
                 });
