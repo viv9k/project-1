@@ -1,0 +1,18 @@
+<div class="container">
+    <ng-container *ngFor="let category of backendService.categoryData | async">
+        <ng-container *ngIf="categoryName===category.Name">
+            <div class="row categoryBorder mb-1">
+                <div class="col p-2 text-center">
+                    <h3 class="font-weight-bold m-0">{{ category.Name }}</h3>
+                </div>
+            </div>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 align-items-center justify-content-center">
+                <ng-container *ngFor="let item of backendService.productData | async">
+                    <div class="col mb-4 h-100" *ngIf="item.Visibility === 'Show' && item.Category === category.Name">
+                        <app-product-card [item]="item"></app-product-card>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-container>
+    </ng-container>
+</div>

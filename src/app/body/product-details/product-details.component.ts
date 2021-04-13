@@ -25,10 +25,11 @@ export class ProductDetailsComponent implements OnInit {
     public backendService: BackendService,
     private toastService: ToastService,
     private functions: AngularFireFunctions,
-    private authService: AuthService) { }
+    public authService: AuthService) { }
 
   ngOnInit(): void {
     this.productId = this.route.snapshot.params['productId'];
+    this.backendService.readProductData();
     this.backendService.productData.subscribe(data => {
       data.map(product => {
         if (product.Id === this.productId) {

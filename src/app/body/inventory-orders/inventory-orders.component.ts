@@ -33,7 +33,7 @@ export class InventoryOrdersComponent implements OnInit {
     this.modalService.dismissAll()
   }
 
-  async saveOrder(order: Order) {
+  async updateOrder(order: Order) {
     const callable = this.functions.httpsCallable('order');
     try {
       const result = await callable({

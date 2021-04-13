@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { AngularFireFunctions } from '@angular/fire/functions';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -9,11 +10,17 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class OrderSummaryComponent implements OnInit {
 
+  @Input("totalDisountPrice") totalDisountPrice: number
+  @Input("totalActualPrice") totalActualPrice: number
+
   isCollapsed: boolean = true
   cartLength: number = 0
 
-
-  constructor(public authService: AuthService, private router: Router) { }
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+    public functions: AngularFireFunctions,
+  ) { }
 
   ngOnInit(): void {
     this.checkCartLength()

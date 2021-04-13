@@ -5,25 +5,19 @@
                 <h5 class="font-weight-bolder">YOUR ORDERS</h5>
             </ng-container>
             <ng-container *ngFor="let item of backendService.orderData | async">
-                <div class="card mb-2 w-100" (click)="navigateToOrderDetails(item.Id)">
+                <div class="card mb-2 w-100 orderCard" (click)="navigateToOrderDetails(item.Id)">
                     <div class="row justify-content-center align-items-center p-2">
-                        <div class="col-12 col-md-2">
-                            Date : {{ item.Date}}
+                        <div class="col-12 col-md">
+                            <p class="m-0"> <span class="font-weight-bolder">  Date : </span> {{ item.Date}}</p>
                         </div>
-                        <div class="col-12  col-md-2">
-                            Order Id : {{ item.Id }}
+                        <div class="col-12  col-md">
+                            <p class="m-0"> <span class="font-weight-bolder">  Order Id  : </span> {{ item.Id}}</p>
                         </div>
-                        <div class="col-12 col-md-2">
-                            TotalProducts : {{ item.TotalNumberOfProducts }}
+                        <div class="col-12 col-md">
+                            <p class="m-0"> <span class="font-weight-bolder">  No. of Products  : </span> {{ item.TotalNumberOfProducts}}</p>
                         </div>
-                        <div class="col-12 col-md-2">
-                            Total Price : {{ item.TotalDisountPrice }}
-                        </div>
-                        <div class="col-12 col-md-2">
-                            Status : {{ item.Status}}
-                        </div>
-                        <div class="col-12 col-md-2">
-                            You Saved : {{ (item.TotalActualPrice - item.TotalDisountPrice).toFixed(2) }}
+                        <div class="col-12 col-md">
+                            <p class="m-0"> <span class="font-weight-bolder">  Status  : </span> {{ item.Status}}</p>
                         </div>
                     </div>
                 </div>
@@ -34,7 +28,7 @@
 <div class="container noUser" *ngIf="authService.user">
     <div class="row justify-content-center align-items-center">
         <div class="col-12 noUserContent text-center">
-            <ng-container *ngIf="orderLength === 0 && authService.user">
+            <ng-container *ngIf="orderLength === 0">
                 <h1>Your Haven't Placed an Order Yet</h1>
                 <a [routerLink]="['']">Continue Shopping</a>
             </ng-container>

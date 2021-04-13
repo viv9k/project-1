@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
+import { BackendService } from '../services/backend/backend.service';
 
 @Component({
   selector: 'app-header',
@@ -8,8 +9,11 @@ import { AuthService } from '../services/auth/auth.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
-  constructor(private router: Router, public authService: AuthService) { }
+  constructor(
+    public backendService: BackendService,
+    public authService: AuthService,
+    private router: Router
+  ) { }
   isCollapsed: boolean = true
   isCollapsed2: boolean = true
 
@@ -38,6 +42,8 @@ export class HeaderComponent implements OnInit {
   }
   navigateToOrders() {
     this.router.navigate(["Orders"]);
-
+  }
+  navigateToSpecificCategory(categoryName: string) {
+    this.router.navigate(["Category", categoryName]);
   }
 }

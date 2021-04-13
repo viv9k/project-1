@@ -8,3 +8,7 @@
 .noUserContent {
     margin: auto 0;
 }
+
+.orderCard {
+    cursor: pointer;
+}

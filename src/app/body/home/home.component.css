@@ -1,0 +1,10 @@
+.loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+}
+
+.categoryBorder {
+    border: 1px double #977552;
+}

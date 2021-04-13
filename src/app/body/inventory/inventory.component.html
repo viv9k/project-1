@@ -1,16 +1,16 @@
 <ng-container *ngIf="(backendService.rawDataObservable | async) && authService.showAdminPanel">
     <div class="container">
         <div class="row justify-content-center align-items-center">
-            <div class="col-3 mt-2 mb-2">
+            <div class="col-6 col-md-3 mt-2 mb-2">
                 <app-create-product [productCount]="backendService.rawData.TotalNumberOfProducts + 1"></app-create-product>
             </div>
-            <div class="col-3 mt-2 mb-2">
+            <div class="col-6 col-md-3 mt-2 mb-2">
                 <app-category></app-category>
             </div>
-            <div class="col-3 mt-2 mb-2">
+            <div class="col-6 col-md-3 mt-2 mb-2">
                 <app-banner></app-banner>
             </div>
-            <div class="col-3 mt-2 mb-2">
+            <div class="col-6 col-md-3 mt-2 mb-2">
                 <app-side-banner></app-side-banner>
             </div>
         </div>
@@ -27,11 +27,6 @@
         </div>
     </div>
 </ng-container>
-<div class="container" *ngIf="!authService.showAdminPanel">
-    <div class="row">
-        <div class="col text-center">
-            <h4>You are Unauthorized to Access this Page</h4>
-        </div>
-    </div>
-</div>
+
+<div class="container empty"></div>
 <app-loader *ngIf="!(backendService.rawDataObservable | async)"></app-loader>

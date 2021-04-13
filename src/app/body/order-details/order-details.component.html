@@ -7,28 +7,49 @@
     <div class="row">
         <div class="col">
             <ng-container *ngFor="let item of backendService.orderData | async">
+                <ng-container *ngFor="let product of item.ProductInfo;">
+                    <div class="row" *ngIf="orderId===item.Id">
+                        <div class="col-12 col-md">
+                            <p> <span class="font-weight-bolder">Total Price :</span> {{ item.TotalDisountPrice }}</p>
+                        </div>
+                        <div class="col-12 col-md">
+                            <p> <span class="font-weight-bolder">You Saved : </span> {{ (item.TotalActualPrice - item.TotalDisountPrice).toFixed(2) }}</p>
+                        </div>
+                    </div>
+
+                </ng-container>
                 <ng-container *ngFor="let product of item.ProductInfo;let i=index">
                     <ng-container *ngIf="orderId===item.Id">
                         <div class="card mb-2">
                             <div class="row justify-content-center align-items-center">
-                                <div class="col-12 col-sm-3 col-md-3">
+                                <div class="col-12 col-sm-4 col-md-4">
                                     <div class="p-2">
                                         <img src="{{product.Product.Images[0].DownloadURL}}" class="img-fluid" alt="Random slide" />
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-4 col-md-4">
-                                    <div class="p-2">
-                                        <h4>{{product.Product.Name}}</h4>
-                                        <p class="m-0"><span class="field mr-2">Retail Price </span><span class="span__price">{{product.Product.ActualPrice | currency:"INR"}}</span></p>
-                                        <p class="m-0"><span class="field mr-2">Offer Price</span> {{product.Product.DiscountPrice | currency:"INR"}}</p>
-                                        <p class="m-0"><span class="field mr-2">Sub Total</span>{{product.Quantity*product.Product.DiscountPrice| currency:"INR"}}</p>
+                                <div class="col-12 col-sm-8 col-md-8">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="p-2">
+                                                <h5 class="card-title"><span class="font-weight-bolder">{{product.Product.Name}}</span></h5>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-12 col-sm-4 col-md-5 text-center">
-                                    <p class="m-0">Quantity</p>
-                                    <div class="row align-items-center justify-content-center">
-                                        <div class="col-3">
-                                            <p class="m-0 border border-dark text-center p-1">{{product.Quantity}}</p>
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <div class="p-2">
+                                                <p class="m-0"><span class="field mr-2">Retail Price </span><span class="span__price">{{product.Product.ActualPrice | currency:"INR"}}</span></p>
+                                                <p class="m-0"><span class="field mr-2">Offer Price</span> {{product.Product.DiscountPrice | currency:"INR"}}</p>
+                                                <p class="m-0"><span class="field mr-2">Sub Total</span>{{product.Quantity*product.Product.DiscountPrice| currency:"INR"}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 text-center">
+                                            <p class="m-0">Quantity</p>
+                                            <div class="row align-items-center justify-content-center">
+                                                <div class="col-3">
+                                                    <p class="m-0 border border-dark text-center p-1">{{product.Quantity}}</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

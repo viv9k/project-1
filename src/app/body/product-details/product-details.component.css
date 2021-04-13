@@ -103,6 +103,13 @@
     font-weight: bold;
 }
 
+.loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+}
+
 @media only screen and (max-width: 600px) {
     .imageContainer img {
         width: 50px;
