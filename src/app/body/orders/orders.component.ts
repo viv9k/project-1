@@ -19,7 +19,9 @@ export class OrdersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.backendService.readOrderData(this.authService.user.uid);
+    if (this.authService.user) {
+      this.backendService.readOrderData(this.authService.user.uid);
+    }
     if (this.backendService.orderData) {
       this.backendService.orderData.subscribe(data => {
         this.orderLength = data[0].TotalNumberOfProducts

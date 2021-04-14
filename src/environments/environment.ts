@@ -5,15 +5,15 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyDfwW9b7R_Nk49zE4mO9kUC9X1ZmrF_UYg",
-  authDomain: "vh-ecom.firebaseapp.com",
-  projectId: "vh-ecom",
-  storageBucket: "vh-ecom.appspot.com",
-  messagingSenderId: "657918131668",
-  appId: "1:657918131668:web:553df723f0160be4466a41",
-  measurementId: "G-KW1GD5DNDT"
+    apiKey: "AIzaSyCXj1MH2BjQwss63yv3u9OQVybHdoS9sKw",
+  authDomain: "vintagehomes-dev.firebaseapp.com",
+  projectId: "vintagehomes-dev",
+  storageBucket: "vintagehomes-dev.appspot.com",
+  messagingSenderId: "708521811080",
+  appId: "1:708521811080:web:6b34de52639695b287533d",
+  measurementId: "G-TNC4BLSBE9"
   },
-  useEmulators: false
+  useEmulators: false,
 };
 
 /*

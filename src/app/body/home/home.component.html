@@ -27,11 +27,9 @@
         </div>
     </div>
     <ng-container *ngFor="let category of backendService.categoryData | async">
-        <div class="row">
-            <div class="col">
-                <hr/>
-                <h1 class="font-weight-bold m-0">{{ category.Name }}</h1>
-                <hr/>
+        <div class="row categoryBorder mb-1">
+            <div class="col p-2 text-center">
+                <h3 class="font-weight-bold m-0">{{ category.Name }}</h3>
             </div>
         </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 align-items-center justify-content-center">
@@ -43,4 +41,10 @@
         </div>
     </ng-container>
 </div>
-<app-loader [showInDiv]="true" *ngIf="!(backendService.productData | async)"></app-loader>
+<div class="container loader" *ngIf="!( backendService.productData | async ) && !(backendService.categoryData | async)">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-12 text-center">
+            <app-loader></app-loader>
+        </div>
+    </div>
+</div>

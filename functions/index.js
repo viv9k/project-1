@@ -13,3 +13,5 @@ exports.checkout = require("./checkoutAPI").checkout;
 exports.category = require("./categoryAPI").category;
 exports.banner = require("./bannerAPI").banner;
 exports.order = require("./orderAPI").order;
+exports.payment = require("./paymentAPI").payment;
+exports.paymentVerification = require("./paymentverificationsAPI").paymentVerification;

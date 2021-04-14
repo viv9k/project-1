@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -37,14 +37,15 @@ import { FooterComponent } from './footer/footer.component';
 import { CheckoutComponent } from './body/checkout/checkout.component';
 import { BillingFormComponent } from './body/checkout/billing-form/billing-form.component';
 import { OrderSummaryComponent } from './body/checkout/order-summary/order-summary.component';
-import { PaymentDetailsComponent } from './body/checkout/payment-details/payment-details.component';
 import { CategoryComponent } from './body/inventory/category/category.component';
 import { OrdersComponent } from './body/orders/orders.component';
 import { BannerComponent } from './body/inventory/banner/banner.component';
 import { SideBannerComponent } from './body/inventory/side-banner/side-banner.component';
 import { OrderDetailsComponent } from './body/order-details/order-details.component';
 import { InventoryOrdersComponent } from './body/inventory-orders/inventory-orders.component';
+import { SpecificCategoryComponent } from './body/specific-category/specific-category.component';
 import { GooglePayButtonModule } from "@google-pay/button-angular";
+import { OrderStatusComponent } from './body/order-status/order-status.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,17 +69,19 @@ import { GooglePayButtonModule } from "@google-pay/button-angular";
     CheckoutComponent,
     BillingFormComponent,
     OrderSummaryComponent,
-    PaymentDetailsComponent,
     CategoryComponent,
     OrdersComponent,
     BannerComponent,
     SideBannerComponent,
     OrderDetailsComponent,
     InventoryOrdersComponent,
+    SpecificCategoryComponent,
+    OrderStatusComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireFunctionsModule,
     AngularFirestoreModule,
