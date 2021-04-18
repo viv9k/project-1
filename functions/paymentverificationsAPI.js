@@ -11,7 +11,7 @@ require("dotenv").config();
 const crypto = require("crypto");
 
 function hmacSha256(value, secret) {
-    return crypto.createHash("sha256", secret).update(value).digest("base64");
+    return crypto.createHmac("sha256", secret).update(value).digest("hex");
 }
 
 exports.paymentVerification = functions.https.onRequest((request, response) => {

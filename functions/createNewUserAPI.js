@@ -48,7 +48,10 @@ exports.createNewUser = functions.https.onRequest((request, response) => {
                     admin: false,
                     Cart: [],
                     BillingDetails: {},
+                    CheckoutProductDetails: {},
+                    RazorPayOrderDetails: {},
                 });
+                userWelcomeEmailAPI.userWelcomeEmailApi(Email);
                 return Promise.resolve(userData);
             }
         });
@@ -79,7 +82,6 @@ exports.createNewUser = functions.https.onRequest((request, response) => {
         return Promise.all(Promises).then(() => {
                 const result = { data: "User Logged In Successfully" };
                 console.log("User Logged In Successfully");
-                userWelcomeEmailAPI.userWelcomeEmailApi(Email);
                 return response.status(200).send(result);
             })
             .catch((error) => {
