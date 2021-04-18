@@ -11,6 +11,7 @@ import { BackendService } from 'src/app/services/backend/backend.service';
 })
 export class CartComponent implements OnInit {
 
+  couponCode: string = ""
   showProceedMenu: boolean = false
   totalDisountPrice: number = 0
   totalActualPrice: number = 0
@@ -29,7 +30,17 @@ export class CartComponent implements OnInit {
       })
     }
   }
-  navigateToCheckout() {
+
+  async navigateToCheckout() {
+      const callable = this.functions.httpsCallable('checkoutProductDetails');
+      try {
+        const result = await callable({
+          UserUid: this.authService.userUid,
+          CouponCode: this.couponCode,
+          Mode: "UPDATE_CHECKOUT_PRODUCTS_DETAILS",
+        }).toPromise();
+        console.log(result);
+      } catch (error) { }
     this.router.navigate(["Cart/Checkout"]);
   }
   async incrementQuantity(quantity: number, cartIndex: number, uid: string) {

@@ -60,7 +60,7 @@ export class BillingFormComponent implements OnInit {
       console.log(res.razorpay_payment_id);
       console.log(res.razorpay_order_id);
       console.log(res.razorpay_signature);
-      // window.location.href = "http://localhost:4200/OrderStatus/"+res.razorpay_order_id+"/"+res.razorpay_payment_id+"/"+res.razorpay_signature;
+      window.location.href = "http://localhost:4200/OrderStatus/"+res.razorpay_order_id+"/"+res.razorpay_payment_id+"/"+res.razorpay_signature;
     },
     modal: {
       ondismiss: (() => {
@@ -124,10 +124,10 @@ export class BillingFormComponent implements OnInit {
     const callable = this.functions.httpsCallable('payment');
     try {
       const result = await callable({
+        UserUid: this.authService.userUid,
         Firstname: this.userName,
         Email: this.authService.user.email,
         Phone: this.mobileNumber,
-        Amount: 100000.00,
       }).toPromise();
       console.log(result);
       this.options.order_id = result.id;
