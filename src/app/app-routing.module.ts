@@ -11,6 +11,7 @@ import { OrdersComponent } from './body/orders/orders.component';
 import { OrderDetailsComponent } from './body/order-details/order-details.component';
 import { InventoryOrdersComponent } from './body/inventory-orders/inventory-orders.component';
 import { SpecificCategoryComponent } from './body/specific-category/specific-category.component';
+import { OrderStatusComponent } from './body/order-status/order-status.component';
 
 const adminOnly = () => hasCustomClaim('admin');
 
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: "Orders", component: OrdersComponent },
   { path: "Orders/:orderId", component: OrderDetailsComponent },
   { path: "Category/:categoryName", component: SpecificCategoryComponent },
+  { path: "OrderStatus/:orderId/:paymentId/:signature", component: OrderStatusComponent },
 ];
 
 @NgModule({

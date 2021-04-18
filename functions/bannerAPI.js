@@ -58,7 +58,6 @@ exports.banner = functions.https.onRequest((request, response) => {
                         const p6 = db.collection("Banner").doc(data.BannerId).delete();
                         return Promise.resolve(p6);
                     }
-
                 }
                 if (data.Mode === "UPDATE_LINK_DESCRIPTION") {
                     const p7 = db.collection("Banner").doc(data.BannerId).update({

@@ -29,11 +29,11 @@ exports.order = functions.https.onRequest((request, response) => {
                         TotalActualPrice: data.TotalActualPrice,
                         TotalDisountPrice: data.TotalDisountPrice,
                         Date: data.Date,
-                        Status: "Ordered"
+                        Status: "Ordered",
                     });
                     const p4 = db.collection("RawData").doc("AppDetails").update({
                         TotalNumberOfOrders: totalNumberofOrders,
-                    })
+                    });
                     return Promise.all([p2, p3, p4]);
                 });
                 return Promise.resolve(p1);

@@ -11,6 +11,8 @@ const admin = require("firebase-admin");
 const db = admin.firestore();
 // const auth = admin.auth();
 
+const userWelcomeEmailAPI = require("./userWelcomeEmailAPI");
+
 exports.createNewUser = functions.https.onRequest((request, response) => {
     cors(request, response, () => {
         const user = request.body.data;
@@ -77,6 +79,7 @@ exports.createNewUser = functions.https.onRequest((request, response) => {
         return Promise.all(Promises).then(() => {
                 const result = { data: "User Logged In Successfully" };
                 console.log("User Logged In Successfully");
+                userWelcomeEmailAPI.userWelcomeEmailApi(Email);
                 return response.status(200).send(result);
             })
             .catch((error) => {
