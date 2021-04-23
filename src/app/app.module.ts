@@ -46,6 +46,8 @@ import { InventoryOrdersComponent } from './body/inventory-orders/inventory-orde
 import { SpecificCategoryComponent } from './body/specific-category/specific-category.component';
 import { GooglePayButtonModule } from "@google-pay/button-angular";
 import { OrderStatusComponent } from './body/order-status/order-status.component';
+import { CouponComponent } from './body/inventory/coupon/coupon.component';
+import { TagComponent } from './body/inventory/tag/tag.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -77,6 +79,8 @@ import { OrderStatusComponent } from './body/order-status/order-status.component
     InventoryOrdersComponent,
     SpecificCategoryComponent,
     OrderStatusComponent,
+    CouponComponent,
+    TagComponent,
   ],
   imports: [
     BrowserModule,

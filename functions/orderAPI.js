@@ -18,23 +18,25 @@ exports.order = functions.https.onRequest((request, response) => {
                 const orderId = "O" + totalNumberofOrders;
                 const p1 = db.collection("Users").doc(data.UserUid).get().then((docment) => {
                     const contents = docment.data().Cart;
-                    const p2 = db.collection("Users").doc(data.UserUid).update({
-                        Cart: [],
-                    });
-                    const p3 = db.collection("Orders").doc(orderId).set({
-                        Id: orderId,
-                        ProductInfo: contents,
-                        UserUid: data.UserUid,
-                        TotalNumberOfProducts: contents.length,
-                        TotalActualPrice: data.TotalActualPrice,
-                        TotalDisountPrice: data.TotalDisountPrice,
-                        Date: data.Date,
-                        Status: "Ordered",
-                    });
-                    const p4 = db.collection("RawData").doc("AppDetails").update({
-                        TotalNumberOfOrders: totalNumberofOrders,
-                    });
-                    return Promise.all([p2, p3, p4]);
+                    if (contents.length > 0) {
+                        const p2 = db.collection("Users").doc(data.UserUid).update({
+                            Cart: [],
+                        });
+                        const p3 = db.collection("Orders").doc(orderId).set({
+                            Id: orderId,
+                            ProductInfo: contents,
+                            UserUid: data.UserUid,
+                            TotalNumberOfProducts: contents.length,
+                            TotalActualPrice: docment.data().CheckoutProductDetails.TotalActualPrice,
+                            TotalDisountPrice: docment.data().CheckoutProductDetails.TotalDisountPriceWithCouponApplied,
+                            Date: data.Date,
+                            Status: "Ordered",
+                        });
+                        const p4 = db.collection("RawData").doc("AppDetails").update({
+                            TotalNumberOfOrders: totalNumberofOrders,
+                        });
+                        return Promise.all([p2, p3, p4]);
+                    }
                 });
                 return Promise.resolve(p1);
             }

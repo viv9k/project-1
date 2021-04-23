@@ -16,3 +16,5 @@ exports.order = require("./orderAPI").order;
 exports.payment = require("./paymentAPI").payment;
 exports.paymentVerification = require("./paymentverificationsAPI").paymentVerification;
 exports.checkoutProductDetails = require("./checkoutProductDetailsAPI").checkoutProductDetails;
+exports.coupon = require("./couponAPI").coupon;
+exports.tag = require("./tagAPI").tag;

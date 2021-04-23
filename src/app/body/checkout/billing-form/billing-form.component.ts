@@ -1,11 +1,11 @@
 import { Component, NgZone, Input, OnInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 // import { sha512 } from 'js-sha512';
 
 
-import {ICustomWindow, NativeWindowsService} from 'src/app/services/nativeWindow/native-windows-service.service';
+import { ICustomWindow, NativeWindowsService } from 'src/app/services/nativeWindow/native-windows-service.service';
 // import axios from "axios";
 
 @Component({
@@ -39,7 +39,7 @@ export class BillingFormComponent implements OnInit {
   public rzp: any;
 
   public options: any = {
-    key: 'rzp_test_bnt0m6RqSlXmhP', // add razorpay key here
+    key: 'rzp_test_wGS2ZWj8mzB0bd', // add razorpay key here
     name: 'Customer name',
     description: 'Shopping',
     image: "http://localhost:4200/assets/logo.png",
@@ -55,17 +55,19 @@ export class BillingFormComponent implements OnInit {
     theme: {
       color: '#977552'
     },
-    handler: function (res){
-      console.log(res);
-      console.log(res.razorpay_payment_id);
-      console.log(res.razorpay_order_id);
-      console.log(res.razorpay_signature);
-      window.location.href = "http://localhost:4200/OrderStatus/"+res.razorpay_order_id+"/"+res.razorpay_payment_id+"/"+res.razorpay_signature;
+    handler: (res) => {
+      const paymentId = res.razorpay_payment_id;
+      const orderId = res.razorpay_order_id;
+      const signature = res.razorpay_signature;
+      this.zone.run(() => {
+        this.router.navigate(["OrderStatus", paymentId, orderId, signature]);
+      })
     },
     modal: {
       ondismiss: (() => {
         this.zone.run(() => {
           // add current page routing if payment fails
+          this.router.navigate(["OrderStatus", "f", "f", "f"]);
         })
       }),
 
@@ -76,7 +78,8 @@ export class BillingFormComponent implements OnInit {
     public functions: AngularFireFunctions,
     public authService: AuthService,
     private zone: NgZone,
-    private winRef: NativeWindowsService
+    private winRef: NativeWindowsService,
+    private router: Router
   ) {
     this._window = this.winRef.nativeWindow;
   }
@@ -137,22 +140,6 @@ export class BillingFormComponent implements OnInit {
       // this.procceedToPayment(result);
     } catch (error) {
       console.log(error);
-     }
-  }
-
-  async placeOrder() {
-    const d = new Date();
-    this.date = `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`
-    const callable = this.functions.httpsCallable('order');
-    try {
-      const result = await callable({
-        UserUid: this.authService.user.uid,
-        // TotalDisountPrice: this.totalDisountPrice,
-        // TotalActualPrice: this.totalActualPrice,
-        Date: this.date,
-        Mode: "PLACE_ORDER",
-      }).toPromise();
-      console.log(result);
-    } catch (error) { }
+    }
   }
 }

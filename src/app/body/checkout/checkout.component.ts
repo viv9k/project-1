@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { BackendService } from 'src/app/services/backend/backend.service';
 
 @Component({
   selector: 'app-checkout',
@@ -11,11 +12,14 @@ export class CheckoutComponent implements OnInit {
 
   totalDisountPrice: number = 0
   totalActualPrice: number = 0
-
-  constructor(public authService: AuthService, private router: Router) { }
+  couponCode: string = ""
+  couponDiscountPercent: number
+  totalDisountPricewithCoupon: number = 0
+  constructor(public authService: AuthService, private router: Router, private backendService: BackendService) { }
 
   ngOnInit(): void {
     this.checkCart()
+    this.backendService.readCouponData()
   }
   checkCart() {
     if (!this.authService.userData) {
@@ -23,6 +27,10 @@ export class CheckoutComponent implements OnInit {
     }
     else {
       this.authService.userData.subscribe(data => {
+        this.couponCode = data[0].CheckoutProductDetails.CouponCode;
+        this.totalDisountPricewithCoupon = data[0].CheckoutProductDetails.TotalDisountPriceWithCouponApplied;
+        this.couponDiscountPercent = data[0].CheckoutProductDetails.CouponDiscountPercentage;
+
         if (!data[0].Cart.length) {
           this.router.navigate(["Cart"]);
         }

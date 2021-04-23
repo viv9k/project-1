@@ -11,7 +11,15 @@ export interface User {
     admin?: boolean;
 }
 
+export interface CheckoutProductDetails {
+    CouponCode: string;
+    TotalActualPrice: number;
+    CouponDiscountPercentage: number;
+    TotalDisountPriceWithCouponApplied: number;
+}
+
 export interface UserCart extends User {
     Cart: Cart[];
-    BillingDetails: Checkout
+    BillingDetails: Checkout;
+    CheckoutProductDetails: CheckoutProductDetails;
 }

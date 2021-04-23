@@ -27,12 +27,27 @@
                             </div>
                         </div>
                         <hr>
-                        <div class="row">
+                        <div class="row" *ngIf="couponCode">
+                            <div class="col-6">Applied Coupon</div>
+                            <div class="col-6">
+                                <p class="m-0">{{couponCode}} - {{couponDiscountPercent}}% off</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row" *ngIf="!couponCode">
                             <div class="col-6">
                                 You Pay
                             </div>
                             <div class="col-6">
                                 <p class="m-0">{{totalDisountPrice|currency:"INR"}}</p>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="couponCode">
+                            <div class="col-6">
+                                You Pay
+                            </div>
+                            <div class="col-6">
+                                <p class="m-0">{{totalDisountPricewithCoupon|currency:"INR"}}</p>
                             </div>
                         </div>
                     </div>

@@ -1,11 +1,11 @@
 <!--Product Modal -->
 <button type="button" id="button" class="btn" (click)="openModal(template)">
-  <i class="fa fa-plus-circle" aria-hidden="true"></i> Category
+  <i class="fa fa-plus-circle" aria-hidden="true"></i> Tag
 </button>
 <ng-template #template let-modal>
     <div class="modal-header">
-        <h5 class="modal-title pull-left">Add New Category
-            <button type="button" id="button" class="btn" (click)="toggleCategory()">
+        <h5 class="modal-title pull-left">Add New Tag
+            <button type="button" id="button" class="btn" *ngIf="showTagButton" (click)="toggleTagDropZone()">
                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
             </button>
         </h5>
@@ -15,54 +15,46 @@
     </div>
     <div class="modal-body">
         <div class="container-fluid">
-            <form id="form" class="align-items-center justify-content-center" *ngIf="showCategory">
+            <form id="form" class="align-items-center justify-content-center" *ngIf="showTag">
                 <div class="form-group row pt-2">
-                    <label for="input" class="col-4 col-form-label">Name</label>
+                    <label for="input" class="col-4 col-form-label"> Name</label>
                     <div class="col-8">
-                        <input type="text" class="input" [(ngModel)]="categoryName" [ngModelOptions]="{ standalone: true }" />
-                    </div>
-                </div>
-                <div class="form-group row pt-2">
-                    <label for="input" class="col-4 col-form-label">Position</label>
-                    <div class="col-8">
-                        <input type="number" min="1" class="input" [(ngModel)]="categoryPosition" [ngModelOptions]="{ standalone: true }" />
+                        <input type="text" class="input" [(ngModel)]="tagName" [ngModelOptions]="{ standalone: true }" />
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col text-right">
-                        <button type="submit" class="btn" id="button" (click)="createNewCategory()">
+                        <button type="submit" class="btn" id="button" (click)="createTag()">
                           Create
                         </button>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="container-fluid" *ngIf="!showCategory">
+        <div class="container-fluid" *ngIf="!showTag">
             <div class="row">
                 <div class="col table-responsive">
                     <table class="table">
                         <thead>
                             <tr class="text-light">
-                                <th scope="col">Position</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">#menu 1</th>
                                 <th scope="col">#menu 2</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <ng-container *ngFor="let item of backendService.categoryData | async ">
+                            <ng-container *ngFor="let item of backendService.tagData | async ">
                                 <tr class="justify-content-center align-items-center">
                                     <td>
-                                        <input type="number" min="1" class="input" [(ngModel)]="item.Position" [ngModelOptions]="{standalone: true}" />
+                                        <input type="text" class="input" [(ngModel)]="item.Name" [ngModelOptions]="{ standalone: true }" />
                                     </td>
                                     <td>
-                                        <input type="text" class="input" [(ngModel)]="item.Name" [ngModelOptions]="{standalone: true}" />
+                                        <button type="submit" class="btn btn-warning" (click)="modifyTag(item)">
+                                                Update
+                                            </button>
                                     </td>
                                     <td>
-                                        <button type="submit" class="btn" id="button" (click)="modifyCategory(item)">Save</button>
-                                    </td>
-                                    <td>
-                                        <button type="submit" class="btn btn-danger" (click)="deleteCategory(item)">
+                                        <button type="submit" class="btn btn-danger" (click)="deleteTag(item)">
                                                 Delete
                                             </button>
                                     </td>

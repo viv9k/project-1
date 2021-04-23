@@ -72,6 +72,8 @@ exports.createNewUser = functions.https.onRequest((request, response) => {
                             TotalNumberOfCategories: 0,
                             TotalNumberOfBanners: 0,
                             TotalNumberOfSideBanners: 0,
+                            TotalNumberOfCoupons: 0,
+                            TotalNumberOfTags: 0,
                         });
                     }
                 });

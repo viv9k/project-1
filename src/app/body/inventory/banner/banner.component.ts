@@ -20,7 +20,6 @@ export class BannerComponent implements OnInit {
     public functions: AngularFireFunctions) { }
 
   ngOnInit(): void {
-    this.backendService.readBannerData()
     this.backendService.bannerData.subscribe(data => {
       if (!data.length) {
         this.showBannerDropZone = true

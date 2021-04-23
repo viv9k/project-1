@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-order-status',
@@ -13,15 +14,25 @@ export class OrderStatusComponent implements OnInit {
   orderId: string = ""
   paymentId: string = ""
   signature: string = ""
+  date: string
 
-  constructor(private route: ActivatedRoute, public functions: AngularFireFunctions) { }
+  constructor(
+    private route: ActivatedRoute,
+    public functions: AngularFireFunctions,
+    private authService: AuthService,
+  ) { }
 
   ngOnInit(): void {
     this.orderId = this.route.snapshot.params['orderId'];
     this.paymentId = this.route.snapshot.params['paymentId'];
     this.signature = this.route.snapshot.params['signature'];
-
-    this.verifyOrderStatus();
+    if (this.paymentId !== "f") {
+      this.verifyOrderStatus().then(() => {
+        if (this.status === "Success") {
+          this.placeOrder()
+        }
+      });
+    }
   }
 
   async verifyOrderStatus() {
@@ -33,11 +44,24 @@ export class OrderStatusComponent implements OnInit {
         Signature: this.signature,
       }).toPromise();
       console.log(result);
-      // this.procceedToPayment(result);
     } catch (error) {
       console.log(error);
-     }
+    }
     this.status = "Success";
+  }
+
+  async placeOrder() {
+    const d = new Date();
+    this.date = `${d.getDate()}/${d.getMonth()}/${d.getFullYear()}`
+    const callable = this.functions.httpsCallable('order');
+    try {
+      const result = await callable({
+        UserUid: this.authService.user.uid,
+        Date: this.date,
+        Mode: "PLACE_ORDER",
+      }).toPromise();
+      console.log(result);
+    } catch (error) { }
   }
 
 }

@@ -27,17 +27,33 @@
         </div>
     </div>
     <ng-container *ngFor="let category of backendService.categoryData | async">
-        <div class="row categoryBorder mb-1">
-            <div class="col p-2 text-center">
-                <h3 class="font-weight-bold m-0">{{ category.Name }}</h3>
+        <div class="row">
+            <div class="col">
+                <div class="outer">
+                    <div class="left"></div>
+                    <div class="right"></div>
+                    <span>{{ category.Name }}</span>
+                </div>
             </div>
         </div>
+
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 align-items-center justify-content-center">
             <ng-container *ngFor="let item of backendService.productData | async">
-                <div class="col mb-4 h-100" *ngIf="item.Visibility === 'Show' && item.Category === category.Name">
+                <div class="col mb-4 h-100" *ngIf="item.Visibility === 'Show' && item.Category === category.Name && !tagName && !searchProductName">
                     <app-product-card [item]="item"></app-product-card>
                 </div>
+                <ng-container *ngIf="tagName">
+                    <div class="col mb-4 h-100" *ngIf="item.Visibility === 'Show' && item.Category === category.Name">
+                        <app-product-card [item]="item"></app-product-card>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="searchProductName">
+                    <div class="col mb-4 h-100" *ngIf="item.Visibility === 'Show' && item.Category === category.Name && item.Name.toLowerCase()===searchProductName.toLowerCase()">
+                        <app-product-card [item]="item"></app-product-card>
+                    </div>
+                </ng-container>
             </ng-container>
+
         </div>
     </ng-container>
 </div>

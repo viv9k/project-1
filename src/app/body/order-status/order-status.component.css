@@ -1,0 +1,10 @@
+.orderStatusContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+}
+
+.orderStatusContent {
+    margin: auto 0;
+}

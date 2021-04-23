@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Image } from 'src/app/Interface/ImageInterface';
 import { ProductId } from 'src/app/Interface/ProductInterface';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -25,6 +25,7 @@ export class ProductDetailsComponent implements OnInit {
     public backendService: BackendService,
     private toastService: ToastService,
     private functions: AngularFireFunctions,
+    private router: Router,
     public authService: AuthService) { }
 
   ngOnInit(): void {
@@ -37,13 +38,15 @@ export class ProductDetailsComponent implements OnInit {
         }
       })
     });
-    this.authService.userData.subscribe(data => {
-      data[0].Cart.map(item => {
-        if (item.Product.Id === this.productId) {
-          this.productQuantity = item.Quantity
-        }
+    if (this.authService.userData) {
+      this.authService.userData.subscribe(data => {
+        data[0].Cart.map(item => {
+          if (item.Product.Id === this.productId) {
+            this.productQuantity = item.Quantity
+          }
+        })
       })
-    })
+    }
   }
 
   showSelectedImage(image: Image) {
@@ -87,5 +90,10 @@ export class ProductDetailsComponent implements OnInit {
       console.log(result);
     } catch (error) {
     }
+  }
+  buyNow() {
+    this.addToCart().then(() => {
+      this.router.navigate(["Cart"])
+    })
   }
 }

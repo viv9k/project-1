@@ -1,4 +1,4 @@
-<div class="container" *ngIf="authService.user">
+<div class="container" *ngIf="authService.afauth.user | async as user; else showLogin">
     <div class="row">
         <div class="col-12">
             <ng-container *ngIf="orderLength > 0">
@@ -36,10 +36,13 @@
     </div>
 </div>
 
-<div class="container noUser" *ngIf="!authService.user">
-    <div class="row justify-content-center align-items-center">
-        <div class="col-12 text-center">
-            <app-login [link]="true" [text]="'Login to Check Your Orders'"></app-login>
+
+<ng-template #showLogin>
+    <div class="container noUser" *ngIf="!authService.user">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-12 text-center">
+                <app-login [link]="true" [text]="'Login to Check Your Orders'"></app-login>
+            </div>
         </div>
     </div>
-</div>
+</ng-template>

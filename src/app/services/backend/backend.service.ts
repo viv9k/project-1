@@ -8,6 +8,8 @@ import { map } from 'rxjs/internal/operators/map';
 import { Main } from '../../Interface/RawInterface';
 import { Order } from '../../Interface/OrderInterface';
 import firebase from 'firebase';
+import { Coupon } from 'src/app/Interface/CouponInterface';
+import { Tag } from 'src/app/Interface/TagInterface';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +30,12 @@ export class BackendService {
 
   sideBannerCollection: AngularFirestoreCollection<SideBanner>
   sideBannerData: Observable<SideBanner[]>
+
+  couponCollection: AngularFirestoreCollection<Coupon>
+  couponData: Observable<Coupon[]>
+
+  tagCollection: AngularFirestoreCollection<Tag>
+  tagData: Observable<Tag[]>
 
   rawDataObservable: Observable<Main>;
   rawDocument: AngularFirestoreDocument<Main>;
@@ -96,6 +104,28 @@ export class BackendService {
     this.sideBannerData = this.sideBannerCollection.snapshotChanges().pipe(
       map(actions => actions.map(a => {
         const data = a.payload.doc.data() as SideBanner;
+        const Id = a.payload.doc.id;
+        return { Id, ...data };
+      }))
+    );
+  }
+
+  readCouponData() {
+    this.couponCollection = this.db.collection<Coupon>("CouponCode");
+    this.couponData = this.couponCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Coupon;
+        const Id = a.payload.doc.id;
+        return { Id, ...data };
+      }))
+    );
+  }
+
+  readTagData() {
+    this.tagCollection = this.db.collection<Tag>("Tag", ref => ref.orderBy("UploadTime"));
+    this.tagData = this.tagCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Tag;
         const Id = a.payload.doc.id;
         return { Id, ...data };
       }))

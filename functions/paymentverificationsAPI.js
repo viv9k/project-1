@@ -11,7 +11,7 @@ require("dotenv").config();
 const crypto = require("crypto");
 
 function hmacSha256(value, secret) {
-    return crypto.createHmac("sha256", secret).update(value).digest("hex");
+    return crypto.createHmac("sha256", secret).update(value.toString()).digest("hex");
 }
 
 exports.paymentVerification = functions.https.onRequest((request, response) => {
@@ -35,9 +35,9 @@ exports.paymentVerification = functions.https.onRequest((request, response) => {
             const result = { data: "Payment verified successfully" };
             console.log("Payment successful");
             return response.status(200).send(result);
+        } else {
+            const result = { data: "Payment Incomplete" };
+            return response.status(500).send(result);
         }
-
-        const result = { data: "Payment Incomplete" };
-        return response.status(500).send(result);
     });
 });

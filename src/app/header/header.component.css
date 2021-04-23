@@ -49,35 +49,6 @@ hr {
     width: 100%;
 }
 
-#items {
-    position: relative;
-}
-
-#items #dropDownContainer {
-    position: absolute;
-    background-color: white;
-    opacity: 0;
-    visibility: hidden;
-    top: 80px;
-    border: 1px solid lightgray;
-    transition: all 0.3s ease;
-}
-
-#items .nav-item:hover #dropDownContainer {
-    top: 50px;
-    opacity: 1;
-    visibility: visible;
-}
-
-#dropDownContainer a {
-    text-decoration: none;
-    color: black;
-}
-
-#dropDownContainer a:hover {
-    color: #977552;
-}
-
 .nav-link {
     position: relative;
 }
@@ -93,6 +64,12 @@ hr {
     background-color: #977552;
     border-radius: 9px;
     top: 5px;
+}
+
+.couponContainer {
+    background-color: black;
+    color: #977552;
+    font-weight: bold;
 }
 
 @media only screen and (max-width:990px) {

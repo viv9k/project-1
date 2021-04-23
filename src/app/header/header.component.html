@@ -1,3 +1,18 @@
+<div class="container-fluid couponContainer" *ngIf="showCoupon">
+    <div class="row justify-content-center align-items-center">
+        <div class="col text-center">
+            <ng-container *ngFor="let item of backendService.couponData | async">
+                <p class="m-0 p-2">{{item.Description}}</p>
+            </ng-container>
+        </div>
+        <div class="col-1 text-lg-right">
+            <button class="navbar-toggler text-white" type="button" (click)="showCoupon=!showCoupon">
+            <i class="far fa-window-close"></i>
+        </button>
+
+        </div>
+    </div>
+</div>
 <div class="container p-2">
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <!-- <a class="navbar-brand" (click)="navigateToHome()">Brand</a> -->
@@ -41,21 +56,23 @@
                         </i> Cart
                     </a>
                 </li>
-                <li class="nav-item" *ngIf="!authService.user">
-                    <app-login></app-login>
-                </li>
+                <ng-template #showLogin>
+                    <li class="nav-item">
+                        <app-login></app-login>
+                    </li>
+                </ng-template>
                 <ng-container *ngIf="authService.userData | async">
                     <li class="nav-item" *ngIf="authService.showAdminPanel && authService.user">
                         <a class="nav-link text-lg-center" (click)="navigateToInventory()">
                             <i class="fas fa-warehouse"></i> Inventory
                         </a>
                     </li>
-                    <li class="nav-item" *ngIf="authService.user">
-                        <a class="nav-link text-lg-center" (click)="logoutSession()">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </a>
-                    </li>
                 </ng-container>
+                <li class="nav-item" *ngIf="authService.afauth.user | async as user; else showLogin">
+                    <a class="nav-link text-lg-center" (click)="logoutSession()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -68,65 +85,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed2">
             <ul class="navbar-nav align-items-center justify-content-center">
-                <li class="nav-item">
-                    <p class="m-0 nav-link">Furniture</p>
-                    <div class="container" id="dropDownContainer">
-                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 w-100 p-4 justify-content-center">
-                            <div class="col d-flex flex-column">
-                                <h5>Sofas</h5>
-                                <a href="#">Sofa Sets</a>
-                                <a href="#">Sectional Sofas</a>
-                                <a href="#">Sofa Cum Beds </a>
-                                <a href="#">Recliners</a>
-                            </div>
-                            <div class="col d-flex flex-column">
-                                <h5>Sofas</h5>
-                                <a href="#">Sofa Sets</a>
-                                <a href="#">Sectional Sofas</a>
-                                <a href="#">Sofa Cum Beds </a>
-                                <a href="#">Recliners</a>
-                            </div>
-                            <div class="col d-flex flex-column">
-                                <h5>Sofas</h5>
-                                <a href="#">Sofa Sets</a>
-                                <a href="#">Sectional Sofas</a>
-                                <a href="#">Sofa Cum Beds </a>
-                                <a href="#">Recliners</a>
-                            </div>
-                            <div class="col d-flex flex-column">
-                                <h5>Sofas</h5>
-                                <a href="#">Sofa Sets</a>
-                                <a href="#">Sectional Sofas</a>
-                                <a href="#">Sofa Cum Beds </a>
-                                <a href="#">Recliners</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <p class="m-0 nav-link">Living</p>
-                </li>
-                <li class="nav-item">
-                    <p class="m-0 nav-link">Bedroom</p>
-                </li>
-                <li class="nav-item">
-                    <p class="m-0 nav-link">Kids Room</p>
-                </li>
-                <li class="nav-item">
-                    <p class="m-0 nav-link">Mattresses</p>
-                </li>
-                <li class="nav-item">
-                    <p class="m-0 nav-link">Furnishings</p>
-                </li>
-                <li class="nav-item">
-                    <p class="m-0 nav-link">Decor</p>
-                </li>
-                <li class="nav-item">
-                    <p class="m-0 nav-link">Lighting</p>
-                </li>
-                <li class="nav-item">
-                    <p class="m-0 nav-link">Mod Furniture </p>
-                </li>
+                <ng-container *ngFor="let item of backendService.tagData | async">
+                    <li class="nav-item" (click)="navigateToTagProducts(item)">
+                        <p class="m-0 nav-link">{{item.Name}}</p>
+                    </li>
+                </ng-container>
             </ul>
         </div>
     </nav>

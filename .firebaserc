@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "vh-ecom"
+  },
+    "targets": {
+    "vh-ecom": {
+      "hosting": {
+        "Project": [
+          "vh-ecom"
+        ]
+      }
+    }
   }
 }

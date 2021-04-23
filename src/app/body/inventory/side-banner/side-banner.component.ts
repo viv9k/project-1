@@ -20,7 +20,6 @@ export class SideBannerComponent implements OnInit {
     public functions: AngularFireFunctions) { }
 
   ngOnInit(): void {
-    this.backendService.readSideBannerData()
     this.backendService.sideBannerData.subscribe(data => {
       data.length === 2 ? this.disableAddingSideBanner = true : this.disableAddingSideBanner = false
       if (!data.length) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -12,7 +12,6 @@ import { BackendService } from 'src/app/services/backend/backend.service';
 export class CartComponent implements OnInit {
 
   couponCode: string = ""
-  showProceedMenu: boolean = false
   totalDisountPrice: number = 0
   totalActualPrice: number = 0
   cartLength: number = 0
@@ -23,26 +22,33 @@ export class CartComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.calculateTotalPrice()
     if (this.authService.userData) {
       this.authService.userData.subscribe(data => {
         this.cartLength = data[0].Cart.length;
       })
     }
+    else {
+      this.authService.readData();
+      this.authService.userData.subscribe(data => {
+        this.cartLength = data[0].Cart.length;
+      })
+    }
+    this.calculateTotalPrice()
   }
 
   async navigateToCheckout() {
-      const callable = this.functions.httpsCallable('checkoutProductDetails');
-      try {
-        const result = await callable({
-          UserUid: this.authService.userUid,
-          CouponCode: this.couponCode,
-          Mode: "UPDATE_CHECKOUT_PRODUCTS_DETAILS",
-        }).toPromise();
-        console.log(result);
-      } catch (error) { }
+    const callable = this.functions.httpsCallable('checkoutProductDetails');
+    try {
+      const result = await callable({
+        UserUid: this.authService.userUid,
+        CouponCode: this.couponCode,
+        Mode: "UPDATE_CHECKOUT_PRODUCTS_DETAILS",
+      }).toPromise();
+      console.log(result);
+    } catch (error) { }
     this.router.navigate(["Cart/Checkout"]);
   }
+
   async incrementQuantity(quantity: number, cartIndex: number, uid: string) {
     const callable = this.functions.httpsCallable('cart');
     try {
@@ -52,6 +58,7 @@ export class CartComponent implements OnInit {
     } catch (error) {
     }
   }
+
   async decrementQuantity(quantity: number, cartIndex: number, uid: string) {
     quantity <= 1 ? quantity = 1 : quantity = quantity - 1;
     const callable = this.functions.httpsCallable('cart');
@@ -72,26 +79,17 @@ export class CartComponent implements OnInit {
     }
     this.calculateTotalPrice()
   }
+
   calculateTotalPrice() {
-    if (!this.authService.userData) {
-      return;
-    }
-    else {
+    if (this.authService.userData) {
       this.authService.userData.subscribe(data => {
         this.totalDisountPrice = 0
         this.totalActualPrice = 0
-        if (!data[0].Cart.length) {
-          this.showProceedMenu = false
-        }
-        else {
-          this.showProceedMenu = true
-          data[0].Cart.map((item) => {
-            this.totalDisountPrice += item.Product.DiscountPrice * item.Quantity
-            this.totalActualPrice += item.Product.ActualPrice * item.Quantity
-          })
-        }
+        data[0].Cart.map((item) => {
+          this.totalDisountPrice += item.Product.DiscountPrice * item.Quantity
+          this.totalActualPrice += item.Product.ActualPrice * item.Quantity
+        })
       })
     }
-
   }
 }

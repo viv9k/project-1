@@ -17,7 +17,14 @@ export class AuthService {
   constructor(public afauth: AngularFireAuth,
     private functions: AngularFireFunctions,
     private db: AngularFirestore,
-    private toastService: ToastService) { }
+    private toastService: ToastService) {
+    this.afauth.user.subscribe(data => {
+      this.user = data
+      if (this.user) {
+        this.readData(this.user.uid)
+      }
+    });
+  }
 
   userCollection: AngularFirestoreCollection<UserCart>
   userData: Observable<UserCart[]>
@@ -72,10 +79,10 @@ export class AuthService {
   }
 
   readData(uid?: string) {
-    this.userUid = uid
     this.userCollection = this.db.collection<UserCart>("Users", ref => {
       let queryRef: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
       if (uid) {
+        this.userUid = uid
         queryRef = queryRef.where('uid', '==', uid);
       }
       queryRef = queryRef.orderBy("displayName")

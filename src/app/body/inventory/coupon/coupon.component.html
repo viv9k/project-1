@@ -1,68 +1,70 @@
 <!--Product Modal -->
 <button type="button" id="button" class="btn" (click)="openModal(template)">
-  <i class="fa fa-plus-circle" aria-hidden="true"></i> Category
+  <i class="fa fa-plus-circle" aria-hidden="true"></i> Coupon
 </button>
 <ng-template #template let-modal>
     <div class="modal-header">
-        <h5 class="modal-title pull-left">Add New Category
-            <button type="button" id="button" class="btn" (click)="toggleCategory()">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i>
-            </button>
-        </h5>
+        <h5 class="modal-title pull-left">Add New Coupon </h5>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
     </div>
     <div class="modal-body">
         <div class="container-fluid">
-            <form id="form" class="align-items-center justify-content-center" *ngIf="showCategory">
+            <form id="form" class="align-items-center justify-content-center" *ngIf="showCoupon">
                 <div class="form-group row pt-2">
-                    <label for="input" class="col-4 col-form-label">Name</label>
+                    <label for="input" class="col-4 col-form-label"> Code</label>
                     <div class="col-8">
-                        <input type="text" class="input" [(ngModel)]="categoryName" [ngModelOptions]="{ standalone: true }" />
+                        <input type="text" class="input" [(ngModel)]="couponCode" [ngModelOptions]="{ standalone: true }" />
                     </div>
                 </div>
                 <div class="form-group row pt-2">
-                    <label for="input" class="col-4 col-form-label">Position</label>
+                    <label for="input" class="col-4 col-form-label">Value (%)</label>
                     <div class="col-8">
-                        <input type="number" min="1" class="input" [(ngModel)]="categoryPosition" [ngModelOptions]="{ standalone: true }" />
+                        <input type="number" min="1" class="input" [(ngModel)]="couponValue" [ngModelOptions]="{ standalone: true }" />
+                    </div>
+                </div>
+                <div class="form-group row pt-2">
+                    <label for="input" class="col-4 col-form-label"> Description</label>
+                    <div class="col-8">
+                        <textarea rows="1" class="input" [(ngModel)]="couponDescription" [ngModelOptions]="{ standalone: true }"></textarea>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col text-right">
-                        <button type="submit" class="btn" id="button" (click)="createNewCategory()">
+                        <button type="submit" class="btn" id="button" (click)="createCoupon()">
                           Create
                         </button>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="container-fluid" *ngIf="!showCategory">
+        <div class="container-fluid" *ngIf="!showCoupon">
             <div class="row">
                 <div class="col table-responsive">
                     <table class="table">
                         <thead>
                             <tr class="text-light">
-                                <th scope="col">Position</th>
-                                <th scope="col">Name</th>
+                                <th scope="col">Code</th>
+                                <th scope="col">Value</th>
+                                <th scope="col">Description</th>
                                 <th scope="col">#menu 1</th>
-                                <th scope="col">#menu 2</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <ng-container *ngFor="let item of backendService.categoryData | async ">
+                            <ng-container *ngFor="let item of backendService.couponData | async ">
                                 <tr class="justify-content-center align-items-center">
                                     <td>
-                                        <input type="number" min="1" class="input" [(ngModel)]="item.Position" [ngModelOptions]="{standalone: true}" />
+                                        <input type="text" class="input" value="{{item.Code}}" readonly />
                                     </td>
                                     <td>
-                                        <input type="text" class="input" [(ngModel)]="item.Name" [ngModelOptions]="{standalone: true}" />
+                                        <input type="text" class="input" value="{{item.Value}}" readonly />
                                     </td>
                                     <td>
-                                        <button type="submit" class="btn" id="button" (click)="modifyCategory(item)">Save</button>
+                                        <textarea rows="1" class="input" value="{{item.Description}}" readonly></textarea>
                                     </td>
                                     <td>
-                                        <button type="submit" class="btn btn-danger" (click)="deleteCategory(item)">
+                                        <button type="submit" class="btn btn-danger" (click)="deleteCoupon(item)">
                                                 Delete
                                             </button>
                                     </td>
