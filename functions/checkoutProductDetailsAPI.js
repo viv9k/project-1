@@ -39,6 +39,7 @@ exports.checkoutProductDetails = functions.https.onRequest((request, response) =
                         CouponDiscountPercentage: couponDiscount,
                         TotalDisountPriceWithCouponApplied: totalDisountPriceWithCouponApplied,
                         TotalActualPrice: totalActualPrice,
+                        TotalDisountPrice: totalDisountPrice,
                     };
                     const p2 = db.collection("Users").doc(data.UserUid).update({
                         CheckoutProductDetails: CheckoutProductDetailsObj,
