@@ -13,10 +13,12 @@
                 </div>
             </ng-container>
             <ng-container *ngIf="status == 'Checking'">
-                <div class="text-success">
-                    <app-loader></app-loader>
+                <app-loader></app-loader>
+                <div class="row mt-3">
+                    <div class="col">
+                        <p>Verifying Payment Status</p>
+                    </div>
                 </div>
-                <h1>Verifying Payment Status</h1>
             </ng-container>
             <ng-container *ngIf="paymentId==='f' || status==='failed'">
                 <div class="text-danger">

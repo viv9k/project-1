@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { ActivatedRoute, Router } from '@angular/router';
+import { combineAll } from 'rxjs/operators';
 import { Image } from 'src/app/Interface/ImageInterface';
 import { ProductId } from 'src/app/Interface/ProductInterface';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -18,6 +19,7 @@ export class ProductDetailsComponent implements OnInit {
   selectedImage: string
   productQuantity: number = 1
   productData: ProductId
+  loader: boolean = false
 
   @ViewChild('imageContainer', { read: ElementRef }) public imageContainer: ElementRef<any>;
 
@@ -73,6 +75,7 @@ export class ProductDetailsComponent implements OnInit {
 
   }
   async addToCart() {
+    this.loader = true;
     if (!this.authService.userUid) {
       this.toastService.show('Login to Continue', { classname: 'bg-warning text-dark' });
       return;
@@ -85,15 +88,22 @@ export class ProductDetailsComponent implements OnInit {
         Product: this.productData,
         UserUid: this.authService.user.uid.toString(),
         ProductQuantity: this.productQuantity
-      }).toPromise();
+      }).toPromise().then(() => {
+        this.loader = false;
+      });
       this.toastService.show('Product Added to the Cart', { classname: 'bg-success text-light' });
       console.log(result);
     } catch (error) {
     }
   }
   buyNow() {
+    this.loader = true;
     this.addToCart().then(() => {
-      this.router.navigate(["Cart"])
-    })
+      this.loader = false;
+      this.router.navigate(["Cart"]);
+    }).catch((error) => {
+      this.loader = false;
+      console.log(error);
+    });
   }
 }

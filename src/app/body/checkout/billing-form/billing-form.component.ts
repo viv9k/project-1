@@ -42,13 +42,13 @@ export class BillingFormComponent implements OnInit {
     key: 'rzp_test_mGF2KfJUl6P2bO', // add razorpay key here
     name: 'Customer name',
     description: 'Shopping',
-    image: "http://localhost:4200/assets/logo.png",
+    image: "https://vh-ecom.web.app/assets/logo.png",
     order_id: "",
     amount: 0,
     prefill: {
-      name: 'Testing Account',
-      contact: '8677965757',
-      email: 'customeremail@gmail.com', // add your email id
+      name: '',
+      contact: '',
+      email: '', // add your email id
     },
     callback_url: "",
     notes: {},
@@ -82,6 +82,9 @@ export class BillingFormComponent implements OnInit {
     private router: Router
   ) {
     this._window = this.winRef.nativeWindow;
+    this.options.prefill.name = authService.user.displayName;
+    this.options.prefill.contact = authService.user.phoneNumber;
+    this.options.prefill.email = authService.user.email;
   }
 
   ngOnInit(): void {
