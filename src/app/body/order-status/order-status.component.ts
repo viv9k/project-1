@@ -26,13 +26,7 @@ export class OrderStatusComponent implements OnInit {
     this.orderId = this.route.snapshot.params['orderId'];
     this.paymentId = this.route.snapshot.params['paymentId'];
     this.signature = this.route.snapshot.params['signature'];
-    if (this.paymentId !== "f") {
-      this.verifyOrderStatus().then(() => {
-        if (this.status === "Success") {
-          this.placeOrder()
-        }
-      });
-    }
+    this.verifyOrderStatus();
   }
 
   async verifyOrderStatus() {
@@ -44,6 +38,9 @@ export class OrderStatusComponent implements OnInit {
         Signature: this.signature,
       }).toPromise();
       console.log(result);
+      if(result.status == 200) {
+        this.placeOrder();
+      }
     } catch (error) {
       console.log(error);
     }

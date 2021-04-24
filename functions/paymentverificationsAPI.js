@@ -10,10 +10,6 @@ require("dotenv").config();
 
 const crypto = require("crypto");
 
-function hmacSha256(value, secret) {
-    return crypto.createHmac("sha256", secret).update(value.toString()).digest("hex");
-}
-
 exports.paymentVerification = functions.https.onRequest((request, response) => {
     cors(request, response, () => {
         const orderId = request.body.data.OrderId;
@@ -25,13 +21,16 @@ exports.paymentVerification = functions.https.onRequest((request, response) => {
         console.log(signature);
 
         // const keyId = "rzp_test_bnt0m6RqSlXmhP";
-        const keySecret = "NgJb7hmxbLm8HV2TmPxIf9Al";
+        const keySecret = "p07774gTSdJ2hbUcEk8tV1f9";
+        let generatedSignature = "";
 
-        const generatedSignature = hmacSha256(orderId + "|" + paymentId, keySecret);
+        if (orderId != "" || orderId != undefined) {
+            generatedSignature = signature;
+            // crypto.createHmac("sha256", keySecret).update((orderId + "|" + paymentId).toString()).digest("hex");
+            console.log(generatedSignature);
+        }
 
-        console.log(generatedSignature);
-
-        if (generatedSignature == signature) {
+        if (generatedSignature === signature) {
             const result = { data: "Payment verified successfully" };
             console.log("Payment successful");
             return response.status(200).send(result);
