@@ -13,6 +13,7 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 })
 export class CouponComponent implements OnInit {
 
+  couponCode: string
   couponValue: string
   couponDescription: string
   showCoupon: boolean
@@ -45,6 +46,7 @@ export class CouponComponent implements OnInit {
     try {
       const result = await callable({
         Mode: "CREATE_COUPON",
+        Code: this.couponCode,
         Value: this.couponValue,
         Description: this.couponDescription,
       }).toPromise();

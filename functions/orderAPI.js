@@ -8,16 +8,19 @@ const cors = require("cors")({ origin: true });
 const admin = require("firebase-admin");
 
 const db = admin.firestore();
+const orderStatusEmailAPI = require("./oderStatusEmailAPI");
 
 exports.order = functions.https.onRequest((request, response) => {
     cors(request, response, () => {
         const data = request.body.data;
+
         const promise1 = db.collection("RawData").doc("AppDetails").get().then((doc) => {
             if (data.Mode === "PLACE_ORDER") {
                 const totalNumberofOrders = doc.data().TotalNumberOfOrders + 1;
                 const orderId = "O" + totalNumberofOrders;
                 const p1 = db.collection("Users").doc(data.UserUid).get().then((docment) => {
                     const contents = docment.data().Cart;
+
                     if (contents.length > 0) {
                         const p2 = db.collection("Users").doc(data.UserUid).update({
                             Cart: [],
@@ -28,13 +31,15 @@ exports.order = functions.https.onRequest((request, response) => {
                             UserUid: data.UserUid,
                             TotalNumberOfProducts: contents.length,
                             TotalActualPrice: docment.data().CheckoutProductDetails.TotalActualPrice,
-                            TotalDisountPrice: docment.data().CheckoutProductDetails.TotalDisountPriceWithCouponApplied,
+                            TotalDisountPrice: docment.data().CheckoutProductDetails.TotalDisountPrice,
+                            TotalDisountPriceWithCouponApplied: docment.data().CheckoutProductDetails.TotalDisountPriceWithCouponApplied,
                             Date: data.Date,
                             Status: "Ordered",
                         });
                         const p4 = db.collection("RawData").doc("AppDetails").update({
                             TotalNumberOfOrders: totalNumberofOrders,
                         });
+                        orderStatusEmailAPI.orderStatusEmailApi(docment, contents, data);
                         return Promise.all([p2, p3, p4]);
                     }
                 });

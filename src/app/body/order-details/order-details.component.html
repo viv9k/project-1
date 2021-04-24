@@ -7,17 +7,20 @@
     <div class="row">
         <div class="col">
             <ng-container *ngFor="let item of backendService.orderData | async">
-                <ng-container *ngFor="let product of item.ProductInfo;">
-                    <div class="row" *ngIf="orderId===item.Id">
-                        <div class="col-12 col-md">
-                            <p> <span class="font-weight-bolder">Total Price :</span> {{ item.TotalDisountPrice }}</p>
-                        </div>
-                        <div class="col-12 col-md">
-                            <p> <span class="font-weight-bolder">You Saved : </span> {{ (item.TotalActualPrice - item.TotalDisountPrice).toFixed(2) }}</p>
-                        </div>
+                <div class="row" *ngIf="orderId===item.Id">
+                    <div class="col-12 col-md-3">
+                        <p> <span class="font-weight-bolder">Total Price :</span> {{ item.TotalActualPrice }}</p>
                     </div>
-
-                </ng-container>
+                    <div class="col-12 col-md-3">
+                        <p> <span class="font-weight-bolder">Discount :</span> {{ item.TotalActualPrice - item.TotalDisountPrice }}</p>
+                    </div>
+                    <div class="col-12 col-md-3" *ngIf="item.TotalDisountPriceWithCouponApplied">
+                        <p> <span class="font-weight-bolder">Coupon Discount :</span> {{ item.TotalDisountPrice-item.TotalDisountPriceWithCouponApplied }}</p>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <p> <span class="font-weight-bolder">You Saved :</span> {{ item.TotalActualPrice - item.TotalDisountPriceWithCouponApplied }}</p>
+                    </div>
+                </div>
                 <ng-container *ngFor="let product of item.ProductInfo;let i=index">
                     <ng-container *ngIf="orderId===item.Id">
                         <div class="card mb-2">

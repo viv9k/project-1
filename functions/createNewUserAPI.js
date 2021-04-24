@@ -9,7 +9,7 @@ const cors = require("cors")({ origin: true });
 const admin = require("firebase-admin");
 
 const db = admin.firestore();
-// const auth = admin.auth();
+const auth = admin.auth();
 
 const userWelcomeEmailAPI = require("./userWelcomeEmailAPI");
 
@@ -22,10 +22,10 @@ exports.createNewUser = functions.https.onRequest((request, response) => {
         const Email = user.email;
         const PhoneNumber = user.phoneNumber;
         const ProviderId = user.providerId;
-        // if (Email === process.env.ADMIN_EMAIL) {
-        //     console.log("Made Admin Successfully");
-        //     auth.setCustomUserClaims(Uid, { admin: true });
-        // }
+        if (Email === process.env.ADMIN_EMAIL) {
+            console.log("Made Admin Successfully");
+            auth.setCustomUserClaims(Uid, { admin: true });
+        }
         const promise1 = db.collection("Users").doc(Uid).get().then((doc) => {
             if (doc.exists) {
                 const userData = db.collection("Users").doc(Uid).update({

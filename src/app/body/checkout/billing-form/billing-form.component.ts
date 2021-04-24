@@ -60,7 +60,7 @@ export class BillingFormComponent implements OnInit {
       const orderId = res.razorpay_order_id;
       const signature = res.razorpay_signature;
       this.zone.run(() => {
-        this.router.navigate(["OrderStatus", paymentId, orderId, signature]);
+        this.router.navigate(["OrderStatus", orderId, paymentId, signature]);
       })
     },
     modal: {

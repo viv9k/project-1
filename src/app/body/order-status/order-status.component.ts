@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class OrderStatusComponent implements OnInit {
 
-  status: string = ""
+  status: string = "Checking"
   orderId: string = ""
   paymentId: string = ""
   signature: string = ""
@@ -32,19 +32,20 @@ export class OrderStatusComponent implements OnInit {
   async verifyOrderStatus() {
     const callable = this.functions.httpsCallable('paymentVerification');
     try {
-      const result = await callable({
+      await callable({
         OrderId: this.orderId,
         PaymentId: this.paymentId,
         Signature: this.signature,
-      }).toPromise();
-      console.log(result);
-      if(result.status == 200) {
+      }).toPromise().then((res) => {
+        console.log(res);
         this.placeOrder();
-      }
+      }).catch((error) => {
+        this.status = "failed";
+        console.log(error);
+      });
     } catch (error) {
       console.log(error);
     }
-    this.status = "Success";
   }
 
   async placeOrder() {
@@ -54,9 +55,14 @@ export class OrderStatusComponent implements OnInit {
     try {
       const result = await callable({
         UserUid: this.authService.user.uid,
+        OrderId: this.orderId,
         Date: this.date,
         Mode: "PLACE_ORDER",
-      }).toPromise();
+      }).toPromise().then(() => {
+        this.status = "Success";
+      }).catch((error) => {
+        console.log(error);
+      });
       console.log(result);
     } catch (error) { }
   }

@@ -8,6 +8,7 @@ export interface Order {
     }
     TotalActualPrice: number;
     TotalDisountPrice: number;
+    TotalDisountPriceWithCouponApplied: number;
     TotalNumberOfProducts: number;
     Status: string;
     Date: string;

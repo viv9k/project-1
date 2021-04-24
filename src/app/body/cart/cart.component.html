@@ -121,6 +121,8 @@
                 <ng-container *ngIf="item.Cart.length===0">
                     <h1>Your Shopping Cart Is Empty</h1>
                     <a [routerLink]="['']">Continue Shopping</a>
+                    <hr>
+                    <a [routerLink]="['/Orders']">Check Your Orders</a>
                 </ng-container>
             </ng-container>
         </div>

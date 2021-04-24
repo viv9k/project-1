@@ -18,20 +18,15 @@ exports.paymentVerification = functions.https.onRequest((request, response) => {
 
         console.log(orderId);
         console.log(paymentId);
-        console.log(signature);
 
-        // const keyId = "rzp_test_bnt0m6RqSlXmhP";
-        const keySecret = "p07774gTSdJ2hbUcEk8tV1f9";
+        const keySecret = process.env.KEY;
         let generatedSignature = "";
 
-        if (orderId != "" || orderId != undefined) {
-            generatedSignature = signature;
-            // crypto.createHmac("sha256", keySecret).update((orderId + "|" + paymentId).toString()).digest("hex");
-            console.log(generatedSignature);
-        }
+        generatedSignature = crypto.createHmac("sha256", keySecret).update((orderId + "|" + paymentId).toString()).digest("hex");
+        console.log(generatedSignature);
 
         if (generatedSignature === signature) {
-            const result = { data: "Payment verified successfully" };
+            const result = { data: "Payment verified successfully", status: 200 };
             console.log("Payment successful");
             return response.status(200).send(result);
         } else {

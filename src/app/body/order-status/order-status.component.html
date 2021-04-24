@@ -10,10 +10,13 @@
                     <div class="col">
                         <a [routerLink]="['/']">Continue Shopping</a>
                     </div>
-                    <div class="col">
-                        <a [routerLink]="['/Orders']">Check Your Orders</a>
-                    </div>
                 </div>
+            </ng-container>
+            <ng-container *ngIf="status == 'Checking'">
+                <div class="text-success">
+                    <app-loader></app-loader>
+                </div>
+                <h1>Verifying Payment Status</h1>
             </ng-container>
             <ng-container *ngIf="paymentId==='f'">
                 <div class="text-danger">
