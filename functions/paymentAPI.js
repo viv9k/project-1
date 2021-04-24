@@ -26,15 +26,17 @@ exports.payment = functions.https.onRequest((request, response) => {
                 const amount = doc.data().CheckoutProductDetails.TotalDisountPriceWithCouponApplied;
 
                 const razorpay = new RazorPay({
-                    key_id: "rzp_test_wGS2ZWj8mzB0bd",
-                    key_secret: "cyPEJaEZtgm4qXdEVPzlmDWK",
+                    key_id: process.env.KEY,
+                    key_secret: process.env.SECRET,
                 });
 
                 const options = {
-                    amount: amount * 100, // amount in the smallest currency unit
+                    amount: parseInt(amount * 100), // amount in the smallest currency unit
                     currency: "INR",
                     receipt: generateBase64String("string"),
                 };
+
+                console.log(options);
                 razorpay.orders.create(options, function(err, order) {
                     if (err) {
                         const result = { data: err };

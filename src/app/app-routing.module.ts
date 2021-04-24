@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: "Inventory", component: InventoryComponent, canActivate: [AngularFireAuthGuard] }, // Remove in main deployment
   { path: "Inventory/Items", component: InventoryItemsComponent, canActivate: [AngularFireAuthGuard] },// Remove in main deployment
   { path: "Inventory/Orders", component: InventoryOrdersComponent, canActivate: [AngularFireAuthGuard] },// Remove in main deployment
-  { path: "Products/:productId", component: ProductDetailsComponent },
+  { path: "Products/:productId/:productName", component: ProductDetailsComponent },
   { path: "Cart", component: CartComponent },
   { path: "Cart/Checkout", component: CheckoutComponent },
   { path: "Orders", component: OrdersComponent },

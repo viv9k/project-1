@@ -39,7 +39,7 @@ export class BillingFormComponent implements OnInit {
   public rzp: any;
 
   public options: any = {
-    key: 'rzp_test_wGS2ZWj8mzB0bd', // add razorpay key here
+    key: 'rzp_test_mGF2KfJUl6P2bO', // add razorpay key here
     name: 'Customer name',
     description: 'Shopping',
     image: "http://localhost:4200/assets/logo.png",
@@ -60,7 +60,7 @@ export class BillingFormComponent implements OnInit {
       const orderId = res.razorpay_order_id;
       const signature = res.razorpay_signature;
       this.zone.run(() => {
-        this.router.navigate(["OrderStatus", paymentId, orderId, signature]);
+        this.router.navigate(["OrderStatus", orderId, paymentId, signature]);
       })
     },
     modal: {
