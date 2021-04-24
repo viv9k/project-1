@@ -35,64 +35,67 @@ exports.orderStatusEmailApi = function(docment, contents, data) {
                                 <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px">${item.Product.Name}</p>
                             </td>
                         </tr>
-                        <tr>
-                            <td style="display: inline-block;max-width:200px;width: 100%;">
+
+
+                         <tr style="background-color: #ffffff;text-align: center;">
+                    <td style="display: inline-block;max-width:150px;width: 100%;">
                                 <p style="margin:0;font-size:16px;color:#444444;">&#8377; ${item.Product.DiscountPrice} × ${item.Quantity}</p>
-                            </td>
-                            <td style="display: inline-block;max-width:150px;width: 100%;text-align: end;">
+                    </td>
+                    <td style="display: inline-block;max-width:100px;width: 100%;">
+                        <p style="margin:0;font-size:16px;color:#444444;">Rs. 24,000.00</p>
                                 <p style="margin:0;font-size:16px;color:#444444;">&#8377; ${item.Product.DiscountPrice * item.Quantity}</p>
-                            </td>
-                        </tr>
-                          <tr>
-                <td style="display: inline-block;max-width:auto;width: 100%;">
-                    <div style="display: block;width:100%;height: 1px;background-color: #d5d5d5;margin-bottom: 2px;"></div>
-                </td>
-            </tr>`)}
-            <tr>
-                <td style="display: inline-block;max-width:auto;width: 100%;margin-top: 10px;">
-                    <div style="display: block;width:100%;height: 1px;background-color: #d5d5d5;margin-bottom: 20px;"></div>
-                </td>
-            </tr>
-            <tr>
-                <td style="display: inline-block;max-width:200px;width: 100%;">
-                    <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px">Subtotal</p>
-                </td>
-                <td style="display: inline-block;max-width:150px;width: 100%;text-align: end;">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="display: inline-block;max-width:auto;width: 100%;margin-top: 10px;">
+                        <div style="display: block;width:100%;height: 1px;background-color: #d5d5d5;margin-bottom: 2px;"></div>
+                    </td>
+                </tr>`)}
+
+
+
+
+
+                 <tr style="background-color: #ffffff;text-align: center;">
+                    <td style="display: inline-block;max-width:100px;width: 100%;text-align: left;">
+                        <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px">Subtotal</p>
+                    </td>
+                    <td style="display: inline-block;max-width:100px;width: 100%;text-align: right;">
                     <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px">&#8377; ${docment.data().CheckoutProductDetails.TotalActualPrice}</p>
-                </td>
-            </tr>
-            <tr>
-                <td style="display: inline-block;max-width:200px;width: 100%;">
-                    <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px">Discount</p>
-                </td>
-                <td style="display: inline-block;max-width:150px;width: 100%;text-align: end;">
-                    <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px">- &#8377; ${docment.data().CheckoutProductDetails.TotalActualPrice - docment.data().CheckoutProductDetails.TotalDisountPrice}</p>
-                </td>
-            </tr>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: center;">
+                    <td style="display: inline-block;max-width:100px;width: 100%;text-align: left;">
+                        <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px">Discount</p>
+                    </td>
+                    <td style="display: inline-block;max-width:100px;width: 100%;text-align:right;">
+                        <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px">- &#8377; ${docment.data().CheckoutProductDetails.TotalActualPrice - docment.data().CheckoutProductDetails.TotalDisountPrice}</p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: center;">
+                    <td style="display: inline-block;max-width:100px;width: 100%;text-align: left;">
+                        <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px;font-weight: bold;">Total</p>
+                    </td>
+                    <td style="display: inline-block;max-width:100px;width: 100%;text-align: right;">
+                        <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px;font-weight: bold;">&#8377; ${docment.data().CheckoutProductDetails.TotalDisountPriceWithCouponApplied}</p>
+                    </td>
+                </tr>
             ${docment.data().CheckoutProductDetails.CouponDiscountPercentage > 0 ? `<tr>
-                        <td style="display: inline-block;max-width:200px;width: 100%;">
+            <td style="display: inline-block;max-width:100px;width: 100%;text-align: left;">
+                            <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px">Coupon Discount</p>
+                    </td>
+                    <td style="display: inline-block;max-width:100px;width: 100%;text-align: right;">
+                        <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px">- &#8377; ${docment.data().CheckoutProductDetails.TotalDisountPrice - docment.data().CheckoutProductDetails.TotalDisountPriceWithCouponApplied}</p>
+                    </td>
+                    </tr>` : `<tr>
+                        <td style="display: inline-block;max-width:100px;width: 100%;text-align: left;">
                             <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px">Coupon Discount</p>
                         </td>
-                        <td style="display: inline-block;max-width:150px;width: 100%;text-align: end;">
-                            <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px">- &#8377; ${docment.data().CheckoutProductDetails.TotalDisountPrice - docment.data().CheckoutProductDetails.TotalDisountPriceWithCouponApplied}</p>
-                        </td>
-                    </tr>` : `<tr>
-                    <td style="display: inline-block;max-width:200px;width: 100%;">
-                        <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px">Coupon Discount</p>
-                    </td>
-                    <td style="display: inline-block;max-width:150px;width: 100%;text-align: end;">
+                    <td style="display: inline-block;max-width:100px;width: 100%;text-align: right;">
                         <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px">- &#8377; 0</p>
                     </td>
                 </tr>`
-                    }
-            <tr>
-                <td style="display: inline-block;max-width:200px;width: 100%;">
-                    <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px;font-weight: bold;">Total</p>
-                </td>
-                <td style="display: inline-block;max-width:150px;width: 100%;text-align: end;">
-                    <p style="margin:0;font-size:16px;color:#444444; margin-bottom:20px;font-weight: bold;">&#8377; ${docment.data().CheckoutProductDetails.TotalDisountPriceWithCouponApplied}</p>
-                </td>
-            </tr>
+        }
             <tr>
                 <td style="display: inline-block;max-width:auto;width: 100%;">
                     <div style="display: block;width:100%;height: 1px;background-color: #d5d5d5;margin-bottom: 20px;"></div>
@@ -152,9 +155,9 @@ exports.orderStatusEmailApi = function(docment, contents, data) {
         },
     });
     return Promise.resolve(sendEmailPromise).then(() => {
-            console.log("Order Email Sent Successfully!");
-            return 0;
-        })
+        console.log("Order Email Sent Successfully!");
+        return 0;
+    })
         .catch((error) => {
             console.error("Error in Sending Verification Email: ", error);
         });

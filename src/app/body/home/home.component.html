@@ -43,7 +43,7 @@
                     <app-product-card [item]="item"></app-product-card>
                 </div>
                 <ng-container *ngIf="tagName">
-                    <div class="col mb-4 h-100" *ngIf="item.Visibility === 'Show' && item.Category === category.Name">
+                    <div class="col mb-4 h-100" *ngIf="item.Visibility === 'Show' && item.Tag ===tagName">
                         <app-product-card [item]="item"></app-product-card>
                     </div>
                 </ng-container>

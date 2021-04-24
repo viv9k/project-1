@@ -5,7 +5,6 @@
 
 const functions = require("firebase-functions");
 const cors = require("cors")({ origin: true });
-require("dotenv").config();
 const admin = require("firebase-admin");
 
 const db = admin.firestore();

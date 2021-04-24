@@ -19,7 +19,7 @@ exports.paymentVerification = functions.https.onRequest((request, response) => {
         console.log(orderId);
         console.log(paymentId);
 
-        const keySecret = process.env.KEY;
+        const keySecret = `${functions.config().razorpay.secret}`;
         let generatedSignature = "";
 
         generatedSignature = crypto.createHmac("sha256", keySecret).update((orderId + "|" + paymentId).toString()).digest("hex");

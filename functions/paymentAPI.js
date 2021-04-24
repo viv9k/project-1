@@ -8,7 +8,6 @@
 const functions = require("firebase-functions");
 const RazorPay = require("razorpay");
 const cors = require("cors")({ origin: true });
-require("dotenv").config();
 
 const admin = require("firebase-admin");
 const db = admin.firestore();
@@ -26,8 +25,8 @@ exports.payment = functions.https.onRequest((request, response) => {
                 const amount = doc.data().CheckoutProductDetails.TotalDisountPriceWithCouponApplied;
 
                 const razorpay = new RazorPay({
-                    key_id: process.env.KEY,
-                    key_secret: process.env.SECRET,
+                    key_id: `${functions.config().razorpay.key}`,
+                    key_secret: `${functions.config().razorpay.secret}`,
                 });
 
                 const options = {

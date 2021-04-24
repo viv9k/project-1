@@ -4,6 +4,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { Router } from '@angular/router';
 import { Category } from 'src/app/Interface/CategoryInterface';
 import { ProductId } from 'src/app/Interface/ProductInterface';
+import { Tag } from 'src/app/Interface/TagInterface';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { BackendService } from 'src/app/services/backend/backend.service';
 import { ToastService } from 'src/app/services/toast/toast.service'
@@ -17,7 +18,6 @@ export class InventoryItemsComponent implements OnInit {
 
   itemCollection: string
   enableLoader: Boolean = true
-  newTag: string
   newField: string
   newValue: string
 
@@ -41,7 +41,7 @@ export class InventoryItemsComponent implements OnInit {
         Mode: "UPDATE_PRODUCT", ProductId: product.Id, Name: product.Name, Description: product.Description,
         Availability: product.Availability, ActualPrice: product.ActualPrice, DiscountPrice: product.DiscountPrice,
         DiscountPercent: product.DiscountPercent, Visibility: product.Visibility,
-        Sku: product.Sku, Stock: product.Stock, Category: product.Category
+        Sku: product.Sku, Stock: product.Stock, Category: product.Category, Tag: product.Tag,
       }).toPromise();
       this.toastService.show('Successfully Updated the Product', { classname: 'bg-warning text-dark' });
       console.log(result);
@@ -64,26 +64,6 @@ export class InventoryItemsComponent implements OnInit {
       const result = await callable({ Mode: "DELETE_PRODUCT", ProductId: product.Id }).toPromise();
       this.toastService.show('Successfully Deleted the Product', { classname: 'bg-danger text-light' });
       console.log(result);
-    } catch (error) {
-    }
-  }
-
-  async onAddNewTag(product: ProductId) {
-    const callable = this.functions.httpsCallable('product');
-    try {
-      const result = await callable({ Mode: "ADD_TAG", ProductId: product.Id, NewTag: this.newTag }).toPromise();
-      this.toastService.show('Successfully Added Tag', { classname: 'bg-success text-light' });
-    } catch (error) {
-    }
-    this.newTag = ""
-  }
-
-  async onDeleteTag(product: ProductId, index: number) {
-
-    const callable = this.functions.httpsCallable('product');
-    try {
-      const result = await callable({ Mode: "DELETE_TAG", ProductId: product.Id, TagIndex: index }).toPromise();
-      this.toastService.show('Successfully Deleted Tag', { classname: 'bg-success text-light' });
     } catch (error) {
     }
   }
@@ -118,6 +98,17 @@ export class InventoryItemsComponent implements OnInit {
         Mode: "UPDATE_PRODUCT_CATEGORY", ProductId: product.Id, Category: category.Name
       }).toPromise();
       this.toastService.show('Successfully Updated the Product Category', { classname: 'bg-warning text-dark' });
+      console.log(result);
+    } catch (error) {
+    }
+  }
+  async onSetTag(product: ProductId, tag: Tag) {
+    const callable = this.functions.httpsCallable('product');
+    try {
+      const result = await callable({
+        Mode: "UPDATE_PRODUCT_TAG", ProductId: product.Id, Tag: tag.Name,
+      }).toPromise();
+      this.toastService.show('Successfully Updated the Product Tag', { classname: 'bg-warning text-dark' });
       console.log(result);
     } catch (error) {
     }
