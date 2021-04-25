@@ -9,6 +9,15 @@
     border: 1px double #977552;
 }
 
+.categoryLook {
+    background: linear-gradient( to right, rgba(151, 117, 82, 1), rgba(151, 117, 82, 0));
+    /* border-radius: 1%; */
+    /* border: 1px double #977552; */
+    border-radius: 5px;
+}
+
+
+/*
 .outer {
     width: 500px;
     background: #977552;
@@ -62,13 +71,13 @@
     top: 25px;
     right: -50px;
     z-index: -2;
-}
+} */
 
 div span {
     display: block;
     line-height: 50px;
     height: 50px;
-    font-weight: bold;
-    font-size: 28px;
-    color: #000;
+    /* font-weight: bold; */
+    font-size: 20px;
+    color: #ffffff;
 }

@@ -27,13 +27,13 @@
         </div>
     </div>
     <ng-container *ngFor="let category of backendService.categoryData | async">
-        <div class="row">
+        <div class="row categoryLook">
             <div class="col">
-                <div class="outer">
-                    <div class="left"></div>
-                    <div class="right"></div>
-                    <span>{{ category.Name }}</span>
-                </div>
+                <!-- <div class="outer"> -->
+                <!-- <div class="left"></div>
+                    <div class="right"></div> -->
+                <span>{{ category.Name }}</span>
+                <!-- </div> -->
             </div>
         </div>
 

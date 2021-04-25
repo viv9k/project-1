@@ -28,7 +28,7 @@ exports.product = functions.https.onRequest((request, response) => {
                         Description: product.Description,
                         Category: product.Category,
                         ActualPrice: product.ActualPrice,
-                        DiscountPrice: product.DiscountPrice,
+                        DiscountPrice: parseFloat(product.DiscountPrice.toFixed(2)),
                         DiscountPercent: product.DiscountPercent,
                         Availability: product.Availability,
                         Visibility: product.Visibility,

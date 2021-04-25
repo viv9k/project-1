@@ -28,6 +28,8 @@ export class BillingFormComponent implements OnInit {
   city: string
   state: string
   country: string = "India"
+  couponDiscountPercentage: number = 0;
+  totalDisountPriceWithCouponApplied: number = 0;
 
   date: string
   infoPacket: any
@@ -98,6 +100,8 @@ export class BillingFormComponent implements OnInit {
       this.city = data[0].BillingDetails.City
       this.state = data[0].BillingDetails.State
       this.country = data[0].BillingDetails.Country
+      this.couponDiscountPercentage = data[0].CheckoutProductDetails.CouponDiscountPercentage
+      this.totalDisountPriceWithCouponApplied = data[0].CheckoutProductDetails.TotalDisountPriceWithCouponApplied
     })
   }
   // generateBase64String(string) {
@@ -118,6 +122,8 @@ export class BillingFormComponent implements OnInit {
         City: this.city,
         State: this.state,
         Country: this.country,
+        CouponDiscountPercentage: this.couponDiscountPercentage,
+        TotalDisountPriceWithCouponApplied: this.totalDisountPriceWithCouponApplied,
       }).toPromise().then((res) => {
         console.log(res);
         this.loader = false;
@@ -145,7 +151,7 @@ export class BillingFormComponent implements OnInit {
       this.options.order_id = result.id;
       this.options.amount = result.amount;
       this.options.key = result.key;
-      this.options.callback_url = "http://localhost:4200/OrderStatus/" + result.id;
+      // this.options.callback_url = "http://localhost:4200/OrderStatus/" + result.id;
       this.initPay()
       // this.procceedToPayment(result);
     } catch (error) {

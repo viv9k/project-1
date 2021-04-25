@@ -48,6 +48,7 @@ import { GooglePayButtonModule } from "@google-pay/button-angular";
 import { OrderStatusComponent } from './body/order-status/order-status.component';
 import { CouponComponent } from './body/inventory/coupon/coupon.component';
 import { TagComponent } from './body/inventory/tag/tag.component';
+import { SelectedOrderComponent } from './body/selected-order/selected-order.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -81,6 +82,7 @@ import { TagComponent } from './body/inventory/tag/tag.component';
     OrderStatusComponent,
     CouponComponent,
     TagComponent,
+    SelectedOrderComponent,
   ],
   imports: [
     BrowserModule,

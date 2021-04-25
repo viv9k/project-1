@@ -23,6 +23,8 @@ exports.checkout = functions.https.onRequest((request, response) => {
                     City: data.City,
                     State: data.State,
                     Country: "India",
+                    CouponDiscountPercentage: data.CouponDiscountPercentage,
+                    TotalDisountPriceWithCouponApplied: data.TotalDisountPriceWithCouponApplied,
                 };
                 const p1 = db.collection("Users").doc(data.UserUid).update({
                     BillingDetails: BillingDetailObject,

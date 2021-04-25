@@ -45,4 +45,9 @@ export class InventoryOrdersComponent implements OnInit {
     } catch (error) {
     }
   }
+
+  downloadShippingData(order: Order) {
+    this.backendService.selectedOrder = order;
+    this.router.navigate(["SelectedOrder"]);
+  }
 }

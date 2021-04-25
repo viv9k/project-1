@@ -13,7 +13,7 @@ export class CheckoutComponent implements OnInit {
   totalDisountPrice: number = 0
   totalActualPrice: number = 0
   couponCode: string = ""
-  couponDiscountPercent: number
+  couponDiscountPercent: number = 0
   totalDisountPricewithCoupon: number = 0
   constructor(public authService: AuthService, private router: Router, private backendService: BackendService) { }
 

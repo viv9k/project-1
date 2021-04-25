@@ -41,7 +41,8 @@ export class CartComponent implements OnInit {
     this.loader = true;
     const callable = this.functions.httpsCallable('checkoutProductDetails');
     try {
-      const result = await callable({
+      console.log(this.couponCode);
+      await callable({
         UserUid: this.authService.userUid,
         CouponCode: this.couponCode,
         Mode: "UPDATE_CHECKOUT_PRODUCTS_DETAILS",
@@ -51,7 +52,6 @@ export class CartComponent implements OnInit {
       }).catch((error) => {
         console.log(error);
       });
-      console.log(result);
     } catch (error) { }
   }
 

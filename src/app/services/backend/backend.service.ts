@@ -16,6 +16,8 @@ import { Tag } from 'src/app/Interface/TagInterface';
 })
 export class BackendService {
 
+  selectedOrder: Order;
+
   productCollection: AngularFirestoreCollection<ProductId>
   productData: Observable<ProductId[]>
 

@@ -6,4 +6,6 @@ export interface Checkout {
     City: string
     State: string
     Country: string
+    CouponDiscountPercentage: number
+    TotalDisountPriceWithCouponApplied: number
 }

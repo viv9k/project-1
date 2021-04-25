@@ -22,17 +22,25 @@ exports.checkoutProductDetails = functions.https.onRequest((request, response) =
                 let totalActualPrice = 0;
                 let couponDiscount = 0;
                 doc.data().Cart.map((item) => {
-                    totalDisountPrice += item.Product.DiscountPrice * item.Quantity;
-                    totalActualPrice += item.Product.ActualPrice * item.Quantity;
+                    totalDisountPrice += parseFloat((item.Product.DiscountPrice * item.Quantity).toFixed(2));
+                    totalActualPrice += parseFloat((item.Product.ActualPrice * item.Quantity).toFixed(2));
                 });
                 const p1 = db.collection("CouponCode").where("Code", "==", couponCode).get().then((docs) => {
+                    console.log(couponCode);
+                    console.log(docs);
                     docs.forEach((element) => {
+                        console.log("1");
                         couponDiscount = element.data().Value;
+                        console.log(couponCode);
+                        console.log(couponDiscount);
                     });
+                    console.log("2");
+                    console.log(couponDiscount);
                     if (couponDiscount > 0) {
-                        totalDisountPriceWithCouponApplied = totalDisountPrice - (totalDisountPrice * couponDiscount / 100);
+                        totalDisountPriceWithCouponApplied = parseFloat((totalDisountPrice - (totalDisountPrice * couponDiscount / 100)).toFixed(2));
                     } else {
-                        totalDisountPriceWithCouponApplied = totalDisountPrice;
+                        console.log(couponDiscount);
+                        totalDisountPriceWithCouponApplied = parseFloat(totalDisountPrice.toFixed(2));
                     }
                     const CheckoutProductDetailsObj = {
                         CouponCode: couponCode,
@@ -45,6 +53,8 @@ exports.checkoutProductDetails = functions.https.onRequest((request, response) =
                         CheckoutProductDetails: CheckoutProductDetailsObj,
                     });
                     return Promise.resolve(p2);
+                }).catch((error) => {
+                    console.log(error);
                 });
                 return Promise.resolve(p1);
             }
