@@ -26,8 +26,8 @@ exports.payment = functions.https.onRequest((request, response) => {
                 const amount = doc.data().CheckoutProductDetails.TotalDisountPriceWithCouponApplied;
 
                 const razorpay = new RazorPay({
-                    key_id: process.env.KEY || `${functions.config().razorpay.key}`,
-                    key_secret: process.env.SECRET || `${functions.config().razorpay.secret}`,
+                    key_id: "rzp_test_jWOofTDBbQGPFa",
+                    key_secret: "N9fWEfNEVnIrmubuMyDhxP4i",
                 });
 
                 const options = {

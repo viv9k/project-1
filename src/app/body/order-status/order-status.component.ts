@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { BackendService } from 'src/app/services/backend/backend.service';
 
 @Component({
   selector: 'app-order-status',
@@ -20,9 +21,12 @@ export class OrderStatusComponent implements OnInit {
     private route: ActivatedRoute,
     public functions: AngularFireFunctions,
     private authService: AuthService,
+    private backendService: BackendService,
   ) { }
 
   ngOnInit(): void {
+    // this.authService.readData();
+    // this.backendService.readRawData();
     this.orderId = this.route.snapshot.params['orderId'];
     this.paymentId = this.route.snapshot.params['paymentId'];
     this.signature = this.route.snapshot.params['signature'];
@@ -38,7 +42,12 @@ export class OrderStatusComponent implements OnInit {
         Signature: this.signature,
       }).toPromise().then((res) => {
         console.log(res);
-        this.placeOrder();
+
+        if(this.authService.billingAddress != undefined) {
+          this.placeOrder();
+        } else {
+          alert("Address Not found!!! Please contact support with order id: " + this.orderId);
+        }
       }).catch((error) => {
         this.status = "failed";
         console.log(error);
@@ -55,7 +64,10 @@ export class OrderStatusComponent implements OnInit {
     try {
       const result = await callable({
         UserUid: this.authService.user.uid,
-        OrderId: this.orderId,
+        UserEmail: this.authService.user.email,
+        UserName: this.authService.user.displayName,
+        ShippingAddress: this.authService.billingAddress,
+        RazorPayOrderId: this.orderId,
         Date: this.date,
         Mode: "PLACE_ORDER",
       }).toPromise().then(() => {

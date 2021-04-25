@@ -9,9 +9,11 @@
                         <th scope="col">TotalActualPrice</th>
                         <th scope="col">TotalDisountPrice</th>
                         <th scope="col">TotalNumberOfProducts</th>
+                        <th scope="col">Address</th>
                         <th scope="col">Status</th>
-                        <th scope="col">UserUid</th>
-                        <th scope="col"># menu1</th>
+                        <th scope="col">UserEmail</th>
+                        <th scope="col">Save</th>
+                        <th scope="col">Download Data</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,50 +30,48 @@
                                     <div class="modal-header">
                                         <h5 class="modal-title pull-left">Products </h5>
                                         <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
-                                            <span aria-hidden="true">&times;</span> 
+                                            <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="container-fluid">
                                             <div class="form-group row align-items-center justify-content-center">
-                                                <ng-container *ngFor="let item of backendService.orderData | async">
-                                                    <ng-container *ngFor="let product of item.ProductInfo;let i=index">
-                                                        <div class="card mb-2">
-                                                            <div class="row justify-content-center align-items-center">
-                                                                <div class="col-12 col-sm-4 col-md-4">
-                                                                    <div class="p-2">
-                                                                        <img src="{{product.Product.Images[0].DownloadURL}}" class="img-fluid" alt="Random slide" />
+                                                <ng-container *ngFor="let product of item.ProductInfo;let i=index">
+                                                    <div class="card mb-2">
+                                                        <div class="row justify-content-center align-items-center">
+                                                            <div class="col-12 col-sm-4 col-md-4">
+                                                                <div class="p-2">
+                                                                    <img src="{{product.Product.Images[0].DownloadURL}}" class="img-fluid" alt="Random slide" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-sm-8 col-md-8 text-dark">
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <div class="p-2">
+                                                                            <h5 class="card-title"><span class="font-weight-bolder">{{product.Product.Name}}</span></h5>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-12 col-sm-8 col-md-8 text-dark">
-                                                                    <div class="row">
-                                                                        <div class="col">
-                                                                            <div class="p-2">
-                                                                                <h5 class="card-title"><span class="font-weight-bolder">{{product.Product.Name}}</span></h5>
-                                                                            </div>
+                                                                <div class="row">
+                                                                    <div class="col-12 col-md-6">
+                                                                        <div class="p-2">
+                                                                            <p class="m-0"><span class="field mr-2">Retail Price </span><span class="span__price">{{product.Product.ActualPrice | currency:"INR"}}</span></p>
+                                                                            <p class="m-0"><span class="field mr-2">Offer Price</span> {{product.Product.DiscountPrice | currency:"INR"}}</p>
+                                                                            <p class="m-0"><span class="field mr-2">Sub Total</span>{{product.Quantity*product.Product.DiscountPrice| currency:"INR"}}</p>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="row">
-                                                                        <div class="col-12 col-md-6">
-                                                                            <div class="p-2">
-                                                                                <p class="m-0"><span class="field mr-2">Retail Price </span><span class="span__price">{{product.Product.ActualPrice | currency:"INR"}}</span></p>
-                                                                                <p class="m-0"><span class="field mr-2">Offer Price</span> {{product.Product.DiscountPrice | currency:"INR"}}</p>
-                                                                                <p class="m-0"><span class="field mr-2">Sub Total</span>{{product.Quantity*product.Product.DiscountPrice| currency:"INR"}}</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-12 col-md-6 text-center">
-                                                                            <p class="m-0">Quantity</p>
-                                                                            <div class="row align-items-center justify-content-center">
-                                                                                <div class="col-3">
-                                                                                    <p class="m-0 border border-dark text-center p-1">{{product.Quantity}}</p>
-                                                                                </div>
+                                                                    <div class="col-12 col-md-6 text-center">
+                                                                        <p class="m-0">Quantity</p>
+                                                                        <div class="row align-items-center justify-content-center">
+                                                                            <div class="col-3">
+                                                                                <p class="m-0 border border-dark text-center p-1">{{product.Quantity}}</p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </ng-container>
+                                                    </div>
                                                 </ng-container>
                                             </div>
                                             <div class="form-group row align-items-center justify-content-center">
@@ -89,10 +89,15 @@
                             <td>
                                 <input type="text" class="input" value="{{item.TotalDisountPrice}}" readonly />
                             </td>
-                            <td>
+                            <td width="1%">
                                 <input type="text" class="input" value="{{item.TotalNumberOfProducts}}" readonly />
                             </td>
-                            <td>
+                            <td width="20%">
+                                <ng-container *ngIf="item.ShippingAddress">
+                                    {{item.ShippingAddress.Address}} {{item.ShippingAddress.City}} {{item.ShippingAddress.State}} {{item.ShippingAddress.Country}}
+                                </ng-container>
+                            </td>
+                            <td width="10%">
                                 <select class="input" [(ngModel)]="item.Status" [ngModelOptions]="{standalone: true}">
                                     <option>Ordered</option>
                                     <option>Packed</option>
@@ -100,13 +105,18 @@
                                     <option>Delivered</option>
                                 </select>
                             </td>
-                            <td>
-                                <input type="text" class="input" value="{{item.UserUid}}" readonly />
+                            <td width="20%">
+                                <input type="text" class="input" value="{{item.UserEmail}}" readonly />
                             </td>
                             <td>
-                                <button type="submit" class="btn btn-warning" (click)="updateOrder(item)">
-                                    Update Order
-                                </button>
+                                <span class="material-icons" (click)="updateOrder(item)">
+                                save
+                                </span>
+                            </td>
+                            <td>
+                                <span class="material-icons" (click)="downloadShippingData(item)">
+                                file_download
+                                </span>
                             </td>
                         </tr>
                     </ng-container>
@@ -123,4 +133,4 @@
     </div>
 </div>
 <div class="container empty"></div>
-<app-loader *ngIf="!(backendService.productData | async)"></app-loader>
+<app-loader *ngIf="(backendService.productData == undefined | async)"></app-loader>

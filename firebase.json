@@ -9,33 +9,14 @@
         ],
         "source": "functions"
     },
-    "hosting": [{
-            "public": "dist/Project",
-            "ignore": [
-                "firebase.json",
-                "**/.*",
-                "**/node_modules/**"
-            ]
-        },
-        {
-            "target": "Project",
-            "public": "dist/Project",
-            "ignore": [
-                "**/.*"
-            ],
-            "headers": [{
-                "source": "*.[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f].+(css|js)",
-                "headers": [{
-                    "key": "Cache-Control",
-                    "value": "public,max-age=31536000,immutable"
-                }]
-            }],
-            "rewrites": [{
-                "source": "**",
-                "destination": "/index.html"
-            }]
-        }
-    ],
+    "hosting": {
+        "public": "dist/Project",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+        ]
+    },
     "storage": {
         "rules": "storage.rules"
     },

@@ -20,18 +20,35 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed">
-            <form class="d-none d-lg-block ml-auto row justify-content-center align-items-center">
-                <div class="col">
-                    <div class="input-group">
-                        <input type="text" placeholder="Search" aria-label="Search" [(ngModel)]="searchProduct" [ngModelOptions]="{ standalone: true }">
-                        <div class="input-group-append">
-                            <span class="input-group-text" id="addon-wrapping" (click)="navigateToSearchedProducts()">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </span>
+            <ul class="navbar-nav align-items-lg-center">
+                <div class="row">
+                    <div class="col">
+                        <div ngbDropdown class="d-inline-block">
+                            <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Bedroom</button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                <ng-container *ngFor="let item of backendService.tagData | async">
+                                    <ng-container *ngIf="item.Body == 'Bedroom'">
+                                        <button ngbDropdownItem>{{item.Name}}</button>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div ngbDropdown class="d-inline-block">
+                            <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Living Room</button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                <ng-container *ngFor="let item of backendService.tagData | async">
+                                    <ng-container *ngIf="item.Body == 'LivingRoom'">
+                                        <button ngbDropdownItem>{{item.Name}}</button>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </form>
+            </ul>
+
             <ul class="navbar-nav ml-auto align-items-lg-center">
                 <li class="nav-item d-block d-lg-none">
                     <div class="input-group nav-link d-flex">
@@ -76,7 +93,7 @@
         </div>
     </nav>
 </div>
-<hr />
+<!-- <hr />
 <div class="container" id="items">
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <button class="navbar-toggler" type="button" (click)="isCollapsed2=!isCollapsed2" [attr.aria-expanded]="!isCollapsed2" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,5 +109,5 @@
             </ul>
         </div>
     </nav>
-</div>
+</div> -->
 <hr class="mb-2" />

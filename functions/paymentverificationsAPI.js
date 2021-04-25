@@ -16,10 +16,11 @@ exports.paymentVerification = functions.https.onRequest((request, response) => {
         const paymentId = request.body.data.PaymentId;
         const signature = request.body.data.Signature;
 
-        console.log(orderId);
-        console.log(paymentId);
+        console.log("orderId: " + orderId);
+        console.log("paymentId: " + paymentId);
+        console.log("signature: " + signature);
 
-        const keySecret = process.env.SECRET || `${functions.config().razorpay.secret}`;
+        const keySecret = "N9fWEfNEVnIrmubuMyDhxP4i";
         let generatedSignature = "";
 
         generatedSignature = crypto.createHmac("sha256", keySecret).update((orderId + "|" + paymentId).toString()).digest("hex");
