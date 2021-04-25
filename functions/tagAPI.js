@@ -22,6 +22,7 @@ exports.tag = functions.https.onRequest((request, response) => {
                     const p1 = db.collection("Tag").doc(tagId).set({
                         Id: tagId,
                         Name: data.Name,
+                        Body: data.Body,
                         UploadTime: data.UploadTime,
                     });
                     const p2 = db.collection("RawData").doc("AppDetails").update({
@@ -32,6 +33,7 @@ exports.tag = functions.https.onRequest((request, response) => {
                 if (data.Mode === "UPDATE_TAG") {
                     const p1 = db.collection("Tag").doc(data.TagId).update({
                         Name: data.Name,
+                        Body: data.Body,
                     });
 
                     return Promise.resolve(p1);

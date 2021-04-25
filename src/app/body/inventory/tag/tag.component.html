@@ -22,6 +22,18 @@
                         <input type="text" class="input" [(ngModel)]="tagName" [ngModelOptions]="{ standalone: true }" />
                     </div>
                 </div>
+                <div class="form-group row pt-2">
+                    <label for="input" class="col-4 col-form-label"> Body</label>
+                    <div class="col-8">
+                        <select class="input" [(ngModel)]="tagBody" [ngModelOptions]="{ standalone: true }">
+                          <option>Bedroom</option>
+                          <option>Living Room</option>
+                          <option>Kitchen & Dining</option>
+                          <option>Bar</option>
+                          <option>Others</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="form-group row">
                     <div class="col text-right">
                         <button type="submit" class="btn" id="button" (click)="createTag()">
@@ -38,6 +50,7 @@
                         <thead>
                             <tr class="text-light">
                                 <th scope="col">Name</th>
+                                <th scope="col">Body</th>
                                 <th scope="col">#menu 1</th>
                                 <th scope="col">#menu 2</th>
                             </tr>
@@ -47,6 +60,15 @@
                                 <tr class="justify-content-center align-items-center">
                                     <td>
                                         <input type="text" class="input" [(ngModel)]="item.Name" [ngModelOptions]="{ standalone: true }" />
+                                    </td>
+                                    <td>
+                                        <select class="input" [(ngModel)]="item.Body" [ngModelOptions]="{ standalone: true }">
+                                            <option>Bedroom</option>
+                                            <option>Living Room</option>
+                                            <option>Kitchen & Dining</option>
+                                            <option>Bar</option>
+                                            <option>Others</option>
+                                        </select>
                                     </td>
                                     <td>
                                         <button type="submit" class="btn btn-warning" (click)="modifyTag(item)">

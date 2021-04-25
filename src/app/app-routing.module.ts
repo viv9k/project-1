@@ -13,6 +13,10 @@ import { InventoryOrdersComponent } from './body/inventory-orders/inventory-orde
 import { SpecificCategoryComponent } from './body/specific-category/specific-category.component';
 import { OrderStatusComponent } from './body/order-status/order-status.component';
 import { SelectedOrderComponent } from './body/selected-order/selected-order.component';
+import { AboutUsComponent } from './body/about-us/about-us.component';
+import { DeliveryInfoComponent } from './body/delivery-info/delivery-info.component';
+import { PrivacyPolicyComponent } from './body/privacy-policy/privacy-policy.component';
+import { TermsConditionsComponent } from './body/terms-conditions/terms-conditions.component';
 
 const adminOnly = () => hasCustomClaim('admin');
 
@@ -31,7 +35,11 @@ const routes: Routes = [
   { path: "Orders/:orderId", component: OrderDetailsComponent },
   { path: "Category/:categoryName", component: SpecificCategoryComponent },
   { path: "OrderStatus/:orderId/:paymentId/:signature", component: OrderStatusComponent },
-  {path: "SelectedOrder", component: SelectedOrderComponent},
+  { path: "SelectedOrder", component: SelectedOrderComponent },
+  { path: "Pages/about-us", component: AboutUsComponent },
+  { path: "Pages/delivery", component: DeliveryInfoComponent },
+  { path: "Pages/privacy", component: PrivacyPolicyComponent },
+  { path: "Pages/terms", component: TermsConditionsComponent },
 ];
 
 @NgModule({

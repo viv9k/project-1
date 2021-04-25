@@ -49,6 +49,10 @@ import { OrderStatusComponent } from './body/order-status/order-status.component
 import { CouponComponent } from './body/inventory/coupon/coupon.component';
 import { TagComponent } from './body/inventory/tag/tag.component';
 import { SelectedOrderComponent } from './body/selected-order/selected-order.component';
+import { AboutUsComponent } from './body/about-us/about-us.component';
+import { DeliveryInfoComponent } from './body/delivery-info/delivery-info.component';
+import { PrivacyPolicyComponent } from './body/privacy-policy/privacy-policy.component';
+import { TermsConditionsComponent } from './body/terms-conditions/terms-conditions.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -83,6 +87,10 @@ import { SelectedOrderComponent } from './body/selected-order/selected-order.com
     CouponComponent,
     TagComponent,
     SelectedOrderComponent,
+    AboutUsComponent,
+    DeliveryInfoComponent,
+    PrivacyPolicyComponent,
+    TermsConditionsComponent,
   ],
   imports: [
     BrowserModule,

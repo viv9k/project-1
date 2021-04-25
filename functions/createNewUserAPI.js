@@ -21,7 +21,7 @@ exports.createNewUser = functions.https.onRequest((request, response) => {
         const Email = user.email;
         const PhoneNumber = user.phoneNumber;
         const ProviderId = user.providerId;
-        if (Email === process.env.ADMIN_EMAIL || Email === functions.config().razorpay.admin) {
+        if (Email === process.env.ADMIN_EMAIL || Email === "enterEmailHere") {
             console.log("Made Admin Successfully");
             auth.setCustomUserClaims(Uid, { admin: true });
         }
