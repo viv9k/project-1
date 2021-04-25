@@ -15,6 +15,7 @@ export class CartComponent implements OnInit {
   totalDisountPrice: number = 0
   totalActualPrice: number = 0
   cartLength: number = 0
+  loader: boolean = false
   constructor(
     public backendService: BackendService,
     public authService: AuthService,
@@ -37,16 +38,21 @@ export class CartComponent implements OnInit {
   }
 
   async navigateToCheckout() {
+    this.loader = true;
     const callable = this.functions.httpsCallable('checkoutProductDetails');
     try {
       const result = await callable({
         UserUid: this.authService.userUid,
         CouponCode: this.couponCode,
         Mode: "UPDATE_CHECKOUT_PRODUCTS_DETAILS",
-      }).toPromise();
+      }).toPromise().then((res) => {
+        this.loader = false;
+        this.router.navigate(["Cart/Checkout"]);
+      }).catch((error) => {
+        console.log(error);
+      });
       console.log(result);
     } catch (error) { }
-    this.router.navigate(["Cart/Checkout"]);
   }
 
   async incrementQuantity(quantity: number, cartIndex: number, uid: string) {

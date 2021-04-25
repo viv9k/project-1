@@ -4,10 +4,7 @@ table {
 
 .input,
 .input:focus {
-    border-radius: 10px;
-    padding: 10px;
     border: 1px solid black;
-    outline: none;
     width: 100%;
 }
 

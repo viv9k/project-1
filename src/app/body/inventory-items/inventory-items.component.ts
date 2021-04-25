@@ -20,6 +20,7 @@ export class InventoryItemsComponent implements OnInit {
   enableLoader: Boolean = true
   newField: string
   newValue: string
+  loader: boolean = false
 
   constructor(
     public backendService: BackendService,
@@ -30,10 +31,12 @@ export class InventoryItemsComponent implements OnInit {
     private storage: AngularFireStorage) { }
 
   ngOnInit(): void {
-    this.backendService.readProductData()
+    this.backendService.readProductData();
+    this.backendService.readCategoryData();
   }
 
   async modifyProduct(product: ProductId) {
+    this.loader = true;
     product.DiscountPrice = product.ActualPrice - (product.ActualPrice * product.DiscountPercent) / 100;
     const callable = this.functions.httpsCallable('product');
     try {
@@ -42,7 +45,11 @@ export class InventoryItemsComponent implements OnInit {
         Availability: product.Availability, ActualPrice: product.ActualPrice, DiscountPrice: product.DiscountPrice,
         DiscountPercent: product.DiscountPercent, Visibility: product.Visibility,
         Sku: product.Sku, Stock: product.Stock, Category: product.Category, Tag: product.Tag,
-      }).toPromise();
+      }).toPromise().then((res) => {
+        this.loader = false;
+      }).catch((err) => {
+        this.loader = false;
+      });
       this.toastService.show('Successfully Updated the Product', { classname: 'bg-warning text-dark' });
       console.log(result);
     } catch (error) {
@@ -50,6 +57,7 @@ export class InventoryItemsComponent implements OnInit {
   }
 
   async deleteProduct(product: ProductId) {
+    this.loader = true;
     const path = `ProductImages/${product.Id}`
     const ref = this.storage.ref(path);
     ref.listAll().toPromise().then(function (result) {
@@ -61,7 +69,11 @@ export class InventoryItemsComponent implements OnInit {
     });
     const callable = this.functions.httpsCallable('product');
     try {
-      const result = await callable({ Mode: "DELETE_PRODUCT", ProductId: product.Id }).toPromise();
+      const result = await callable({ Mode: "DELETE_PRODUCT", ProductId: product.Id }).toPromise().then((res) => {
+        this.loader = false;
+      }).catch((err) => {
+        this.loader = false;
+      });
       this.toastService.show('Successfully Deleted the Product', { classname: 'bg-danger text-light' });
       console.log(result);
     } catch (error) {

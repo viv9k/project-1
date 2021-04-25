@@ -6,7 +6,8 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
-import { ToastService } from '../toast/toast.service'
+import { ToastService } from '../toast/toast.service';
+import { Checkout } from '../../Interface/CheckoutInterface';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class AuthService {
         this.readData(this.user.uid)
       }
     });
-  }
+    }
 
   userCollection: AngularFirestoreCollection<UserCart>
   userData: Observable<UserCart[]>
@@ -33,6 +34,7 @@ export class AuthService {
   user: User
   userUid: string
   cartLength: number
+  billingAddress: Checkout;
 
   async createUser(email: string, password: string, username: string) {
     await this.afauth.createUserWithEmailAndPassword(email, password).then((credential) => {
@@ -92,7 +94,9 @@ export class AuthService {
       map(actions => actions.map(a => {
         const data = a.payload.doc.data() as UserCart;
         const id = a.payload.doc.id;
-        this.cartLength = data.Cart.length
+        this.cartLength = data.Cart.length;
+        console.log(data.BillingDetails);
+        this.billingAddress = data.BillingDetails;
         if (data.admin) {
           this.showAdminPanel = true
         }
@@ -103,5 +107,4 @@ export class AuthService {
       }))
     );
   }
-
 }

@@ -1,3 +1,4 @@
+import { Checkout } from "./CheckoutInterface";
 import { ProductId } from "./ProductInterface"
 
 export interface Order {
@@ -5,7 +6,7 @@ export interface Order {
     ProductInfo: {
         Product: ProductId,
         Quantity: number,
-    }
+    };
     TotalActualPrice: number;
     TotalDisountPrice: number;
     TotalDisountPriceWithCouponApplied: number;
@@ -13,4 +14,8 @@ export interface Order {
     Status: string;
     Date: string;
     UserUid: string;
+    UserEmail: string;
+    UserName: string;
+    ShippingAddress: Checkout;
+    RazorPayOrderId: string;
 }

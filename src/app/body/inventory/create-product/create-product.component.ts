@@ -128,10 +128,13 @@ export class CreateProductComponent implements OnInit {
   }
 
   confirm() {
+    this.enableLoader = true;
     if (!this.files.length) {
       this.toastService.show('Please Add Product Images', { classname: 'bg-danger text-light' });
+      this.enableLoader = false;
       return;
     }
+    this.enableLoader = false;
     this.productImagesUploaded = true
   }
 }

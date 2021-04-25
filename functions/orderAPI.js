@@ -17,7 +17,7 @@ exports.order = functions.https.onRequest((request, response) => {
         const promise1 = db.collection("RawData").doc("AppDetails").get().then((doc) => {
             if (data.Mode === "PLACE_ORDER") {
                 const totalNumberofOrders = doc.data().TotalNumberOfOrders + 1;
-                const orderId = "O" + totalNumberofOrders;
+                const orderId = "Order_" + totalNumberofOrders;
                 const p1 = db.collection("Users").doc(data.UserUid).get().then((docment) => {
                     const contents = docment.data().Cart;
 
@@ -35,6 +35,11 @@ exports.order = functions.https.onRequest((request, response) => {
                             TotalDisountPriceWithCouponApplied: docment.data().CheckoutProductDetails.TotalDisountPriceWithCouponApplied,
                             Date: data.Date,
                             Status: "Ordered",
+                            RazorPayOrderId: data.RazorPayOrderId,
+                            UserEmail: data.UserEmail,
+                            UserName: data.UserName,
+                            ShippingAddress: data.ShippingAddress,
+                            OrderId: orderId,
                         });
                         const p4 = db.collection("RawData").doc("AppDetails").update({
                             TotalNumberOfOrders: totalNumberofOrders,

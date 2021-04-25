@@ -105,8 +105,12 @@
                         <hr>
                         <div class="row">
                             <div class="col-6">
-                                <button id="button" class="btn" (click)="navigateToCheckout()">Proceed to Checkout</button>
+                                <button id="button" class="btn" [disabled]="loader" (click)="navigateToCheckout()">Proceed to Checkout</button>
                             </div>
+                            <ng-container *ngIf="loader">
+                                <app-loader></app-loader>
+                            </ng-container>
+
                         </div>
                     </div>
                 </div>
