@@ -33,6 +33,8 @@ export class BillingFormComponent implements OnInit {
   infoPacket: any
   formData: any
 
+  loader: boolean = false
+
   paymentStatus: string
 
   private _window: ICustomWindow;
@@ -103,7 +105,7 @@ export class BillingFormComponent implements OnInit {
   // }
 
   async userBillingDetails(collapse: { toggle: () => void; }) {
-    collapse.toggle()
+    this.loader = true;
     const callable = this.functions.httpsCallable('checkout');
     try {
       const result = await callable({
@@ -116,7 +118,13 @@ export class BillingFormComponent implements OnInit {
         City: this.city,
         State: this.state,
         Country: this.country,
-      }).toPromise();
+      }).toPromise().then((res) => {
+        console.log(res);
+        this.loader = false;
+        collapse.toggle();
+      }).catch((error) => {
+        console.log(error);
+      });
       console.log(result);
     } catch (error) { }
   }
@@ -127,6 +135,7 @@ export class BillingFormComponent implements OnInit {
   }
 
   async setOrderWithRazor() {
+    this.loader = true;
     const callable = this.functions.httpsCallable('payment');
     try {
       const result = await callable({

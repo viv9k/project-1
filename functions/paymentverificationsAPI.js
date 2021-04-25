@@ -16,10 +16,11 @@ exports.paymentVerification = functions.https.onRequest((request, response) => {
         const paymentId = request.body.data.PaymentId;
         const signature = request.body.data.Signature;
 
-        console.log(orderId);
-        console.log(paymentId);
+        console.log("orderId: " + orderId);
+        console.log("paymentId: " + paymentId);
+        console.log("signature: " + signature);
 
-        const keySecret = process.env.KEY;
+        const keySecret = "p07774gTSdJ2hbUcEk8tV1f9";
         let generatedSignature = "";
 
         generatedSignature = crypto.createHmac("sha256", keySecret).update((orderId + "|" + paymentId).toString()).digest("hex");
