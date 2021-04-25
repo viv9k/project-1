@@ -23,9 +23,6 @@ export class TagComponent implements OnInit {
 
   ngOnInit(): void {
     this.backendService.tagData.subscribe(data => {
-      if (data.length >= 9) {
-        this.showTagButton = false
-      }
       if (data.length <= 0) {
         this.showTag = true
       }
@@ -36,6 +33,7 @@ export class TagComponent implements OnInit {
   }
 
   tagName: string
+  tagBody: string
   showTag: boolean
   showTagButton: boolean = true
   openModal(content) {
@@ -50,6 +48,7 @@ export class TagComponent implements OnInit {
       const result = await callable({
         Mode: "CREATE_TAG",
         Name: this.tagName,
+        Body: this.tagBody,
         UploadTime: Date.now(),
       }).toPromise();
       this.toastService.show('Successfully Added Tag', { classname: 'bg-success text-light' });
@@ -68,6 +67,7 @@ export class TagComponent implements OnInit {
         Mode: "UPDATE_TAG",
         TagId: tag.Id,
         Name: tag.Name,
+        Body: tag.Body,
       }).toPromise();
       this.toastService.show('Successfully Updated Tag', { classname: 'bg-warning text-light' });
       console.log(result);

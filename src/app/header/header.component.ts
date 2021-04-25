@@ -81,9 +81,9 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(["Category", categoryName]);
   }
 
-  navigateToTagProducts(tag: Tag) {
+  navigateToTagProducts(tag: string) {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate([''], { queryParams: { tagName: tag.Name } });
+      this.router.navigate([''], { queryParams: { tagName: tag } });
     });
   }
 }
