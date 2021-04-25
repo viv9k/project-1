@@ -49,19 +49,25 @@
                                 <th scope="col">Value</th>
                                 <th scope="col">Description</th>
                                 <th scope="col">#menu 1</th>
+                                <th scope="col">#menu 2</th>
                             </tr>
                         </thead>
                         <tbody>
                             <ng-container *ngFor="let item of backendService.couponData | async ">
                                 <tr class="justify-content-center align-items-center">
                                     <td>
-                                        <input type="text" class="input" value="{{item.Code}}" readonly />
+                                        <input type="text" class="input" [(ngModel)]="item.Code" [ngModelOptions]="{ standalone: true }" />
                                     </td>
                                     <td>
-                                        <input type="text" class="input" value="{{item.Value}}" readonly />
+                                        <input type="text" class="input" [(ngModel)]="item.Value" [ngModelOptions]="{ standalone: true }" />
                                     </td>
                                     <td>
-                                        <textarea rows="1" class="input" value="{{item.Description}}" readonly></textarea>
+                                        <textarea rows="1" class="input" [(ngModel)]="item.Description" [ngModelOptions]="{ standalone: true }"></textarea>
+                                    </td>
+                                    <td>
+                                        <button type="submit" class="btn btn-warning" (click)="updateCoupon(item)">
+                                                Update
+                                            </button>
                                     </td>
                                     <td>
                                         <button type="submit" class="btn btn-danger" (click)="deleteCoupon(item)">

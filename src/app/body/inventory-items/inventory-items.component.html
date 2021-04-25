@@ -77,20 +77,10 @@
                                 <div class="row">
                                     <div class="col">
                                         <div ngbDropdown container="body" display="dynamic" placement="bottom-right">
-                                            <button class="btn btn-dark" id="dropdownForm1" ngbDropdownToggle>Tags</button>
+                                            <button class="btn btn-dark" id="dropdownForm1" ngbDropdownToggle>Tag</button>
                                             <div ngbDropdownMenu aria-labelledby="dropdownForm1" class="dropdown-menu">
-                                                <form class="px-4 py-3">
-                                                    <div class="form-group row">
-                                                        <label for="input" class="col-4 col-form-label">New Tag</label>
-                                                        <div class="col-8">
-                                                            <input type="text" class="input" [(ngModel)]="newTag" [ngModelOptions]="{ standalone: true }" />
-                                                        </div>
-                                                    </div>
-                                                    <button type="submit" class="btn" id="button" (click)="onAddNewTag(item)">Add</button>
-                                                </form>
-                                                <div class="dropdown-divider"></div>
-                                                <ng-container *ngFor="let tag of item.Tags;let i=index">
-                                                    <p ngbPopover="Click to Delete Tag" triggers="mouseenter:mouseleave" class="dropDownItem" ngbDropdownItem (click)="onDeleteTag(item,i)">{{i+1}} - {{tag}}</p>
+                                                <ng-container *ngFor="let tag of backendService.tagData | async">
+                                                    <p ngbPopover="Click to Set Tag" triggers="mouseenter:mouseleave" class="dropDownItem" ngbDropdownItem (click)="onSetTag(item,tag)">{{tag.Name}}</p>
                                                 </ng-container>
                                             </div>
                                         </div>

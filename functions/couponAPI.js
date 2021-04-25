@@ -31,6 +31,16 @@ exports.coupon = functions.https.onRequest((request, response) => {
                     });
                     return Promise.all([p1, p2]);
                 }
+                if (data.Mode === "UPDATE_COUPON") {
+                    const couponId = "CC" + totalNumberOfCoupons;
+                    const p1 = db.collection("CouponCode").doc(couponId).update({
+                        Id: data.CouponId,
+                        Code: data.Code,
+                        Value: data.Value,
+                        Description: data.Description,
+                    });
+                    return Promise.resolve(p1);
+                }
                 if (data.Mode === "DELETE_COUPON") {
                     totalNumberOfCoupons = totalNumberOfCoupons - 1;
                     const p1 = db.collection("CouponCode").doc(data.CouponId).delete();

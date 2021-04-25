@@ -120,9 +120,14 @@
             <ng-container *ngFor="let item of authService.userData | async">
                 <ng-container *ngIf="item.Cart.length===0">
                     <h1>Your Shopping Cart Is Empty</h1>
-                    <a [routerLink]="['']">Continue Shopping</a>
-                    <hr>
-                    <a [routerLink]="['/Orders']">Check Your Orders</a>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <a [routerLink]="['']">Continue Shopping</a>
+                        </div>
+                        <div class="col">
+                            <a [routerLink]="['/Orders']">Check Your Orders</a>
+                        </div>
+                    </div>
                 </ng-container>
             </ng-container>
         </div>

@@ -32,7 +32,7 @@ exports.product = functions.https.onRequest((request, response) => {
                         DiscountPercent: product.DiscountPercent,
                         Availability: product.Availability,
                         Visibility: product.Visibility,
-                        Tags: product.Tags,
+                        Tag: product.Tag,
                         Sku: product.Sku,
                         Stock: product.Stock,
                         Details: product.Details,
@@ -100,6 +100,7 @@ exports.product = functions.https.onRequest((request, response) => {
                         DiscountPercent: product.DiscountPercent,
                         Sku: product.Sku,
                         Stock: product.Stock,
+                        Tag: product.Tag,
                     });
                     promises.push(p1);
                 } else if (product.Mode === "UPDATE_PRODUCT_CATEGORY") {
@@ -107,31 +108,9 @@ exports.product = functions.https.onRequest((request, response) => {
                         Category: product.Category,
                     });
                     promises.push(p1);
-                } else if (product.Mode === "ADD_TAG") {
-                    const p1 = db.collection("Products").doc(product.ProductId).get().then((doc) => {
-                        if (doc.exists) {
-                            const allTags = doc.data().Tags;
-                            allTags.push(product.NewTag);
-                            const promise1 = db.collection("Products").doc(product.ProductId).update({
-                                Tags: allTags,
-                            });
-                            return Promise.resolve(promise1);
-                        }
-                    });
-                    promises.push(p1);
-                } else if (product.Mode === "DELETE_TAG") {
-                    const p1 = db.collection("Products").doc(product.ProductId).get().then((doc) => {
-                        if (doc.exists) {
-                            const tags = doc.data().Tags;
-                            const index = product.TagIndex;
-                            if (index > -1) {
-                                tags.splice(index, 1);
-                            }
-                            const promise1 = db.collection("Products").doc(product.ProductId).update({
-                                Tags: tags,
-                            });
-                            return Promise.resolve(promise1);
-                        }
+                } else if (product.Mode === "UPDATE_PRODUCT_TAG") {
+                    const p1 = db.collection("Products").doc(product.ProductId).update({
+                        Tag: product.Tag,
                     });
                     promises.push(p1);
                 } else if (product.Mode === "ADD_FIELD") {

@@ -3,6 +3,7 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Category } from 'src/app/Interface/CategoryInterface';
+import { Tag } from 'src/app/Interface/TagInterface';
 import { BackendService } from 'src/app/services/backend/backend.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 @Component({
@@ -22,20 +23,6 @@ export class CreateProductComponent implements OnInit {
     private router: Router,
     public backendService: BackendService,
   ) { }
-  ngOnInit(): void {
-    for (let index = 0; index < 1; index++) {
-      let obj = { field: "", value: "" };
-      this.productDetails[index] = obj
-    }
-    this.backendService.categoryData.subscribe(data => {
-      if (!data.length) {
-        this.showWarning = true
-      }
-      else {
-        this.categories = data
-      }
-    })
-  }
 
   enableLoader: boolean = false
   productImagesUploaded: boolean = false
@@ -50,14 +37,40 @@ export class CreateProductComponent implements OnInit {
   productVisibility: string
   productSku: string
   productStock: string
-  productTags: string
+  productTag: string
   productDetails: { field: string, value: string }[] = []
-  showWarning: boolean = false
+  showCategoryWarning: boolean = false
+  showTagWarning: boolean = false
   categories: Category[] = []
+  tags: Tag[] = []
 
+  ngOnInit(): void {
+    for (let index = 0; index < 1; index++) {
+      let obj = { field: "", value: "" };
+      this.productDetails[index] = obj
+    }
+    this.backendService.categoryData.subscribe(data => {
+      if (!data.length) {
+        this.showCategoryWarning = true
+      }
+      else {
+        this.categories = data
+      }
+    });
+    this.backendService.tagData.subscribe(tagdata => {
+      if (!tagdata.length) {
+        this.showTagWarning = true
+      }
+      else {
+        this.tags = tagdata
+      }
+    });
+  }
   openModal(content) {
-    if (this.showWarning) {
+    if (this.showCategoryWarning) {
       return this.toastService.show('Add atleast 1 Category', { classname: 'bg-warning text-dark' });
+    } if (this.showTagWarning) {
+      return this.toastService.show('Add atleast 1 Tag', { classname: 'bg-warning text-dark' });
     }
     else {
       return this.modalService.open(content, { size: 'xl', windowClass: 'dark-modal', backdrop: "static", scrollable: true });
@@ -86,11 +99,6 @@ export class CreateProductComponent implements OnInit {
 
   async createNewProduct() {
     this.productDiscountPrice = this.productActualPrice - (this.productActualPrice * this.productDiscountPercent) / 100
-    let productTagsArray = []
-    this.productTags.split(",").map(tag => {
-      productTagsArray.push(tag.trim())
-    })
-
     this.enableLoader = true;
     const callable = this.functions.httpsCallable('product');
     try {
@@ -98,7 +106,7 @@ export class CreateProductComponent implements OnInit {
         Mode: "CREATE_PRODUCT", Name: this.productName, Description: this.productDescription,
         Availability: this.productAvailability, ActualPrice: this.productActualPrice,
         DiscountPrice: this.productDiscountPrice, DiscountPercent: this.productDiscountPercent,
-        Visibility: this.productVisibility, Tags: productTagsArray, Sku: this.productSku, Stock: this.productStock,
+        Visibility: this.productVisibility, Tag: this.productTag, Sku: this.productSku, Stock: this.productStock,
         Details: this.productDetails, Category: this.productCategory
       }).toPromise();
       this.toastService.show('Successfully Created the Product', { classname: 'bg-success text-light' });

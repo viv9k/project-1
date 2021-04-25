@@ -70,4 +70,20 @@ export class CouponComponent implements OnInit {
 
     } catch (error) { }
   }
+  async updateCoupon(coupon: Coupon) {
+    const callable = this.functions.httpsCallable('coupon');
+    try {
+      const result = await callable({
+        Mode: "UPDATE_COUPON",
+        CouponId: coupon.Id,
+        Code: coupon.Code,
+        Value: coupon.Value,
+        Description: coupon.Description,
+      }).toPromise();
+      this.toastService.show('Successfully Updated Coupon', { classname: 'bg-warning text-light' });
+      console.log(result);
+
+    } catch (error) { }
+  }
+
 }

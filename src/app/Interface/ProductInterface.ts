@@ -11,7 +11,7 @@ export interface Product {
     Visibility: string;
     Sku: string;
     Stock: number;
-    Tags: string[];
+    Tag: string;
     Details: { field: string, value: string }[];
     Images: Image[]
 }

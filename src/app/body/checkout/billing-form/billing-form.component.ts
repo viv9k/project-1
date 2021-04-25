@@ -41,7 +41,7 @@ export class BillingFormComponent implements OnInit {
   public rzp: any;
 
   public options: any = {
-    key: 'rzp_test_mGF2KfJUl6P2bO', // add razorpay key here
+    key: '',
     name: 'Customer name',
     description: 'Shopping',
     image: "https://vh-ecom.web.app/assets/logo.png",
@@ -140,13 +140,11 @@ export class BillingFormComponent implements OnInit {
     try {
       const result = await callable({
         UserUid: this.authService.userUid,
-        Firstname: this.userName,
-        Email: this.authService.user.email,
-        Phone: this.mobileNumber,
       }).toPromise();
       console.log(result);
       this.options.order_id = result.id;
       this.options.amount = result.amount;
+      this.options.key = result.key;
       this.options.callback_url = "http://localhost:4200/OrderStatus/" + result.id;
       this.initPay()
       // this.procceedToPayment(result);
